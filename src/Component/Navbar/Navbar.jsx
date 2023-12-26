@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
@@ -13,11 +13,13 @@ import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import HomeIcon from "@mui/icons-material/Home";
+import { NavLink, useLocation,useNavigate } from "react-router-dom";
+import Dashboard from "../../Pages/Dashboard";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -78,33 +80,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
-const card = (
+const cardroute = (
   <>
-    <CardContent className="">
-      <Typography sx={{ fontSize: 14 }} color="text.secondary" >
-      Dashboard
+    <CardContent className="h-100  p-2 ">
+      <Typography sx={{ fontSize: 20 }} color="text.secondary">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus,
+        cumque a ullam quia debitis dignissimos ea sequi minus perspiciatis
+        molestias, nemo nobis, eos animi. Ipsum soluta quis praesentium quasi
+        explicabo lotem bdsjdbfjbkjdbfkjbdshbfdshbhbkdbkbfkdbk kd sdbch b nk
+        cjbisndnc heeeeeeeeeeeeeeeeeeeees
       </Typography>
-
     </CardContent>
-    </>
+  </>
 );
 
 const Navbar = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [path, setPath] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate()
 
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  useEffect(() => {
+    setPath(location.pathname.split("/").slice(2));
+  }, [location.pathname]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -115,93 +115,118 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+const handleUser = (prop) => {
+  console.log(prop)
+prop === "Profile" ? navigate("/dashboard/profile"):""
+prop === "Logout" ? navigate("/login"):""
+prop === "Dashboard" ? navigate("/dashboard/dashboardpage"):""
 
+}
   return (
     <div>
-    <Box sx={{ display: "flex", p: 0, mr: 0 }}>
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#B6E696" }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon className="fs-3" />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              display: {
-                xs: "none",
-                sm: "block",
-                fontSize: "25px",
-                fontWeight: "bold",
-                marginLeft: "-22px",
-              },
-            }}
-          >
-            {open ? "" : "KORPPI"}
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Box sx={{ marginLeft: "auto" }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: 2 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+      <Box sx={{ display: "flex", p: 0, mr: 0 }}>
+        <AppBar
+          position="fixed"
+          open={open}
+          sx={{ backgroundColor: "#B6E696" }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    <div className="w-100 d-flex flex-row m-3 ">
-    <Sidebar open={open} setOpen={setOpen}/>
+              <MenuIcon className="fs-3" />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "block",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                  marginLeft: "-22px",
+                },
+              }}
+            >
+              {open ? "" : "KORPPI"}
+            </Typography>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+            <Box sx={{ marginLeft: "auto" }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center" onClick={()=>handleUser(setting)}>{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Sidebar open={open} setOpen={setOpen} />
+        <div className="w-100  m-3 mt-5">
+          <div
+            style={{ marginTop: "3%" }}
+            className="w-100 h-auto card rounded-2 shadow "
+          >
+            <nav aria-label="breadcrumb ">
+              <ol className="d-flex justify-content-start align-content-center  breadcrumb">
+                <li className="px-2 mt-2 breadcrumb-item">
+                  <HomeIcon className="text-secondary fs-3" />
+                </li>
+                {path.map((item, index) => (
+                  <li key={index} className="breadcrumb-item mt-2 ">
+                    <NavLink
+                      to={`/dashboard/${item}`}
+                      className="text-decoration-none text-black fw-bold breadcrumb-item-color"
+                       >
+                      {item}
+                    </NavLink>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </div>
 
-    <Box className="w-100" sx={{ marginTop:"40px" }}>
-      <Card variant="outlined">{card}</Card>
-    </Box>
-    </div>
-    {/* <div className="w-100 m-3 h-100">
-    <Box sx={{ marginTop:"40px" }}>
-      <Card variant="outlined">{card}</Card>
-    </Box>
-    </div> */}
-    </Box>  
+  <Dashboard/>
+        </div>
+      </Box>
     </div>
   );
 };
