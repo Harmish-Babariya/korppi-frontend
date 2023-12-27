@@ -130,12 +130,17 @@ const Sidebar = ({ open, setOpen }) => {
       <Divider />
       <List>
         {routes.map((text, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block",fontSize:"50px" }} className={isRouteActive(text.path) ? "active" : ''} active>
+          <ListItem
+            key={index}
+            disablePadding
+            sx={{ display: "block", fontSize: "50px" }}
+            className={isRouteActive(text.path) ? "active" : ""}
+            active
+          >
             <NavLink
               className={`text-decoration-none text-black `}
               to={text.path}
-              >
-              
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,

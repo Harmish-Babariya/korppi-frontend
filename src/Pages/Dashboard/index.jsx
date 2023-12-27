@@ -12,7 +12,7 @@ const Dashboard = () => {
     <div>
       <Box
         className="w-100 p-0 h-100  mb-5 card shadow"
-        sx={{ marginTop: "15px" }}
+        sx={{ marginTop: "12px" }}
       >
         <Routes>
           <Route path="/dashboardpage" element={<Dashboardpage />} />

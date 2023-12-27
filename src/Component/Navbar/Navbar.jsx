@@ -18,7 +18,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import HomeIcon from "@mui/icons-material/Home";
-import { NavLink, useLocation,useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "../../Pages/Dashboard";
 const drawerWidth = 240;
 
@@ -98,7 +98,7 @@ const Navbar = () => {
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [path, setPath] = useState([]);
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -115,13 +115,12 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-const handleUser = (prop) => {
-  console.log(prop)
-prop === "Profile" ? navigate("/dashboard/profile"):""
-prop === "Logout" ? navigate("/login"):""
-prop === "Dashboard" ? navigate("/dashboard/dashboardpage"):""
-
-}
+  const handleUser = (prop) => {
+    console.log(prop);
+    prop === "Profile" ? navigate("/dashboard/profile") : "";
+    prop === "Logout" ? navigate("/login") : "";
+    prop === "Dashboard" ? navigate("/dashboard/dashboardpage") : "";
+  };
   return (
     <div>
       <Box sx={{ display: "flex", p: 0, mr: 0 }}>
@@ -192,7 +191,12 @@ prop === "Dashboard" ? navigate("/dashboard/dashboardpage"):""
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={()=>handleUser(setting)}>{setting}</Typography>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => handleUser(setting)}
+                    >
+                      {setting}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -215,7 +219,7 @@ prop === "Dashboard" ? navigate("/dashboard/dashboardpage"):""
                     <NavLink
                       to={`/dashboard/${item}`}
                       className="text-decoration-none text-black fw-bold breadcrumb-item-color"
-                       >
+                    >
                       {item}
                     </NavLink>
                   </li>
@@ -224,7 +228,7 @@ prop === "Dashboard" ? navigate("/dashboard/dashboardpage"):""
             </nav>
           </div>
 
-  <Dashboard/>
+          <Dashboard />
         </div>
       </Box>
     </div>

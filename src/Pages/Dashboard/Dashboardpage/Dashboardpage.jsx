@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import {
   Card,
@@ -8,139 +8,91 @@ import {
   CardTitle,
   Row,
   Col,
+  CardText,
 } from "reactstrap";
-
+import EmailIcon from "@mui/icons-material/Email";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 const Dashboardpage = () => {
   return (
     <div className="content">
-    <Row>
-      <Col lg="3" md="6" sm="6">
-        <Card className="card-stats m-2 shadow-sm">
-          <CardBody>
-            <Row>
-              <Col md="4" xs="5">
-                <div className="icon-big text-center icon-warning">
-                  <i className="nc-icon nc-globe text-warning" />
-                </div>
-              </Col>
-              <Col md="8" xs="7">
-                <div className="numbers">
-                  <p className="card-category fw-bold">Capacity</p>
-                  <CardTitle tag="p">150GB</CardTitle>
-                  <p />
-                </div>
-              </Col>
-            </Row>
-          </CardBody>
-          <CardFooter>
-            <hr />
-            <div className="stats ">
-              <i className="fas fa-sync-alt" /> Update Now
-            </div>
-          </CardFooter>
-        </Card>
-      </Col>
-      <Col lg="3" md="6" sm="6">
-        <Card  style={{ backgroundColor: " #84B464",color:"white" }} className="card-stats m-2 shadow-sm">
-          <CardBody>
-            <Row>
-              <Col md="4" xs="5">
-                <div className="icon-big text-center icon-warning">
-                  <i className="nc-icon nc-money-coins text-success" />
-                </div>
-              </Col>
-              <Col md="8" xs="7">
-                <div className="numbers">
-                  <p className="card-category fw-bold">Revenue</p>
-                  <CardTitle tag="p">$ 1,345</CardTitle>
-                  <p />
-                </div>
-              </Col>
-            </Row>
-          </CardBody>
-          <CardFooter>
-            <hr />
-            <div className="stats">
-              <i className="far fa-calendar" /> Last day
-            </div>
-          </CardFooter>
-        </Card>
-      </Col>
-      <Col lg="3" md="6" sm="6">
-        <Card className="card-stats m-2 shadow-sm">
-          <CardBody>
-            <Row>
-              <Col md="4" xs="5">
-                <div className="icon-big text-center icon-warning">
-                  <i className="nc-icon nc-vector text-danger" />
-                </div>
-              </Col>
-              <Col md="8" xs="7">
-                <div className="numbers">
-                  <p className="card-category fw-bold">Errors</p>
-                  <CardTitle tag="p">23</CardTitle>
-                  <p />
-                </div>
-              </Col>
-            </Row>
-          </CardBody>
-          <CardFooter>
-            <hr />
-            <div className="stats">
-              <i className="far fa-clock" /> In the last hour
-            </div>
-          </CardFooter>
-        </Card>
-      </Col>
-      <Col lg="3" md="6" sm="6">
-        <Card style={{ backgroundColor: " #84B464",color:"white" }} className="card-stats m-2 shadow-sm">
-          <CardBody>
-            <Row>
-              <Col md="4" xs="5">
-                <div className="icon-big text-center icon-warning">
-                  <i className="nc-icon nc-favourite-28 text-primary" />
-                </div>
-              </Col>
-              <Col md="8" xs="7">
-                <div className="numbers">
-                  <p className="card-category">Followers</p>
-                  <CardTitle tag="p">+45K</CardTitle>
-                  <p />
-                </div>
-              </Col>
-            </Row>
-          </CardBody>
-          <CardFooter>
-            <hr />
-            <div className="stats">
-              <i className="fas fa-sync-alt" /> Update now
-            </div>
-          </CardFooter>
-        </Card>
-      </Col>
-    </Row>
-    <Row>
-      <Col md="12">
-        <Card className='m-2'>
-          <CardHeader>
-            <CardTitle tag="h5">Users Behavior</CardTitle>
-            <p className="card-category">24 Hours performance</p>
-          </CardHeader>
-          <CardBody>
-        
-          </CardBody>
-          <CardFooter>
-            <hr />
-            <div className="stats">
-              <i className="fa fa-history" /> Updated 3 minutes ago
-            </div>
-          </CardFooter>
-        </Card>
-      </Col>
-    </Row>
-    
-  </div>
-  )
-}
+    {/* <h2 style={{color:"#AF4650"}} className="ms-3 mt-2">Welcome:John Deo</h2> */}
+      <Row>
+        <Col lg="3" md="6" sm="6">
+          <Card body className="m-3 shadow">
+            <CardTitle tag="h6">28% from the last month</CardTitle>
+            <CardText>
+              <h2 style={{ color: "#81ACA8" }}>175$</h2>{" "}
+            </CardText>
+            <CardText>
+              {" "}
+              <EmailIcon style={{ color: "#AF4650" }} /> Email send
+            </CardText>
+          </Card>
+        </Col>
+        <Col lg="3" md="6" sm="6">
+          <Card body className="m-3 shadow">
+            <CardTitle tag="h6">28% from the last month</CardTitle>
+            <CardText>
+              <h2 className="text-danger">42$</h2>{" "}
+            </CardText>
+            <CardText>
+              {" "}
+              <LocalPrintshopIcon style={{ color: "#81ACA8" }} /> Email opened
+            </CardText>
+          </Card>
+        </Col>
+        <Col lg="3" md="6" sm="6">
+          <Card body className="m-3 shadow">
+            <CardTitle tag="h6">
+              +10 <span style={{ color: "#AF4650" }}>%</span> from the last
+              month
+            </CardTitle>
+            <CardText>
+              <h2 style={{ color: "#81ACA8" }}>70$</h2>{" "}
+            </CardText>
+            <CardText>
+              {" "}
+              <ContactPageIcon style={{ color: "#AF4650" }} /> Email to send
+            </CardText>
+          </Card>
+        </Col>
+        <Col lg="3" md="6" sm="6">
+          <Card body className="m-3 shadow">
+            <CardTitle tag="h6">-28% from the last month</CardTitle>
+            <CardText>
+              <h2 style={{ color: "#AF4650" }} className="">
+                8$
+              </h2>{" "}
+            </CardText>
+            <CardText>
+              {" "}
+              <IosShareIcon style={{ color: "#81ACA8" }} /> Email to send
+            </CardText>
+           
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col md="12">
+          <Card className="m-3 ">
+            <CardHeader>
+              <CardTitle tag="h5">Users Behavior</CardTitle>
+              <p className="card-category">24 Hours performance</p>
+            </CardHeader>
+            <CardBody></CardBody>
+            <CardFooter>
+              <hr />
+              <div className="stats">
+                <i className="fa fa-history" /> Updated 3 minutes ago
+              </div>
+            </CardFooter>
+          </Card>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
-export default Dashboardpage
+export default Dashboardpage;

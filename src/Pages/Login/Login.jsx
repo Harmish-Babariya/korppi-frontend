@@ -1,18 +1,20 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import {
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  TextField,
+  Button,
+  Typography
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import login from "../../assets/img/login.png";
 function Copyright(props) {
   return (
     <Typography
@@ -45,44 +47,48 @@ const Login = () => {
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
+        <Grid item xs={12} sm={5} md={8}>
+          <Box
+            sx={{ backgroundColor: "#81ACA8" }}
+            className="d-flex flex-column h-100 "
+          >
+            <span className="text-center text-white fs-1  mt-4 ">Korppi</span>
+            <Grid item xs={12} sm={5} md={8}>
+              <img
+                src={login}
+                alt="Login.png"
+                style={{margin:"0px 250px",width:"500px" ,height:"500px"}}
+                className="mt-5"
+              />
+            </Grid>
+          </Box>
+        </Grid>
         <Grid
           item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          xs={12}
+          sm={7}
+          md={4}
+          component={Paper}
+          elevation={20}
+          square
+        >
           <Box
             sx={{
-              my: 8,
-              mx: 4,
+              my: 11,
+              mx: 8,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              alignItems: "start",
             }}
           >
-            <Avatar sx={{ m: 0, bgcolor: "#B6E696",padding:"-100px" }}>
-              <LockOutlinedIcon className="fs-5"/>
-            </Avatar>
-            <Typography component="h1" variant="h5" className="fs-1 fw-bold">
-              Login
-            </Typography>
+          
+            <Typography className="fs-1 fw-bold">WelCome Back!</Typography>
+            <span>Please Log in to Your Account.</span>
             <Box
               component="form"
               noValidate
               onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+              sx={{ mt: 2 }}
             >
               <TextField
                 margin="normal"
@@ -102,33 +108,31 @@ const Login = () => {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              <span style={{ marginLeft: "100px", }}>
+                <Link style={{textDecoration:"none",color:"#AF4650"}} href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </span>
               <Button
                 type="submit"
                 fullWidth
-                variant=""
-                sx={{ mt: 3, mb: 2,backgroundColor:"#B6E696",fontWeight:"bold" }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#AF4650",
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                  color: "black",
+                }}
               >
                 Login
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign in"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              <Copyright sx={{ mt: 10 }} />
             </Box>
           </Box>
         </Grid>
