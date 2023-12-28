@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 const Contacts = () => {
   return (
-    <div className="content m-3">
+    <div className="m-3">
     <Row>
       <Col md="12">
         <Card className='mb-3'>

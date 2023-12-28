@@ -40,13 +40,8 @@ const Send = () => {
           <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
           <p className="card-category">Line Chart with Points</p>
         </CardHeader>
-        <CardBody>
-          {/* <Line
-            data={dashboardNASDAQChart.data}
-            options={dashboardNASDAQChart.options}
-            width={400}
-            height={100}
-          /> */}
+        <CardBody style={{margin:"200px"}} className=' w-100'>
+         
         </CardBody>
         <CardFooter>
           <div className="chart-legend">

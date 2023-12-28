@@ -1,6 +1,7 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import {
   FormControlLabel,
   Checkbox,
@@ -10,10 +11,19 @@ import {
   Grid,
   TextField,
   Button,
-  Typography
+  Typography,
+  FormControl,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import login from "../../assets/img/login.png";
 function Copyright(props) {
   return (
@@ -35,14 +45,52 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const Login = () => {
-  const handleSubmit = (event) => {
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("please enter your valid email")
+        .required("email is required"),
+      password: Yup.string().required("password is required").min(6),
+    }),
+    onSubmit: async (value) => {
+      value
+        ? localStorage.setItem("user_token", JSON.stringify(value)) &
+          toast.success("WELCOME TO KORPPI") &
+          navigate("/dashboard")
+        : "";
+
+      // try {
+      //   let response = await api.post("", {
+      //     email: value.email,
+      //     password: value.password,
+      //   });
+      //   if (response.isSuccess) {
+      //     const { token } = response.data;
+      //     localStorage.setItem("user_token", token);
+      //     toast.success(response.message);
+      //     navigate("/dashboard");
+      //   } else {
+      //     toast.error(data.message);
+      //   }
+      // } catch (error) {
+      //   console.error(error);
+      // }
+    },
+  });
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -57,7 +105,7 @@ const Login = () => {
               <img
                 src={login}
                 alt="Login.png"
-                style={{margin:"0px 250px",width:"500px" ,height:"500px"}}
+                style={{ margin: "0px 250px", width: "500px", height: "500px" }}
                 className="mt-5"
               />
             </Grid>
@@ -81,40 +129,76 @@ const Login = () => {
               alignItems: "start",
             }}
           >
-          
             <Typography className="fs-1 fw-bold">WelCome Back!</Typography>
             <span>Please Log in to Your Account.</span>
             <Box
               component="form"
-              noValidate
-              onSubmit={handleSubmit}
+              autoComplete="off"
+              onSubmit={formik.handleSubmit}
               sx={{ mt: 2 }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-              />
+              <div className="my-3">
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  type="email"
+                  name="email"
+                  variant="outlined"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className="d-grid"
+                />
+
+                {formik.touched.email && formik.errors.email ? (
+                  <div className="error ms-2 text-danger">
+                    {formik.errors.email}
+                  </div>
+                ) : null}
+              </div>
+              <div>
+                <FormControl className="d-grid mb-2" variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                </FormControl>
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="error ms-2 text-danger">
+                    {formik.errors.password}
+                  </div>
+                ) : null}
+              </div>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <span style={{ marginLeft: "100px", }}>
-                <Link style={{textDecoration:"none",color:"#AF4650"}} href="#" variant="body2">
+              <span style={{ marginLeft: "110px" }}>
+                <Link
+                  style={{ textDecoration: "none", color: "#AF4650" }}
+                  href="#"
+                  variant="body2"
+                >
                   Forgot password?
                 </Link>
               </span>

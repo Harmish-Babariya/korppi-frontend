@@ -13,11 +13,13 @@ import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
+import { ListItemIcon } from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
+import PersonIcon from "@mui/icons-material/Person";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "../../Pages/Dashboard";
 const drawerWidth = 240;
@@ -80,22 +82,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const cardroute = (
-  <>
-    <CardContent className="h-100  p-2 ">
-      <Typography sx={{ fontSize: 20 }} color="text.secondary">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus,
-        cumque a ullam quia debitis dignissimos ea sequi minus perspiciatis
-        molestias, nemo nobis, eos animi. Ipsum soluta quis praesentium quasi
-        explicabo lotem bdsjdbfjbkjdbfkjbdshbfdshbhbkdbkbfkdbk kd sdbch b nk
-        cjbisndnc heeeeeeeeeeeeeeeeeeeees
-      </Typography>
-    </CardContent>
-  </>
-);
-
 const Navbar = () => {
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const settings = [
+    {
+      name: "Profile",
+      icon: <PersonIcon />,
+    },
+    {
+      name: "Settings",
+      icon: <SettingsIcon />,
+    },
+    {
+      name: "Dashboard",
+      icon: <DashboardIcon />,
+    },
+    {
+      name: "Logout",
+      icon: <ExitToAppRoundedIcon />,
+    },
+  ];
   const [path, setPath] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -120,6 +125,7 @@ const Navbar = () => {
     prop === "Profile" ? navigate("/dashboard/profile") : "";
     prop === "Logout" ? navigate("/login") : "";
     prop === "Dashboard" ? navigate("/dashboard/dashboardpage") : "";
+    prop === "Settings" ? navigate("/dashboard/settings") : "";
   };
   return (
     <div>
@@ -169,6 +175,9 @@ const Navbar = () => {
             </Search>
             <Box sx={{ marginLeft: "auto" }}>
               <Tooltip title="Open settings">
+                <Link>
+                  <SettingsIcon className="me-2 fs-3 text-white " />
+                </Link>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 </IconButton>
@@ -191,11 +200,19 @@ const Navbar = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        color: "#B6E696",
+                      }}
+                    >
+                      {setting.icon}
+                    </ListItemIcon>
                     <Typography
                       textAlign="center"
-                      onClick={() => handleUser(setting)}
+                      onClick={() => handleUser(setting.name)}
                     >
-                      {setting}
+                      {setting.name}
                     </Typography>
                   </MenuItem>
                 ))}
@@ -206,13 +223,13 @@ const Navbar = () => {
         <Sidebar open={open} setOpen={setOpen} />
         <div className="w-100  m-3 mt-5">
           <div
-            style={{ marginTop: "3%" }}
-            className="w-100 h-auto card rounded-2 shadow "
+            style={{ marginTop: "2.2%" }}
+            className="w-100  card rounded-2 shadow "
           >
             <nav aria-label="breadcrumb ">
               <ol className="d-flex justify-content-start align-content-center  breadcrumb">
-                <li className="px-2 mt-2 breadcrumb-item">
-                  <HomeIcon className="text-secondary fs-3" />
+                <li className="ps-2 breadcrumb-item">
+                  <HomeIcon className="text-secondary mt-2 fs-3" />
                 </li>
                 {path.map((item, index) => (
                   <li key={index} className="breadcrumb-item mt-2 ">
@@ -227,7 +244,6 @@ const Navbar = () => {
               </ol>
             </nav>
           </div>
-
           <Dashboard />
         </div>
       </Box>

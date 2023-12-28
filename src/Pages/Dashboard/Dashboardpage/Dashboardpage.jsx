@@ -13,11 +13,11 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
-import ContactPageIcon from '@mui/icons-material/ContactPage';
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 const Dashboardpage = () => {
   return (
-    <div className="content">
-    {/* <h2 style={{color:"#AF4650"}} className="ms-3 mt-2">Welcome:John Deo</h2> */}
+    <div className="">
+      {/* <h2 style={{color:"#AF4650"}} className="ms-3 mt-2">Welcome:John Deo</h2> */}
       <Row>
         <Col lg="3" md="6" sm="6">
           <Card body className="m-3 shadow">
@@ -68,9 +68,8 @@ const Dashboardpage = () => {
             </CardText>
             <CardText>
               {" "}
-              <IosShareIcon style={{ color: "#81ACA8" }} /> Email to send
+              <IosShareIcon style={{ color: "#81ACA8" }} /> Email send
             </CardText>
-           
           </Card>
         </Col>
       </Row>
@@ -81,12 +80,12 @@ const Dashboardpage = () => {
               <CardTitle tag="h5">Users Behavior</CardTitle>
               <p className="card-category">24 Hours performance</p>
             </CardHeader>
-            <CardBody></CardBody>
+            <CardBody>
+              <Card className="m-5 p-5"></Card>
+            </CardBody>
             <CardFooter>
               <hr />
-              <div className="stats">
-                <i className="fa fa-history" /> Updated 3 minutes ago
-              </div>
+              <div className="">Updated 3 minutes ago</div>
             </CardFooter>
           </Card>
         </Col>

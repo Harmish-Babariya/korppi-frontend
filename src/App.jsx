@@ -5,19 +5,22 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Component/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login/Login";
+import Box from "@mui/material/Box";
+
 function App() {
   return (
-    <>
-    <div className="bg-body-secondary">
-      <ToastContainer position="top-right" autoClose={2000} />
+  
+
+    <Box sx={{height:"100vh"}} className="bg-body-secondary">
+              <ToastContainer position="bottom-center" autoClose={2000} />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         {/* <Route element={<PrivateRoutes />}> */}
         <Route path="/dashboard/*" element={<Navbar />} />
         {/* </Route> */}
       </Routes>
-      </div>
-    </>
+      </Box>
   );
 }
 

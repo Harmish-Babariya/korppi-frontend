@@ -21,7 +21,10 @@ import Dashboardpage from "../../Pages/Dashboard/Dashboardpage/Dashboardpage";
 import Send from "../../Pages/Dashboard/Send/Send";
 import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Genrate/Genrate";
-import { useLocation, NavLink } from "react-router-dom";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Settings from "../../Pages/Dashboard/Settings/Settings";
+import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
+import { useLocation, NavLink, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -72,6 +75,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const routes = [
     {
       name: "Dashboard",
@@ -98,6 +102,12 @@ const Sidebar = ({ open, setOpen }) => {
       element: <Contacts />,
     },
   ];
+  const settings = {
+    name: "Settings",
+    icon: <SettingsIcon />,
+    path: "/dashboard/settings",
+    element: <Settings />,
+  };
   const theme = useTheme();
 
   const handleDrawerClose = () => {
@@ -106,8 +116,12 @@ const Sidebar = ({ open, setOpen }) => {
   const isRouteActive = (path) => {
     return location.pathname === path;
   };
+  const handleLogOut = () => {
+    console.log("event");
+    navigate("/login");
+  };
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer className="h-100" variant="permanent" open={open}>
       <DrawerHeader>
         <Typography
           sx={{
@@ -172,6 +186,73 @@ const Sidebar = ({ open, setOpen }) => {
             </NavLink>
           </ListItem>
         ))}
+      </List>
+      <List>
+        <ListItem
+          disablePadding
+          sx={{ display: "block", fontSize: "50px", marginTop: "250px" }}
+          className={isRouteActive(settings.path) ? "active" : ""}
+          active
+        >
+          <NavLink
+            className={`text-decoration-none text-black `}
+            to={settings.path}
+          >
+            <ListItemButton
+              sx={{
+                minHeight: 0,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                  color: "#B6E696",
+                }}
+              >
+                {settings.icon}
+              </ListItemIcon>
+              <ListItemText
+                sx={{
+                  opacity: open ? 1 : 0,
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+                primary={settings.name}
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                  color: "#B6E696",
+                }}
+              >
+                <ExitToAppRoundedIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{
+                  opacity: open ? 1 : 0,
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+                primary={"Log Out"}
+                onClick={() => handleLogOut()}
+              />
+            </ListItemButton>
+          </NavLink>
+        </ListItem>
       </List>
       <Divider />
     </Drawer>
