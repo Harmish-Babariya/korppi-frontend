@@ -22,6 +22,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "../../Pages/Dashboard";
+import Settings from "../CompanySettings/Settings";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -102,6 +103,9 @@ const Navbar = () => {
     },
   ];
   const [path, setPath] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -133,7 +137,7 @@ const Navbar = () => {
         <AppBar
           position="fixed"
           open={open}
-          sx={{ backgroundColor: "#B6E696" }}
+          sx={{ backgroundColor: "#81ACA8" }}
         >
           <Toolbar>
             <IconButton
@@ -159,6 +163,7 @@ const Navbar = () => {
                   fontSize: "25px",
                   fontWeight: "bold",
                   marginLeft: "-22px",
+                  letterSpacing:"2px"
                 },
               }}
             >
@@ -174,12 +179,12 @@ const Navbar = () => {
               />
             </Search>
             <Box sx={{ marginLeft: "auto" }}>
-              <Tooltip title="Open settings">
-                <Link>
+               <Link onClick={handleShow} >
                   <SettingsIcon className="me-2 fs-3 text-white " />
                 </Link>
+              <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Korppi" src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -203,7 +208,7 @@ const Navbar = () => {
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
-                        color: "#B6E696",
+                        color: "#083d38",
                       }}
                     >
                       {setting.icon}
@@ -214,6 +219,7 @@ const Navbar = () => {
                     >
                       {setting.name}
                     </Typography>
+                    <hr />
                   </MenuItem>
                 ))}
               </Menu>
@@ -245,6 +251,8 @@ const Navbar = () => {
             </nav>
           </div>
           <Dashboard />
+          {show ? <Settings show={show} setShow={setShow}/> : ''}
+
         </div>
       </Box>
     </div>

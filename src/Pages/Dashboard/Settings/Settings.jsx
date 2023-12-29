@@ -17,7 +17,7 @@ const Settings = () => {
     <div>
       <Col md="8">
           <Card className="card-user m-2 shadow ">
-            <CardHeader style={{ backgroundColor: " #84B464", color: "white" }}>
+            <CardHeader style={{ backgroundColor: " #81ACA8", color: "white" }}>
               <CardTitle tag="h5">Company Setting</CardTitle>
             </CardHeader>
             <CardBody>
@@ -119,7 +119,7 @@ const Settings = () => {
                   <div className="update ml-auto mr-auto">
                     <Button
                       className="btn-round border-0"
-                      style={{ backgroundColor: " #84B464" }}
+                      style={{ backgroundColor: " #81ACA8" }}
                       type="submit"
                     >
                       Save

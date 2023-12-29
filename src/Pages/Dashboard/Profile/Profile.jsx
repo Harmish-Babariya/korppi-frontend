@@ -21,7 +21,7 @@ const Profile = () => {
           <Card className="card-user m-2 w-100 shadow">
             <CardBody>
               <div
-                style={{ backgroundColor: " #84B464", color: "white" }}
+                style={{ backgroundColor: " #81ACA8", color: "white" }}
                 className="author text-center rounded "
               >
                 <a
@@ -164,7 +164,7 @@ const Profile = () => {
         </Col>
         <Col md="8">
           <Card className="card-user m-2 shadow ">
-            <CardHeader style={{ backgroundColor: " #84B464", color: "white" }}>
+            <CardHeader style={{ backgroundColor: " #81ACA8", color: "white" }}>
               <CardTitle tag="h5">Edit Profile</CardTitle>
             </CardHeader>
             <CardBody>
@@ -266,7 +266,7 @@ const Profile = () => {
                   <div className="update ml-auto mr-auto">
                     <Button
                       className="btn-round border-0"
-                      style={{ backgroundColor: " #84B464" }}
+                      style={{ backgroundColor: " #81ACA8" }}
                       type="submit"
                     >
                       Update Profile

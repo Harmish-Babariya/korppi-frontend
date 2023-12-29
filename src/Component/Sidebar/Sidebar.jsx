@@ -106,7 +106,7 @@ const Sidebar = ({ open, setOpen }) => {
     name: "Settings",
     icon: <SettingsIcon />,
     path: "/dashboard/settings",
-    element: <Settings />,
+    element: <Settings className="fs-1" />,
   };
   const theme = useTheme();
 
@@ -117,18 +117,19 @@ const Sidebar = ({ open, setOpen }) => {
     return location.pathname === path;
   };
   const handleLogOut = () => {
-    console.log("event");
     navigate("/login");
   };
   return (
     <Drawer className="h-100" variant="permanent" open={open}>
-      <DrawerHeader>
+      <DrawerHeader sx={{ backgroundColor: "#81ACA8", color: "white" }}>
         <Typography
           sx={{
-            marginRight: "80px",
-            fontSize: "20px",
+            marginRight: "65px",
+            fontSize: "25px",
             fontWeight: "bold",
-            color: "#B6E696",
+            color: "white",
+            letterSpacing:"2px"
+
           }}
         >
           KORPPI
@@ -137,7 +138,7 @@ const Sidebar = ({ open, setOpen }) => {
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
-            <ChevronLeftIcon className="fs-2" />
+            <ChevronLeftIcon sx={{ color: "white" }} className="fs-2" />
           )}
         </IconButton>
       </DrawerHeader>
@@ -147,28 +148,33 @@ const Sidebar = ({ open, setOpen }) => {
           <ListItem
             key={index}
             disablePadding
-            sx={{ display: "block", fontSize: "50px" }}
-            className={isRouteActive(text.path) ? "active" : ""}
-            active
+            sx={{ display: "block" }}
+            className={isRouteActive(text.path) ? "bg-dark-subtle " : ""}
           >
             <NavLink
-              className={`text-decoration-none text-black `}
+              className={({ isActive }) =>
+                `text-decoration-none ${
+                  isActive ? "text-success fw-bold" : "text-black "
+                } `
+              }
               to={text.path}
             >
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
+                  alignContent: "center",
                   px: 2.5,
                 }}
+                className="mx-auto my-auto"
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
-                    marginTop: "20px",
-                    color: "#B6E696",
+                    marginLeft: "8px",
+                    color: "#81ACA8",
                   }}
                 >
                   {text.icon}
@@ -176,7 +182,7 @@ const Sidebar = ({ open, setOpen }) => {
                 <ListItemText
                   sx={{
                     opacity: open ? 1 : 0,
-                    marginTop: "20px",
+                    padding: "8px",
                     fontSize: "20px",
                     fontWeight: "bold",
                   }}
@@ -190,12 +196,17 @@ const Sidebar = ({ open, setOpen }) => {
       <List>
         <ListItem
           disablePadding
-          sx={{ display: "block", fontSize: "50px", marginTop: "250px" }}
-          className={isRouteActive(settings.path) ? "active" : ""}
+          key={settings.name}
+          sx={{ display: "block", marginTop: "250px" }}
+          className={isRouteActive(settings.path) ? "bg-dark-subtle" : ""}
           active
         >
           <NavLink
-            className={`text-decoration-none text-black `}
+            className={({ isActive }) =>
+              `text-decoration-none ${
+                isActive ? "fs-2 fw-bolder text-black" : "text-black"
+              } `
+            }
             to={settings.path}
           >
             <ListItemButton
@@ -209,8 +220,9 @@ const Sidebar = ({ open, setOpen }) => {
                 sx={{
                   minWidth: 0,
                   mr: open ? 3 : "auto",
+                  marginLeft: "8px",
                   justifyContent: "center",
-                  color: "#B6E696",
+                  color: "#81ACA8",
                 }}
               >
                 {settings.icon}
@@ -218,41 +230,45 @@ const Sidebar = ({ open, setOpen }) => {
               <ListItemText
                 sx={{
                   opacity: open ? 1 : 0,
+                  padding: "8px",
+
                   fontSize: "20px",
                   fontWeight: "bold",
                 }}
                 primary={settings.name}
               />
             </ListItemButton>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#B6E696",
-                }}
-              >
-                <ExitToAppRoundedIcon />
-              </ListItemIcon>
-              <ListItemText
-                sx={{
-                  opacity: open ? 1 : 0,
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                }}
-                primary={"Log Out"}
-                onClick={() => handleLogOut()}
-              />
-            </ListItemButton>
           </NavLink>
         </ListItem>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? "initial" : "center",
+            px: 2.5,
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : "auto",
+              marginLeft: "8px",
+              justifyContent: "center",
+              color: "#81ACA8",
+            }}
+          >
+            <ExitToAppRoundedIcon className="fs-3" />
+          </ListItemIcon>
+          <ListItemText
+            sx={{
+              opacity: open ? 1 : 0,
+              padding: "7px",
+              fontSize: "20px",
+              fontWeight: "bold",
+            }}
+            primary={"Log Out"}
+            onClick={() => handleLogOut()}
+          />
+        </ListItemButton>
       </List>
       <Divider />
     </Drawer>

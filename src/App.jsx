@@ -11,7 +11,7 @@ function App() {
   return (
   
 
-    <Box sx={{height:"100vh"}} className="bg-body-secondary">
+    <Box sx={{height:"auto"}} className="h-100">
               <ToastContainer position="bottom-center" autoClose={2000} />
 
       <Routes>

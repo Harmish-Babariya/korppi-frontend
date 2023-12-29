@@ -100,7 +100,16 @@ const Login = () => {
             sx={{ backgroundColor: "#81ACA8" }}
             className="d-flex flex-column h-100 "
           >
-            <span className="text-center text-white fs-1  mt-4 ">Korppi</span>
+            <span
+              style={{
+                color: "#083d38",
+                fontWeight: "bold",
+                letterSpacing: "4px",
+              }}
+              className="text-center fs-1  mt-4 "
+            >
+              <span style={{ color: "#bb4c4c" }}>K</span>orppi
+            </span>
             <Grid item xs={12} sm={5} md={8}>
               <img
                 src={login}
@@ -129,8 +138,15 @@ const Login = () => {
               alignItems: "start",
             }}
           >
-            <Typography className="fs-1 fw-bold">WelCome Back!</Typography>
-            <span>Please Log in to Your Account.</span>
+            <Typography
+              sx={{ color: "#083d38", letterSpacing: "2px" }}
+              className="fs-1 fw-bold"
+            >
+              WelCome Back!
+            </Typography>
+            <span style={{ color: "#083d38" }}>
+              Please Log in to Your Account.
+            </span>
             <Box
               component="form"
               autoComplete="off"
@@ -208,10 +224,12 @@ const Login = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#AF4650",
-                  fontWeight: "bold",
+                  backgroundColor: "#bb4c4c",
                   fontSize: "20px",
-                  color: "black",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#083d38",
+                  },
                 }}
               >
                 Login

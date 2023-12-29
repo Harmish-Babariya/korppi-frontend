@@ -10,14 +10,14 @@ import {
   } from "reactstrap";
 const Send = () => {
   return (
-    <Row>
+    <div>   <Row className='w-100'>
     <Col md="4">
       <Card className='m-3'>
         <CardHeader>
           <CardTitle tag="h5">Email Statistics</CardTitle>
           <p className="card-category">Last Campaign Performance</p>
         </CardHeader>
-        <CardBody style={{ height: "266px" }}>
+        <CardBody >
     
         </CardBody>
         <CardFooter>
@@ -34,7 +34,145 @@ const Send = () => {
         </CardFooter>
       </Card>
     </Col>
-    <Col md="8">
+    <Col md="4">
+      <Card className='m-3'>
+        <CardHeader>
+          <CardTitle tag="h5">Email Statistics</CardTitle>
+          <p className="card-category">Last Campaign Performance</p>
+        </CardHeader>
+        <CardBody >
+    
+        </CardBody>
+        <CardFooter>
+          <div className="legend">
+            <i className="fa fa-circle text-primary" /> Opened{" "}
+            <i className="fa fa-circle text-warning" /> Read{" "}
+            <i className="fa fa-circle text-danger" /> Deleted{" "}
+            <i className="fa fa-circle text-gray" /> Unopened
+          </div>
+          <hr />
+          <div className="stats">
+            <i className="fa fa-calendar" /> Number of emails sent
+          </div>
+        </CardFooter>
+      </Card>
+    </Col>
+    <Col md="4">
+      <Card className='m-3'>
+        <CardHeader>
+          <CardTitle tag="h5">Email Statistics</CardTitle>
+          <p className="card-category">Last Campaign Performance</p>
+        </CardHeader>
+        <CardBody >
+    
+        </CardBody>
+        <CardFooter>
+          <div className="legend">
+            <i className="fa fa-circle text-primary" /> Opened{" "}
+            <i className="fa fa-circle text-warning" /> Read{" "}
+            <i className="fa fa-circle text-danger" /> Deleted{" "}
+            <i className="fa fa-circle text-gray" /> Unopened
+          </div>
+          <hr />
+          <div className="stats">
+            <i className="fa fa-calendar" /> Number of emails sent
+          </div>
+        </CardFooter>
+      </Card>
+    </Col>
+    <Col md="4">
+      <Card className='m-3'>
+        <CardHeader>
+          <CardTitle tag="h5">Email Statistics</CardTitle>
+          <p className="card-category">Last Campaign Performance</p>
+        </CardHeader>
+        <CardBody >
+    
+        </CardBody>
+        <CardFooter>
+          <div className="legend">
+            <i className="fa fa-circle text-primary" /> Opened{" "}
+            <i className="fa fa-circle text-warning" /> Read{" "}
+            <i className="fa fa-circle text-danger" /> Deleted{" "}
+            <i className="fa fa-circle text-gray" /> Unopened
+          </div>
+          <hr />
+          <div className="stats">
+            <i className="fa fa-calendar" /> Number of emails sent
+          </div>
+        </CardFooter>
+      </Card>
+    </Col>
+    <Col md="4">
+      <Card className='m-3'>
+        <CardHeader>
+          <CardTitle tag="h5">Email Statistics</CardTitle>
+          <p className="card-category">Last Campaign Performance</p>
+        </CardHeader>
+        <CardBody >
+    
+        </CardBody>
+        <CardFooter>
+          <div className="legend">
+            <i className="fa fa-circle text-primary" /> Opened{" "}
+            <i className="fa fa-circle text-warning" /> Read{" "}
+            <i className="fa fa-circle text-danger" /> Deleted{" "}
+            <i className="fa fa-circle text-gray" /> Unopened
+          </div>
+          <hr />
+          <div className="stats">
+            <i className="fa fa-calendar" /> Number of emails sent
+          </div>
+        </CardFooter>
+      </Card>
+    </Col>
+    <Col md="4">
+      <Card className='m-3'>
+        <CardHeader>
+          <CardTitle tag="h5">Email Statistics</CardTitle>
+          <p className="card-category">Last Campaign Performance</p>
+        </CardHeader>
+        <CardBody >
+    
+        </CardBody>
+        <CardFooter>
+          <div className="legend">
+            <i className="fa fa-circle text-primary" /> Opened{" "}
+            <i className="fa fa-circle text-warning" /> Read{" "}
+            <i className="fa fa-circle text-danger" /> Deleted{" "}
+            <i className="fa fa-circle text-gray" /> Unopened
+          </div>
+          <hr />
+          <div className="stats">
+            <i className="fa fa-calendar" /> Number of emails sent
+          </div>
+        </CardFooter>
+      </Card>
+    </Col>
+    <Col md="4">
+      <Card className='m-3'>
+        <CardHeader>
+          <CardTitle tag="h5">Email Statistics</CardTitle>
+          <p className="card-category">Last Campaign Performance</p>
+        </CardHeader>
+        <CardBody >
+    
+        </CardBody>
+        <CardFooter>
+          <div className="legend">
+            <i className="fa fa-circle text-primary" /> Opened{" "}
+            <i className="fa fa-circle text-warning" /> Read{" "}
+            <i className="fa fa-circle text-danger" /> Deleted{" "}
+            <i className="fa fa-circle text-gray" /> Unopened
+          </div>
+          <hr />
+          <div className="stats">
+            <i className="fa fa-calendar" /> Number of emails sent
+          </div>
+        </CardFooter>
+      </Card>
+    </Col>
+    {/* <Col md="8">
       <Card className="card-chart m-3">
         <CardHeader>
           <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
@@ -54,8 +192,10 @@ const Send = () => {
           </div>
         </CardFooter>
       </Card>
-    </Col>
+    </Col> */}
   </Row>
+  </div>
+ 
   )
 }
 
