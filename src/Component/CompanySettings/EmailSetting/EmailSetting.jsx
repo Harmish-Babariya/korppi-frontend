@@ -1,10 +1,15 @@
-import React from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import EmailLoginModal from "./EmailLoginModal";
 
 const EmailSetting = () => {
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+
   return (
     <>
       <div className="d-flex">
@@ -54,14 +59,24 @@ const EmailSetting = () => {
           </Typography>
           <Button
             variant=""
-            style={{ backgroundColor: "#81ACA8", color: "white" }}
+            style={{
+              backgroundColor: "#81ACA8",
+              color: "white",
+              letterSpacing: "1px",
+            }}
             className="btn-sm text-white bg-success m-2 ms-2"
+            onClick={handleShow}
           >
             Login
           </Button>
+          {show && <EmailLoginModal show={show} setShow={setShow} />}
           <Button
             variant="outlined"
-            style={{ backgroundColor: "#81ACA8", color: "white" }}
+            style={{
+              backgroundColor: "#81ACA8",
+              color: "white",
+              letterSpacing: "1px",
+            }}
             className="btn-sm text-black m-2 ms-1"
           >
             Disconnect
@@ -99,7 +114,6 @@ const EmailSetting = () => {
           <form className="m-2">
             <input
               type="radio"
-              checked
               className="m-2"
               name="recordType"
               id="spfRecord"

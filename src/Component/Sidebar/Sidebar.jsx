@@ -199,7 +199,7 @@ const Sidebar = ({ open, setOpen }) => {
           key={settings.name}
           sx={{ display: "block", marginTop: "250px" }}
           className={isRouteActive(settings.path) ? "bg-dark-subtle" : ""}
-          active
+          
         >
           <NavLink
             className={({ isActive }) =>
