@@ -129,7 +129,6 @@ const Navbar = () => {
     prop === "Profile" ? navigate("/dashboard/profile") : "";
     prop === "Logout" ? navigate("/login") : "";
     prop === "Dashboard" ? navigate("/dashboard/dashboardpage") : "";
-    prop === "Settings" ? navigate("/dashboard/settings") : "";
   };
   return (
     <div>

@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import Box from "@mui/material/Box";
+import Input from "../../../Component/Input";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import {
-  UncontrolledAlert,
-  Alert,
   Button,
   Card,
   CardHeader,
@@ -10,249 +13,232 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
 const Genrate = () => {
-  const notify = (place) => {
-    var color = Math.floor(Math.random() * 5 + 1);
-    var type;
-    switch (color) {
-      case 1:
-        type = "primary";
-        break;
-      case 2:
-        type = "success";
-        break;
-      case 3:
-        type = "danger";
-        break;
-      case 4:
-        type = "warning";
-        break;
-      case 5:
-        type = "info";
-        break;
-      default:
-        break;
+  const [personName, setPersonName] = React.useState([]);
+  const [expanded, setExpanded] = React.useState("panel1");
+
+  const handleChangeMultiple = (event) => {
+    const { options } = event.target;
+    const value = [];
+    for (let i = 0, l = options.length; i < l; i += 1) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
     }
-    var options = {};
-    options = {
-      place: place,
-      message: (
-        <div>
-          <div>
-            Welcome to <b>Paper Dashboard React</b> - a beautiful freebie for
-            every web developer.
-          </div>
-        </div>
-      ),
-      type: type,
-      icon: "nc-icon nc-bell-55",
-      autoDismiss: 7,
-    };
+    setPersonName(value);
+  };
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
   };
   return (
     <div className="content m-2">
-    <Row>
-      <Col md="12">
-        <Card className='mb-2'>
-          <CardHeader>
-            <CardTitle tag="h5">Notifications</CardTitle>
-            <p className="card-category">
-              Handcrafted by our former colleague{" "}
-              <a
-                target="_blank"
-                href="https://www.instagram.com/manu.nazare/"
-              >
-                Nazare Emanuel-Ioan (Manu)
-              </a>
-              . Please checkout the{" "}
-              <a
-                href="https://github.com/creativetimofficial/react-notification-alert"
-                target="_blank"
-              >
-                full documentation.
-              </a>
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Row>
-              <Col md="6">
-                <Card className="card-plain">
-                  <CardHeader>
-                    <CardTitle tag="h5">Notifications Style</CardTitle>
-                  </CardHeader>
-                  <CardBody>
-                    <Alert color="info">
-                      <span>This is a plain notification</span>
-                    </Alert>
-                    <UncontrolledAlert color="info" fade={false}>
-                      <span>This is a notification with close button.</span>
-                    </UncontrolledAlert>
-                    <UncontrolledAlert
-                      className="alert-with-icon"
-                      color="info"
-                      fade={false}
-                    >
-                      <span
-                        data-notify="icon"
-                        className="nc-icon nc-bell-55"
-                      />
-                      <span data-notify="message">
-                        This is a notification with close button and icon.
-                      </span>
-                    </UncontrolledAlert>
-                    <UncontrolledAlert
-                      className="alert-with-icon"
-                      color="info"
-                      fade={false}
-                    >
-                      <span
-                        data-notify="icon"
-                        className="nc-icon nc-chart-pie-36"
-                      />
-                      <span data-notify="message">
-                        This is a notification with close button and icon
-                        and have many lines. You can see that the icon and
-                        the close button are always vertically aligned. This
-                        is a beautiful notification. So you don't have to
-                        worry about the style.
-                      </span>
-                    </UncontrolledAlert>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col md="6">
-                <Card className="card-plain">
-                  <CardHeader>
-                    <CardTitle tag="h5">Notification states</CardTitle>
-                  </CardHeader>
-                  <CardBody>
-                    <UncontrolledAlert color="primary" fade={false}>
-                      <span>
-                        <b>Primary - </b>
-                        This is a regular notification made with
-                        color="primary"
-                      </span>
-                    </UncontrolledAlert>
-                    <UncontrolledAlert color="info" fade={false}>
-                      <span>
-                        <b>Info - </b>
-                        This is a regular notification made with
-                        color="info"
-                      </span>
-                    </UncontrolledAlert>
-                    <UncontrolledAlert color="success" fade={false}>
-                      <span>
-                        <b>Success - </b>
-                        This is a regular notification made with
-                        color="success"
-                      </span>
-                    </UncontrolledAlert>
-                    <UncontrolledAlert color="warning" fade={false}>
-                      <span>
-                        <b>Warning - </b>
-                        This is a regular notification made with
-                        color="warning"
-                      </span>
-                    </UncontrolledAlert>
-                    <UncontrolledAlert color="danger" fade={false}>
-                      <span>
-                        <b>Danger - </b>
-                        This is a regular notification made with
-                        color="danger"
-                      </span>
-                    </UncontrolledAlert>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
-    <Row>
-      <Col md="12">
-        <Card>
-          <CardBody>
-            <div className="places-buttons">
+      <Row>
+        <Col md="12">
+          <Card className="mb-2">
+            <CardBody>
               <Row>
-                <Col className="ml-auto mr-auto text-center" md="6">
-                  <CardTitle tag="h4">Notifications Places</CardTitle>
-                  <p className="category">Click to view notifications</p>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="ml-auto mr-auto" lg="8">
-                  <Row>
-                    <Col md="4">
-                      <Button
-                        block
-                        color="primary"
-                        onClick={() => notify("tl")}
-                      >
-                        Top Left
-                      </Button>
-                    </Col>
-                    <Col md="4">
-                      <Button
-                        block
-                        color="primary"
-                        onClick={() => notify("tc")}
-                      >
-                        Top Center
-                      </Button>
-                    </Col>
-                    <Col md="4">
-                      <Button
-                        block
-                        color="primary"
-                        onClick={() => notify("tr")}
-                      >
-                        Top Right
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="ml-auto mr-auto" lg="8">
-                  <Row>
-                    <Col md="4">
-                      <Button
-                        block
-                        color="primary"
-                        onClick={() => notify("bl")}
-                      >
-                        Bottom Left
-                      </Button>
-                    </Col>
-                    <Col md="4">
-                      <Button
-                        block
-                        color="primary"
-                        onClick={() => notify("bc")}
-                      >
-                        Bottom Center
-                      </Button>
-                    </Col>
-                    <Col md="4">
-                      <Button
-                        block
-                        color="primary"
-                        onClick={() => notify("br")}
-                      >
-                        Bottom Right
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </div>
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
-  </div>
-  )
-}
+                <Col md="4">
+                  <Card className="shadow">
+                    <CardHeader>
+                      <CardTitle tag="h5">Interactive Dashboards</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <div className="d-flex flex-column mb-3">
+                        <Button className="fw-bolder">Free Plan</Button>
 
-export default Genrate
+                        <h1 className="fw-medium fs-3 mt-2">
+                          $ 180 <span className="fs-5 fw-light">/month</span>{" "}
+                        </h1>
+                        <div className="w-100">
+                          <Accordion
+                            className="w-auto"
+                            expanded={expanded === "panel1"}
+                            onChange={handleChange("panel1")}
+                          >
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon className="fs-3" />}
+                              aria-controls="panel1a-content"
+                              id="panel1a-header"
+                              className="bg-body-secondary"
+                            >
+                              <Typography className="fs-5 fw-lighter">
+                                Featurs
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Typography>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Suspendisse malesuada lacus ex,
+                                sit amet blandit leo lobortis eget.
+                              </Typography>
+                            </AccordionDetails>
+                          </Accordion>
+                          <Accordion>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon className="fs-3" />}
+                              aria-controls="panel2a-content"
+                              id="panel2a-header"
+                              className="bg-body-secondary"
+                            >
+                              <Typography className="fs-5 fw-light">
+                                Benefits
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Typography>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Suspendisse malesuada lacus ex,
+                                sit amet blandit leo lobortis eget.
+                              </Typography>
+                            </AccordionDetails>
+                          </Accordion>
+                          <Button className="mt-3 w-100 fw-medium">
+                            Get Started
+                          </Button>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="4">
+                  <Card className="shadow">
+                    <CardHeader>
+                      <CardTitle tag="h5">Odin's Eye Analytics</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <Box
+                        component="form"
+                        sx={{
+                          "& > :not(style)": { width: "auto" },
+                        }}
+                        autoComplete="off"
+                      >
+                        <div className="d-flex flex-column mb-3">
+                          <Input
+                            id={"endustry"}
+                            lebel={"Endustry"}
+                            className={"mb-2"}
+                            type={"text"}
+                            // value={endustry}
+                            // onchange={(e) => endustry(e.target.value)}
+                            size={"small"}
+                            classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                          />
+
+                          <Input
+                            id={"goal of email"}
+                            lebel={"Goal Of Email"}
+                            className={"mb-2"}
+                            type={"text"}
+                            // value={password}
+                            // onchange={(e) => setPassword(e.target.value)}
+                            size={"small"}
+                            classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                          />
+                          <Input
+                            id={"companies you work with"}
+                            lebel={"Companies You Work With"}
+                            className={"mb-2"}
+                            type={"text"}
+                            // value={SMPTServer}
+                            // onchange={(e) => setSMPTServer(e.target.value)}
+                            size={"small"}
+                            classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                          />
+                          <hr />
+                          <Input
+                            id={"select industry"}
+                            lebel={"Select Industry"}
+                            className={"mb-2"}
+                            type={"text"}
+                            // value={SMPTPort}
+                            // onchange={(e) => setSMPTPort(e.target.value)}
+                            size={"small"}
+                            classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                          />
+                          <p className="fw-light fs-6">87 Email to generet</p>
+                        </div>
+                      </Box>
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="4">
+                  <Card className="shadow">
+                    <CardHeader>
+                      <CardTitle tag="h5">Generate</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <div>
+                        <label htmlFor="Emails to generate">
+                          Emails to generate
+                        </label>
+                        <div>
+                          <input
+                            type="text"
+                            className="rounded border-1 h-100 p-1"
+                          />
+                          <Button className="ms-2 w-auto">Select</Button>
+                        </div>
+                        <div className="text-center mt-2">
+                          <FormControl
+                            sx={{ m: 1, minWidth: 150, maxWidth: 400 }}
+                          >
+                            <InputLabel shrink htmlFor="select-multiple-native">
+                              Company
+                            </InputLabel>
+                            <Select
+                              multiple
+                              native
+                              value={personName}
+                              onChange={handleChangeMultiple}
+                              label="Native"
+                              inputProps={{
+                                id: "select-multiple-native",
+                              }}
+                            >
+                              {names.map((name) => (
+                                <option key={name} value={name}>
+                                  {name}
+                                </option>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <Button className="w-100 mt-2">Generate</Button>
+                      </div>
+                    </CardBody>
+                  </Card>
+                  <Card className="mt-2 p-3 bg-body-secondary">
+                    <span>Email being generated as:</span>
+                    <span>Noumair.rafiq@odinseye.live</span>
+                  </Card>
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+export default Genrate;

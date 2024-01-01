@@ -1,202 +1,106 @@
-import React from 'react'
+import React from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
+
 import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    CardTitle,
-    Row,
-    Col,
-  } from "reactstrap";
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Row,
+  Col,
+  Button,
+} from "reactstrap";
+import Input from "../../../Component/Input";
 const Send = () => {
   return (
-    <div>   <Row className='w-100'>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col md="4">
-      <Card className='m-3'>
-        <CardHeader>
-          <CardTitle tag="h5">Email Statistics</CardTitle>
-          <p className="card-category">Last Campaign Performance</p>
-        </CardHeader>
-        <CardBody >
-    
-        </CardBody>
-        <CardFooter>
-          <div className="legend">
-            <i className="fa fa-circle text-primary" /> Opened{" "}
-            <i className="fa fa-circle text-warning" /> Read{" "}
-            <i className="fa fa-circle text-danger" /> Deleted{" "}
-            <i className="fa fa-circle text-gray" /> Unopened
-          </div>
-          <hr />
-          <div className="stats">
-            <i className="fa fa-calendar" /> Number of emails sent
-          </div>
-        </CardFooter>
-      </Card>
-    </Col>
-    {/* <Col md="8">
-      <Card className="card-chart m-3">
-        <CardHeader>
-          <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
-          <p className="card-category">Line Chart with Points</p>
-        </CardHeader>
-        <CardBody style={{margin:"200px"}} className=' w-100'>
-         
-        </CardBody>
-        <CardFooter>
-          <div className="chart-legend">
-            <i className="fa fa-circle text-info" /> Tesla Model S{" "}
-            <i className="fa fa-circle text-warning" /> BMW 5 Series
-          </div>
-          <hr />
-          <div className="card-stats">
-            <i className="fa fa-check" /> Data information certified
-          </div>
-        </CardFooter>
-      </Card>
-    </Col> */}
-  </Row>
-  </div>
- 
-  )
-}
+    <div>
+      {" "}
+      <Row className="w-100">
+        <Col md="4">
+          <Card className="m-3 shadow">
+            <CardHeader>
+              <CardTitle tag="h5">Send</CardTitle>
+            </CardHeader>
+            <CardBody>
+              <Card className="mt-2 p-3 bg-body-secondary">
+                <span>Email being generated as:</span>
+                <span>Noumair.rafiq@odinseye.live</span>
+              </Card>
+              <h4 style={{letterSpacing:"1.5px"}} className="mt-3">  Email <span className="text-secondary">Available</span> to send</h4>
+              <div className="d-flex flex-column">
+                <Input
+                  id={"email to send"}
+                  lebel={"Email To Send"}
+                  className={"mb-2"}
+                  type={"text"}
+                  // value={endustry}
+                  // onchange={(e) => endustry(e.target.value)}
+                  classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker label="Day" className="mb-2" />
+                </LocalizationProvider>
+              </div>
 
-export default Send
+              <Button className="w-100">Send</Button>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col md="4">
+          <Card className="m-3 shadow">
+            <CardHeader>
+              <CardTitle tag="h5">Daily Scheduler</CardTitle>
+            </CardHeader>
+            <CardBody>
+              <Card className="mt-2 p-3 bg-body-secondary">
+                <span>Email being generated as:</span>
+                <span>Noumair.rafiq@odinseye.live</span>
+              </Card>
+              <div className="d-flex flex-column">
+                <Input
+                  id={"email to send"}
+                  lebel={"Email To Send Per Day"}
+                  className={"mb-2"}
+                  type={"text"}
+                  // value={endustry}
+                  // onchange={(e) => endustry(e.target.value)}
+                  
+                  classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker
+                    label="Time To Send"
+                    defaultValue={dayjs("2022-04-17T15:30")}
+                    className="mt-2"
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Day TO Send"
+                    className=" mt-2"
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                    className="mb-2 mt-2"
+                  />
+                </LocalizationProvider>
+                <p>Auto-generate</p>
+              </div>
+              <Button>Create</Button>
+              <Button className="ms-2">Update</Button>
+              <Button className="ms-2">Cancel</Button>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+export default Send;

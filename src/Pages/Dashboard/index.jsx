@@ -6,7 +6,6 @@ import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Genrate/Genrate";
 import Profile from "../../Pages/Dashboard/Profile/Profile";
 import Box from "@mui/material/Box";
-import Settings from "./Settings/Settings";
 
 const Dashboard = () => {
   return (
@@ -18,7 +17,6 @@ const Dashboard = () => {
           <Route path="/send" element={<Send />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Box>
     </div>

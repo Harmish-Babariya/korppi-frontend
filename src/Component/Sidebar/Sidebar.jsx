@@ -22,7 +22,6 @@ import Send from "../../Pages/Dashboard/Send/Send";
 import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Genrate/Genrate";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Settings from "../../Pages/Dashboard/Settings/Settings";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 
@@ -102,12 +101,7 @@ const Sidebar = ({ open, setOpen }) => {
       element: <Contacts />,
     },
   ];
-  const settings = {
-    name: "Settings",
-    icon: <SettingsIcon />,
-    path: "/dashboard/settings",
-    element: <Settings className="fs-1" />,
-  };
+
   const theme = useTheme();
 
   const handleDrawerClose = () => {
@@ -194,57 +188,14 @@ const Sidebar = ({ open, setOpen }) => {
         ))}
       </List>
       <List>
-        <ListItem
-          disablePadding
-          key={settings.name}
-          sx={{ display: "block", marginTop: "250px" }}
-          className={isRouteActive(settings.path) ? "bg-dark-subtle" : ""}
-          
-        >
-          <NavLink
-            className={({ isActive }) =>
-              `text-decoration-none ${
-                isActive ? "fs-2 fw-bolder text-black" : "text-black"
-              } `
-            }
-            to={settings.path}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 0,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  marginLeft: "8px",
-                  justifyContent: "center",
-                  color: "#81ACA8",
-                }}
-              >
-                {settings.icon}
-              </ListItemIcon>
-              <ListItemText
-                sx={{
-                  opacity: open ? 1 : 0,
-                  padding: "8px",
-
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                }}
-                primary={settings.name}
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
+  
         <ListItemButton
           sx={{
             minHeight: 48,
             justifyContent: open ? "initial" : "center",
             px: 2.5,
+            display: "", marginTop: "310px" 
+
           }}
         >
           <ListItemIcon
