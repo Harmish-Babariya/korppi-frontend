@@ -21,9 +21,9 @@ import Dashboardpage from "../../Pages/Dashboard/Dashboardpage/Dashboardpage";
 import Send from "../../Pages/Dashboard/Send/Send";
 import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Genrate/Genrate";
-import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
+import { theme } from "../../Theme/Theme";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -115,15 +115,14 @@ const Sidebar = ({ open, setOpen }) => {
   };
   return (
     <Drawer className="h-100" variant="permanent" open={open}>
-      <DrawerHeader sx={{ backgroundColor: "#81ACA8", color: "white" }}>
+      <DrawerHeader sx={{ color: "#083d38" }}>
         <Typography
           sx={{
             marginRight: "65px",
             fontSize: "25px",
             fontWeight: "bold",
-            color: "white",
-            letterSpacing:"2px"
-
+            color: `${theme.palette.primary.main}`,
+            letterSpacing: "2px",
           }}
         >
           KORPPI
@@ -132,7 +131,10 @@ const Sidebar = ({ open, setOpen }) => {
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
-            <ChevronLeftIcon sx={{ color: "white" }} className="fs-2" />
+            <ChevronLeftIcon
+              sx={{ color: `${theme.palette.primary.main}` }}
+              className="fs-2"
+            />
           )}
         </IconButton>
       </DrawerHeader>
@@ -148,7 +150,7 @@ const Sidebar = ({ open, setOpen }) => {
             <NavLink
               className={({ isActive }) =>
                 `text-decoration-none ${
-                  isActive ? "text-success fw-bold" : "text-black "
+                  isActive ? "text-black fw-bold" : "text-black "
                 } `
               }
               to={text.path}
@@ -168,7 +170,7 @@ const Sidebar = ({ open, setOpen }) => {
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
                     marginLeft: "8px",
-                    color: "#81ACA8",
+                    color: `${theme.palette.primary.main}`,
                   }}
                 >
                   {text.icon}
@@ -188,14 +190,13 @@ const Sidebar = ({ open, setOpen }) => {
         ))}
       </List>
       <List>
-  
         <ListItemButton
           sx={{
             minHeight: 48,
             justifyContent: open ? "initial" : "center",
             px: 2.5,
-            display: "", marginTop: "310px" 
-
+            display: "",
+            marginTop: "310px",
           }}
         >
           <ListItemIcon
@@ -204,7 +205,7 @@ const Sidebar = ({ open, setOpen }) => {
               mr: open ? 3 : "auto",
               marginLeft: "8px",
               justifyContent: "center",
-              color: "#81ACA8",
+              color: `${theme.palette.primary.main}`,
             }}
           >
             <ExitToAppRoundedIcon className="fs-3" />

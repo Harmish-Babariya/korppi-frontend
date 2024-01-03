@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Box from "@mui/material/Box";
 import Input from "../../Input";
+import { theme } from "../../../Theme/Theme";
 const EmailLoginModal = ({ show, setShow }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +23,7 @@ const EmailLoginModal = ({ show, setShow }) => {
         <Modal.Header className="" closeButton></Modal.Header>
         <Modal.Body className="mx-auto ">
           <Modal.Title
-            style={{ color: "#84A889", letterSpacing: "2px" }}
+            style={{ color: `${theme.palette.primary.main}`, letterSpacing: "2px" }}
             className="text-center fw-bold fs-2"
           >
             Login
@@ -83,7 +84,7 @@ const EmailLoginModal = ({ show, setShow }) => {
                 type="submit"
                 variant="outlined"
                 className="btn mt-3 fw-bold text-white "
-                style={{ backgroundColor: "#84A889", letterSpacing: "2px" }}
+                style={{ backgroundColor: `${theme.palette.primary.main}`, letterSpacing: "2px" }}
                 onClick={(e) => handleSubmit(e)}
               >
                 Login

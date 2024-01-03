@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Accordion from "@mui/material/Accordion";
@@ -16,6 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import CompanyEditService from "./CompanyEditService";
+import { theme } from "../../../Theme/Theme";
 import Input from "../../Input";
 
 const ITEM_HEIGHT = 48;
@@ -149,16 +150,16 @@ const CompanySetting = () => {
             </Select>
           </FormControl>
           <Button
-            style={{ backgroundColor: "#A2C2BF" }}
-            variant=""
-            className="me-2 ms-3 fw-medium text-white"
+            sx={{ color:`${theme.palette.primary.main}` }}
+            variant="outlined"
+            className="me-2 ms-3 fw-medium"
             onClick={handleShow}
           >
             Edit
           </Button>
 
           <Button
-            style={{ backgroundColor: "#A2C2BF" }}
+            style={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant=""
             className="fw-medium text-white"
           >
@@ -196,16 +197,16 @@ const CompanySetting = () => {
             </Select>
           </FormControl>
           <Button
-            style={{ backgroundColor: "#A2C2BF" }}
-            variant=""
-            className="me-2 ms-3 fw-medium text-white"
+            style={{ color:`${theme.palette.primary.main}`  }}
+            variant="outlined"
+            className="me-2 ms-3 fw-medium"
             onClick={handleShow}
           >
             Edit
           </Button>
 
           <Button
-            style={{ backgroundColor: "#A2C2BF" }}
+            style={{ backgroundColor:`${theme.palette.primary.main}` }}
             variant=""
             className="fw-medium text-white"
           >
@@ -247,8 +248,8 @@ const CompanySetting = () => {
             </AccordionDetails>
           </Accordion>
           <Button
-            style={{ backgroundColor: "#A2C2BF" }}
-            variant=""
+            sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+            variant="contained"
             className="fw-medium text-white mt-2 ms-3"
           >
             Save

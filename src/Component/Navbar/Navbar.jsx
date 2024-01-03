@@ -23,6 +23,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "../../Pages/Dashboard";
 import Settings from "../CompanySettings/Settings";
+import { theme } from "../../Theme/Theme";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -136,7 +137,8 @@ const Navbar = () => {
         <AppBar
           position="fixed"
           open={open}
-          sx={{ backgroundColor: "#81ACA8" }}
+          sx={{ backgroundColor: "#ffffff" }}
+          color="secondary"
         >
           <Toolbar>
             <IconButton
@@ -149,7 +151,7 @@ const Navbar = () => {
                 ...(open && { display: "none" }),
               }}
             >
-              <MenuIcon className="fs-3" />
+              <MenuIcon style={{ color: `${theme.palette.primary.main}` }} className="fs-3" />
             </IconButton>
             <Typography
               variant="h6"
@@ -162,13 +164,14 @@ const Navbar = () => {
                   fontSize: "25px",
                   fontWeight: "bold",
                   marginLeft: "-22px",
-                  letterSpacing:"2px"
+                  letterSpacing: "2px",
+                  color: `${theme.palette.primary.main}`,
                 },
               }}
             >
               {open ? "" : "KORPPI"}
             </Typography>
-            <Search>
+            <Search style={{color: `${theme.palette.primary.main}` }} className="bg-body-tertiary">
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -178,9 +181,9 @@ const Navbar = () => {
               />
             </Search>
             <Box sx={{ marginLeft: "auto" }}>
-               <Link onClick={handleShow} >
-                  <SettingsIcon className="me-2 fs-3 text-white " />
-                </Link>
+              <Link onClick={handleShow}>
+                <SettingsIcon className="me-2 fs-3 text-secondary " />
+              </Link>
               <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Korppi" src="/static/images/avatar/2.jpg" />
@@ -250,8 +253,7 @@ const Navbar = () => {
             </nav>
           </div>
           <Dashboard />
-          {show ? <Settings show={show} setShow={setShow}/> : ''}
-
+          {show ? <Settings show={show} setShow={setShow} /> : ""}
         </div>
       </Box>
     </div>

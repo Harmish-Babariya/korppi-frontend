@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
@@ -9,16 +9,18 @@ import MailIcon from "@mui/icons-material/Mail";
 import BusinessIcon from "@mui/icons-material/Business";
 import EmailSetting from "./EmailSetting/EmailSetting";
 import CompanySetting from "./CompanySetting/CompanySetting";
+import { theme } from "../../Theme/Theme";
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
 
   const handleClose = () => setShow(false);
   return (
-    <div className="">
+    <div>
       <Modal
         className="mt-5 mb-5 "
         size="lg"
         dialogClassName="modal-90w w-100"
+        style={{ letterSpacing: "1.5px" }}
         show={show}
         onHide={handleClose}
       >
@@ -33,7 +35,7 @@ function Settings({ show, setShow }) {
                   <Nav.Item
                     style={{
                       margin: "5px",
-                      backgroundColor: "#81ACA8",
+                      backgroundColor: `${theme.palette.primary.main}`,
                       borderRadius: "7px",
                       letterSpacing: "1px",
                     }}
@@ -41,7 +43,7 @@ function Settings({ show, setShow }) {
                     <Nav.Link
                       onClick={() => setValue("User Profile Email Setting")}
                       style={{
-                        backgroundColor: "#84A889",
+                        backgroundColor: `${theme.palette.primary.main}`,
                         borderRadius: "10px",
                       }}
                       className={`text-white fw-medium ${
@@ -57,7 +59,7 @@ function Settings({ show, setShow }) {
                   <Nav.Item
                     style={{
                       margin: "5px",
-                      backgroundColor: "#84A889",
+                      backgroundColor: `${theme.palette.primary.main}`,
                       borderRadius: "7px",
                       letterSpacing: "1px",
                     }}
@@ -90,12 +92,15 @@ function Settings({ show, setShow }) {
           </Tab.Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="contained" onClick={handleClose}>
             Close
           </Button>
           <Button
-            variant=""
-            style={{ backgroundColor: "#81ACA8", color: "white" }}
+            variant="outlined"
+            className="ms-1"
+            sx={{
+              color: `${theme.palette.primary.main}`,
+            }}
             onClick={handleClose}
           >
             Save Changes

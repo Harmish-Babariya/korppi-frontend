@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import EmailLoginModal from "./EmailLoginModal";
-
+import { theme } from "../../../Theme/Theme";
 const EmailSetting = () => {
   const [show, setShow] = useState(false);
 
@@ -58,13 +58,13 @@ const EmailSetting = () => {
             Email
           </Typography>
           <Button
-            variant=""
-            style={{
-              backgroundColor: "#81ACA8",
+            variant="contained"
+            sx={{
+              backgroundColor: `${theme.palette.primary.main}`,
               color: "white",
               letterSpacing: "1px",
             }}
-            className="btn-sm text-white bg-success m-2 ms-2"
+            className="btn-sm m-2 ms-2"
             onClick={handleShow}
           >
             Login
@@ -73,11 +73,10 @@ const EmailSetting = () => {
           <Button
             variant="outlined"
             style={{
-              backgroundColor: "#81ACA8",
-              color: "white",
+              color: `${theme.palette.primary.main}`,
               letterSpacing: "1px",
             }}
-            className="btn-sm text-black m-2 ms-1"
+            className="btn-sm  m-2 ms-1"
           >
             Disconnect
           </Button>

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { useState } from "react";
+import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
@@ -8,11 +8,29 @@ import Tab from "react-bootstrap/Tab";
 import { RiCustomerServiceLine } from "react-icons/ri";
 import { BiLogoPeriscope } from "react-icons/bi";
 import { DiCoda } from "react-icons/di";
-
+import { theme } from "../../../Theme/Theme";
 import Input from "../../Input";
 const CompanyEditService = ({ show, setShow }) => {
-  const handleClose = () => setShow(false);
+  const [service, setService] = useState(true);
+  const [features, setFeatures] = useState(false);
+  const [benefits, setBenefits] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleService = () => {
+    setFeatures(false);
+    setBenefits(false);
+    setService(true);
+  };
+  const handleFeatures = () => {
+    setBenefits(false);
+    setService(false);
+    setFeatures(true);
+  };
+  const handleBenefits = () => {
+    setFeatures(false);
+    setService(false);
+    setBenefits(true);
+  };
   return (
     <div>
       <div className="modal-background"></div>{" "}
@@ -24,10 +42,8 @@ const CompanyEditService = ({ show, setShow }) => {
         show={show}
         onHide={handleClose}
       >
-        <Modal.Header style={{ backgroundColor: "#84A889" }} closeButton>
-          <Modal.Title className="fw-medium text-white">
-            Company Edit Service
-          </Modal.Title>
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-medium">Company Edit Service</Modal.Title>
         </Modal.Header>
         <Modal.Body className="">
           <Tab.Container id="left-tabs-example" defaultActiveKey="email">
@@ -36,17 +52,21 @@ const CompanyEditService = ({ show, setShow }) => {
                 <Nav className="flex-column">
                   <Nav.Item
                     style={{
-                      margin: "5px",
-                      backgroundColor: "#A2C2BF",
+                      margin: "2px",
+                      // color: `${theme.palette.primary.main}`,
                       borderRadius: "7px",
                     }}
                   >
                     <Nav.Link
+                      onClick={() => handleService()}
                       style={{
-                        backgroundColor: "#84A889",
                         borderRadius: "10px",
                       }}
-                      className={`text-white fw-medium `}
+                      className={`${
+                        service
+                          ? "bg-body-secondary text-black fw-medium ms-2"
+                          : "text-black fw-medium ms-2"
+                      } `}
                       eventKey="email"
                     >
                       <RiCustomerServiceLine /> Servise
@@ -54,13 +74,20 @@ const CompanyEditService = ({ show, setShow }) => {
                   </Nav.Item>
                   <Nav.Item
                     style={{
-                      margin: "5px",
-                      backgroundColor: "#84A889",
-                      borderRadius: "7px",
+                      margin: "2px",
+                      borderRadius: "10px",
                     }}
                   >
                     <Nav.Link
-                      className={`text-white fw-medium `}
+                      onClick={() => handleFeatures()}
+                      style={{
+                        borderRadius: "10px",
+                      }}
+                      className={`${
+                        features
+                          ? "bg-body-secondary text-black fw-medium ms-2"
+                          : "text-black fw-medium ms-2"
+                      } `}
                       eventKey="feature"
                     >
                       <BiLogoPeriscope /> Features
@@ -69,12 +96,19 @@ const CompanyEditService = ({ show, setShow }) => {
                   <Nav.Item
                     style={{
                       margin: "5px",
-                      backgroundColor: "#84A889",
-                      borderRadius: "7px",
+                      borderRadius: "10px",
                     }}
                   >
                     <Nav.Link
-                      className={`text-white fw-medium `}
+                      style={{
+                        borderRadius: "10px",
+                      }}
+                      onClick={() => handleBenefits()}
+                      className={`${
+                        benefits
+                          ? "bg-body-secondary text-black fw-medium ms-2"
+                          : "text-black fw-medium ms-2"
+                      } `}
                       eventKey="benefits"
                     >
                       <DiCoda />
@@ -119,28 +153,26 @@ const CompanyEditService = ({ show, setShow }) => {
                         classnamelebal={"mt-2"}
                       />
                     </div>
-                    <button
-                      style={{
-                        margin: "5px",
-                        padding: "8px ",
-                        backgroundColor: "#84A889",
-                        borderRadius: "7px",
+                    <Button
+                      variant="contained"
+                      onClick={()=>handleClose()}
+                      sx={{
+                        backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      className="ms-2 border-0 text-white"
+                      className="ms-2"
                     >
                       Back
-                    </button>
-                    <button
-                      style={{
-                        margin: "5px",
-                        padding: "8px ",
-                        backgroundColor: "#84A889",
-                        borderRadius: "7px",
+                    </Button>
+                    <Button
+                      variant="contained"
+                      eventKey="feature"
+                      sx={{
+                        backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      className="ms-2 border-0 text-white"
+                      className="ms-2"
                     >
                       Next
-                    </button>
+                    </Button>
                   </Tab.Pane>
                   <Tab.Pane eventKey="feature">
                     <div className="d-flex flex-column m-2">
@@ -176,28 +208,24 @@ const CompanyEditService = ({ show, setShow }) => {
                         classnamelebal={"mt-2"}
                       />
                     </div>
-                    <button
+                    <Button
+                      variant="contained"
                       style={{
-                        margin: "5px",
-                        padding: "8px ",
-                        backgroundColor: "#84A889",
-                        borderRadius: "7px",
+                        backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      className="ms-2 border-0 text-white"
+                      className="ms-2"
                     >
                       Add Feature
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="contained"
                       style={{
-                        margin: "5px",
-                        padding: "8px ",
-                        backgroundColor: "#84A889",
-                        borderRadius: "7px",
+                        backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      className="ms-2 border-0 text-white"
+                      className="ms-2 "
                     >
                       Next
-                    </button>
+                    </Button>
                   </Tab.Pane>
                   <Tab.Pane eventKey="benefits">
                     <div className="d-flex flex-column m-2">
@@ -233,38 +261,34 @@ const CompanyEditService = ({ show, setShow }) => {
                         classnamelebal={"mt-2"}
                       />
                     </div>
-                    <button
+                    <Button
+                      variant="contained"
                       style={{
-                        margin: "5px",
-                        padding: "8px ",
-                        backgroundColor: "#84A889",
-                        borderRadius: "7px",
+                        backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      className="ms-2 border-0 text-white"
+                      className="ms-2"
                     >
                       Add benefit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="contained"
                       style={{
-                        margin: "5px",
-                        padding: "8px ",
-                        backgroundColor: "#84A889",
-                        borderRadius: "7px",
+                        backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      className="ms-2 border-0 text-white"
+                      className="ms-2"
                     >
                       Save & Close
-                    </button>
+                    </Button>
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>
           </Tab.Container>
         </Modal.Body>
-        <Modal.Footer className="bg-body-secondary">
+        <Modal.Footer>
           <Button
-            variant=""
-            style={{ backgroundColor: "#84A889", color: "white" }}
+            variant="contained"
+            sx={{ backgroundColor: `${theme.palette.primary.main}` }}
             onClick={handleClose}
           >
             Save Changes

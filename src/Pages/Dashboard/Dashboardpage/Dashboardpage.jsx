@@ -119,7 +119,7 @@ const valueFormatter = (value) => `${value}mm`;
 
 const Dashboardpage = () => {
   return (
-    <div className="">
+    <div style={{letterSpacing:"1.2px"}}>
       <Row>
         <Col lg="3" md="6" sm="6">
           <Card body className="m-3 shadow">

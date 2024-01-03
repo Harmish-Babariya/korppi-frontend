@@ -26,7 +26,7 @@ const sparklineColumnType = {
 };
 
 const columns = [
-  { field: 'name', headerName: 'Package name', width: 180 },
+  { field: 'name', headerName: 'Package name', width: 300 },
   {
     field: 'monthlyDownloads',
     ...sparklineColumnType,
@@ -53,7 +53,7 @@ const columns = [
 
 const Contacts = () => {
   return (
-    <div style={{ height: 500, width: '100%' }}>
+    <div style={{ height: 580, width: '100%' }}>
       <DataGrid rows={rows} columns={columns} />
     </div>
   )
