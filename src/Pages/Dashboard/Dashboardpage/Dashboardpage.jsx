@@ -1,9 +1,9 @@
 import React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { PieChart } from "@mui/x-charts/PieChart";
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import {
   Card,
   CardHeader,
@@ -119,19 +119,19 @@ const valueFormatter = (value) => `${value}mm`;
 
 const Dashboardpage = () => {
   return (
-    <div style={{letterSpacing:"1.2px"}}>
+    <div style={{ letterSpacing: "1.2px" }}>
       <Row>
         <Col lg="3" md="6" sm="6">
           <Card body className="m-3 shadow">
             <CardTitle tag="h6">28% from the last month</CardTitle>
             <CardText>
-            <Box sx={{ flexGrow: 1 }}>
-        <SparkLineChart
-          plotType="bar"
-          data={[1, 4, 2, 5, 7, 2, 4, 6]}
-          height={100}
-        />
-      </Box>
+              <Box sx={{ flexGrow: 1 }}>
+                <SparkLineChart
+                  plotType="bar"
+                  data={[1, 4, 2, 5, 7, 2, 4, 6]}
+                  height={70}
+                />
+              </Box>
             </CardText>
             <CardText>
               {" "}
@@ -143,9 +143,9 @@ const Dashboardpage = () => {
           <Card body className="m-3 shadow">
             <CardTitle tag="h6">28% from the last month</CardTitle>
             <CardText>
-            <Box sx={{ flexGrow: 1 }}>
-        <SparkLineChart data={[1, 4, 2, 5, 7, 2, 4, 6]} height={100} />
-      </Box>
+              <Box sx={{ flexGrow: 1 }}>
+                <SparkLineChart data={[1, 4, 2, 5, 7, 2, 4, 6]} height={70} />
+              </Box>
             </CardText>
             <CardText>
               {" "}
@@ -160,13 +160,14 @@ const Dashboardpage = () => {
               month
             </CardTitle>
             <CardText>
-            <Box sx={{ flexGrow: 1 }}>
-        <SparkLineChart
-          plotType="bar"
-          data={[1, 4, 2, 5, 7, 2, 4, 6]}
-          height={100}
-        />
-      </Box>            </CardText>
+              <Box sx={{ flexGrow: 1 }}>
+                <SparkLineChart
+                  plotType="bar"
+                  data={[1, 4, 2, 5, 7, 2, 4, 6]}
+                  height={70}
+                />
+              </Box>{" "}
+            </CardText>
             <CardText>
               {" "}
               <ContactPageIcon style={{ color: "#AF4650" }} /> Email to send
@@ -177,9 +178,9 @@ const Dashboardpage = () => {
           <Card body className="m-3 shadow">
             <CardTitle tag="h6">-28% from the last month</CardTitle>
             <CardText>
-            <Box sx={{ flexGrow: 1 }}>
-        <SparkLineChart data={[1, 4, 2, 5, 7, 2, 4, 6]} height={100} />
-      </Box>
+              <Box sx={{ flexGrow: 1 }}>
+                <SparkLineChart data={[1, 4, 2, 5, 7, 2, 4, 6]} height={70} />
+              </Box>
             </CardText>
             <CardText>
               {" "}

@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,26 +8,11 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
+
 import CompanyEditService from "./CompanyEditService";
+import CompanyCreateService from "./CompanyCreateService";
 import { theme } from "../../../Theme/Theme";
 import Input from "../../Input";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 const names = [
   "Oliver Hansen",
@@ -43,30 +27,14 @@ const names = [
   "Kelly Snyder",
 ];
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const CompanySetting = () => {
   const theme = useTheme();
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
+  const [show2, setShow2] = useState(false);
 
-  const [personName, setPersonName] = React.useState([]);
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
+  const handleShow = () => setShow(true);
+  const handleShow2 = () => setShow2(true);
+
   return (
     <>
       <div className="d-flex">
@@ -78,79 +46,122 @@ const CompanySetting = () => {
           noValidate
           autoComplete="off"
         >
-          <div>
-            <label className="mt-1" htmlFor="Company Name">
-              Company Name :
-            </label>
-            <TextField
-              id="outlined-basic"
-              label="Company Name"
-              variant="outlined"
-              size="small"
-              fullWidth
+          <div className="">
+            <Input
+              id={"companyname"}
+              lebel={"Company Name"}
+              className={"w-100"}
+              type={"text"}
+              // value={user}
+              // onchange={(e) => setUser(e.target.value)}
+              size={"small"}
+              classnamelebal={"mt-1"}
             />
-            <label className="mt-1" htmlFor="Industry">
-              Industry :
-            </label>
-            <TextField
-              id="outlined-basic"
-              label="Industry"
-              variant="outlined"
-              size="small"
-              className="mt-1"
-              fullWidth
+            <Input
+              id={"Industry"}
+              lebel={"Industry"}
+              className={"w-100"}
+              type={"text"}
+              // value={user}
+              // onchange={(e) => setUser(e.target.value)}
+              size={"small"}
+              classnamelebal={"mt-1"}
             />
           </div>
           <div>
-            <label className="mt-1" htmlFor="Company ">
-              Companies You Work With :
-            </label>
-            <TextField
-              id="outlined-basic"
-              label="Companies You Work With"
-              variant="outlined"
-              size="small"
-              fullWidth
+            <Input
+              id={"Companies You Work With "}
+              lebel={"Companies You Work With"}
+              className={"w-100"}
+              type={"text"}
+              // value={user}
+              // onchange={(e) => setUser(e.target.value)}
+              size={"small"}
+              classnamelebal={"mt-1"}
             />
           </div>
         </Box>
-
-        {show && <CompanyEditService show={show} setShow={setShow} />}
       </div>
       <hr />
       <div className="row d-flex">
         <div className="col-6">
-          <FormControl sx={{ m: 1, width: 250 }}>
-            <InputLabel id="Services/Product">Services/Product</InputLabel>
-            <Select
-              labelId="Services/Product"
-              id="demo-multiple-chip"
-              multiple
-              value={personName}
-              onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
+          <div className="mt-2 mb-2" style={{ maxHeight: "300px" }}>
+            <table className="table table-hover " style={{ minWidth: "100%" }}>
+              <thead className="fs-4">
+                <tr>
+                  <th>Service/Product</th>
+                </tr>
+              </thead>
+            </table>
+            <div
+              style={{
+                marginTop: "-15px",
+                maxHeight: "200px",
+                overflowY: "scroll",
+              }}
             >
-              {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
-                >
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <table className="table table-hover" style={{ minWidth: "100%" }}>
+                <tbody>
+                  {names?.map((value, index) => (
+                    <tr key={index}>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
           <Button
-            sx={{ color:`${theme.palette.primary.main}` }}
+            sx={{ color: `${theme.palette.primary.main}` }}
+            variant="outlined"
+            className="me-2 ms-3 fw-medium"
+            onClick={handleShow}
+          >
+            Edit
+          </Button>
+
+          <Button
+            style={{ backgroundColor: `${theme.palette.primary.main}` }}
+            variant="contained"
+            className="fw-medium text-white"
+            onClick={handleShow2}
+          >
+            Add Service
+          </Button>
+        </div>
+
+        <div className="col-6">
+          <div className="mt-2 mb-2" style={{ maxHeight: "300px" }}>
+            <table
+              className="table table-hover bg-body-secondary"
+              style={{ minWidth: "100%" }}
+            >
+              <thead className="fs-4">
+                <tr>
+                  <th>Target Market</th>
+                </tr>
+              </thead>
+            </table>
+            <div
+              style={{
+                marginTop: "-15px",
+                maxHeight: "200px",
+                overflowY: "scroll",
+              }}
+            >
+              <table className="table table-hover" style={{ minWidth: "100%" }}>
+                <tbody>
+                  {names?.map((value, index) => (
+                    <tr key={index}>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <Button
+            style={{ color: `${theme.palette.primary.main}` }}
             variant="outlined"
             className="me-2 ms-3 fw-medium"
             onClick={handleShow}
@@ -163,63 +174,18 @@ const CompanySetting = () => {
             variant=""
             className="fw-medium text-white"
           >
-            Add Service
-          </Button>
-        </div>
-        <div className="col-6">
-          <FormControl sx={{ m: 1, width: 250 }}>
-            <InputLabel id="Create Market">Create Market</InputLabel>
-            <Select
-              labelId="Services/Product"
-              id="demo-multiple-chip"
-              multiple
-              value={personName}
-              onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
-            >
-              {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
-                >
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button
-            style={{ color:`${theme.palette.primary.main}`  }}
-            variant="outlined"
-            className="me-2 ms-3 fw-medium"
-            onClick={handleShow}
-          >
-            Edit
-          </Button>
-
-          <Button
-            style={{ backgroundColor:`${theme.palette.primary.main}` }}
-            variant=""
-            className="fw-medium text-white"
-          >
             Create Market
           </Button>
         </div>
-
-        <div className="col">
+        {show && <CompanyEditService show={show} setShow={setShow} />}
+        {show2 && <CompanyCreateService show2={show2} setShow2={setShow2} />}
+        <div className="col mt-3">
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              className="bg-body-secondary"
             >
               <Typography>Featurs</Typography>
             </AccordionSummary>
@@ -236,6 +202,7 @@ const CompanySetting = () => {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel2a-content"
               id="panel2a-header"
+              className="bg-body-secondary"
             >
               <Typography>Benefits</Typography>
             </AccordionSummary>

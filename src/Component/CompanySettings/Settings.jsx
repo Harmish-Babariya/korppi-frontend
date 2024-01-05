@@ -12,8 +12,21 @@ import CompanySetting from "./CompanySetting/CompanySetting";
 import { theme } from "../../Theme/Theme";
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
-
+  const [email, setEmail] = useState(true);
+  const [company, setCompany] = useState(false);
   const handleClose = () => setShow(false);
+
+  const handleEmail = () => {
+    setValue("User Profile Email Setting");
+    setCompany(false);
+    setEmail(true);
+  };
+  const handleCompanhy = () => {
+    setValue("Company Setting");
+    setEmail(false);
+    setCompany(true);
+  };
+
   return (
     <div>
       <Modal
@@ -34,23 +47,17 @@ function Settings({ show, setShow }) {
                 <Nav className="flex-column">
                   <Nav.Item
                     style={{
-                      margin: "5px",
-                      backgroundColor: `${theme.palette.primary.main}`,
-                      borderRadius: "7px",
-                      letterSpacing: "1px",
+                      letterSpacing: "2px",
                     }}
                   >
                     <Nav.Link
-                      onClick={() => setValue("User Profile Email Setting")}
-                      style={{
-                        backgroundColor: `${theme.palette.primary.main}`,
-                        borderRadius: "10px",
-                      }}
-                      className={`text-white fw-medium ${
-                        value === "User Profile Email Setting"
-                          ? "active fs-6 "
-                          : ""
-                      }`}
+                      onClick={() => handleEmail()}
+                      style={{ borderRadius: "8px" }}
+                      className={`${
+                        email
+                          ? "bg-body-secondary text-black fw-medium "
+                          : "text-black fw-medium "
+                      } `}
                       eventKey="email"
                     >
                       <MailIcon /> Email
@@ -58,17 +65,17 @@ function Settings({ show, setShow }) {
                   </Nav.Item>
                   <Nav.Item
                     style={{
-                      margin: "5px",
-                      backgroundColor: `${theme.palette.primary.main}`,
-                      borderRadius: "7px",
                       letterSpacing: "1px",
                     }}
                   >
                     <Nav.Link
-                      onClick={() => setValue("Company Setting")}
-                      className={`text-white fw-medium ${
-                        value === "Company Setting" ? "active  rounded" : ""
-                      }`}
+                      onClick={() => handleCompanhy()}
+                      style={{ borderRadius: "8px" }}
+                      className={`${
+                        company
+                          ? "bg-body-secondary text-black fw-medium "
+                          : "text-black fw-medium"
+                      } `}
                       eventKey="company"
                     >
                       <BusinessIcon /> Company
@@ -92,19 +99,19 @@ function Settings({ show, setShow }) {
           </Tab.Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="contained" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            variant="outlined"
-            className="ms-1"
-            sx={{
-              color: `${theme.palette.primary.main}`,
-            }}
-            onClick={handleClose}
-          >
-            Save Changes
-          </Button>
+            <Button variant="contained" onClick={handleClose}>
+              Close
+            </Button>
+            <Button
+              variant="outlined"
+              className="ms-1"
+              sx={{
+                color: `${theme.palette.primary.main}`,
+              }}
+              onClick={handleClose}
+            >
+              Save Changes
+            </Button>
         </Modal.Footer>
       </Modal>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
+import { Button } from "@mui/material";
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -8,10 +8,11 @@ import {
   CardTitle,
   FormGroup,
   Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
+import Input from "../../../Component/Input";
+import { theme } from "../../../Theme/Theme";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const Profile = () => {
   return (
@@ -21,7 +22,10 @@ const Profile = () => {
           <Card className="card-user m-2 w-100 shadow">
             <CardBody>
               <div
-                style={{ backgroundColor: " #81ACA8", color: "white" }}
+                style={{
+                  backgroundColor: `${theme.palette.primary.main}`,
+                  color: "white",
+                }}
                 className="author text-center rounded "
               >
                 <a
@@ -44,29 +48,34 @@ const Profile = () => {
               <div className="button-container">
                 <Row>
                   <Col className="ml-auto" lg="3" md="6" xs="6">
-                    <h5>
+                    <h6>
                       12 <br />
                       <small>Post</small>
-                    </h5>
+                    </h6>
                   </Col>
                   <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
-                    <h5>
+                    <h6>
                       2.2k <br />
                       <small>messages</small>
-                    </h5>
+                    </h6>
                   </Col>
                   <Col className="mr-auto" lg="3">
-                    <h5>
+                    <h6>
                       24,6k <br />
                       <small>Members</small>
-                    </h5>
+                    </h6>
                   </Col>
                 </Row>
               </div>
             </CardFooter>
           </Card>
           <Card className="m-2">
-            <CardHeader>
+            <CardHeader
+              style={{
+                backgroundColor: `${theme.palette.primary.main}`,
+                color: "white",
+              }}
+            >
               <CardTitle tag="h4">Team Members</CardTitle>
             </CardHeader>
             <CardBody>
@@ -77,8 +86,8 @@ const Profile = () => {
                       <div className="avatar">
                         <img
                           alt="..."
-                          className="img-circle img-no-padding img-responsive"
-                          src="Salvatore Roese"
+                          className="w-50 h-50 rounded-5"
+                          src="https://randomuser.me/api/portraits/men/75.jpg"
                         />
                       </div>
                     </Col>
@@ -90,12 +99,13 @@ const Profile = () => {
                     </Col>
                     <Col className="text-right" md="3" xs="3">
                       <Button
-                        className="btn-round btn-icon"
+                        className=""
+                        variant="outlined"
                         color="success"
                         outline
                         size="sm"
                       >
-                        <i className="fa fa-envelope" />
+                        view
                       </Button>
                     </Col>
                   </Row>
@@ -106,8 +116,8 @@ const Profile = () => {
                       <div className="avatar">
                         <img
                           alt="..."
-                          className="img-circle img-no-padding img-responsive"
-                          // src={require("assets/img/faces/joe-gardner-2.jpg")}
+                          className="w-50 h-50 rounded-5"
+                          src="https://randomuser.me/api/portraits/men/75.jpg"
                         />
                       </div>
                     </Col>
@@ -119,12 +129,13 @@ const Profile = () => {
                     </Col>
                     <Col className="text-right" md="3" xs="3">
                       <Button
-                        className="btn-round btn-icon"
+                        variant="outlined"
+                        className=""
                         color="success"
                         outline
                         size="sm"
                       >
-                        <i className="fa fa-envelope" />
+                        view{" "}
                       </Button>
                     </Col>
                   </Row>
@@ -135,8 +146,8 @@ const Profile = () => {
                       <div className="avatar">
                         <img
                           alt="..."
-                          className="img-circle img-no-padding img-responsive"
-                          src={"assets/img/faces/clem-onojeghuo-2.jpg"}
+                          className="w-50 h-50 rounded-5"
+                          src="https://randomuser.me/api/portraits/men/75.jpg"
                         />
                       </div>
                     </Col>
@@ -148,12 +159,11 @@ const Profile = () => {
                     </Col>
                     <Col className="text-right" md="3" xs="3">
                       <Button
-                        className="btn-round btn-icon"
-                        color="success"
-                        outline
+                        variant="contained"
+                        className="text-white"
                         size="sm"
                       >
-                        <i className="fa fa-envelope" />
+                        view{" "}
                       </Button>
                     </Col>
                   </Row>
@@ -164,109 +174,153 @@ const Profile = () => {
         </Col>
         <Col md="8">
           <Card className="card-user m-2 shadow ">
-            <CardHeader style={{ backgroundColor: " #81ACA8", color: "white" }}>
+            <CardHeader
+              style={{
+                backgroundColor: `${theme.palette.primary.main}`,
+                color: "white",
+              }}
+            >
               <CardTitle tag="h5">Edit Profile</CardTitle>
             </CardHeader>
             <CardBody>
               <Form>
                 <Row>
-                  <Col className="pr-1" md="5">
-                    <FormGroup>
-                      <label>Company</label>
-                      <Input
-                        defaultValue="Creative Code Inc."
-                        placeholder="Company"
-                        type="text"
-                      />
-                    </FormGroup>
+                  <Col className="pr-1 d-flex flex-column" md="5">
+                    <Input
+                      id={"Company"}
+                      lebel={"Company"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
                   </Col>
-                  <Col className="px-1" md="3">
-                    <FormGroup>
-                      <label>Username</label>
-                      <Input
-                        defaultValue="michael23"
-                        placeholder="Username"
-                        type="text"
-                      />
-                    </FormGroup>
+                  <Col className="" md="3">
+                    <Input
+                      id={"Username"}
+                      lebel={"Username"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
                   </Col>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label htmlFor="exampleInputEmail1">Email address</label>
-                      <Input placeholder="Email" type="email" />
-                    </FormGroup>
+                  <Col className="pl-" md="3">
+                    <Input
+                      id={"email"}
+                      lebel={"Email"}
+                      className={""}
+                      type={"email"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />{" "}
+                  </Col>
+                </Row>
+                <Row className="mt-3 ">
+                  <Col className="pr-1 d-flex flex-column" md="6">
+                    <Input
+                      id={"first name"}
+                      lebel={"First Name"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
+                  </Col>
+                  <Col className="pl-1 d-flex flex-column" md="6">
+                    <Input
+                      id={"last name"}
+                      lebel={"Last Name"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
                   </Col>
                 </Row>
                 <Row>
-                  <Col className="pr-1" md="6">
-                    <FormGroup>
-                      <label>First Name</label>
-                      <Input placeholder="First Name" type="text" />
-                    </FormGroup>
+                  <Col md="12" className="d-flex flex-column">
+                    <Input
+                      id={"address"}
+                      lebel={"Address"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
                   </Col>
-                  <Col className="pl-1" md="6">
-                    <FormGroup>
-                      <label>Last Name</label>
-                      <Input placeholder="Last Name" type="text" />
-                    </FormGroup>
+                </Row>
+                <Row className="mt-2">
+                  <Col className="pr-1 d-flex flex-column" md="4">
+                    <Input
+                      id={"city"}
+                      lebel={"City"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
+                  </Col>
+                  <Col className="px-1 d-flex flex-column" md="4">
+                    <Input
+                      id={"contry"}
+                      lebel={"Contry"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
+                  </Col>
+                  <Col className="" md="4">
+                    <Input
+                      id={"PostalCode"}
+                      lebel={"Postal Code"}
+                      className={""}
+                      type={"text"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col md="12" className="d-flex flex-column">
+                    <Input
+                      id={"PostalCode"}
+                      lebel={"Postal Code"}
+                      className={""}
+                      type={"textarea"}
+                      // value={user}
+                      // onchange={(e) => setUser(e.target.value)}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
                   </Col>
                 </Row>
                 <Row>
-                  <Col md="12">
-                    <FormGroup>
-                      <label>Address</label>
-                      <Input
-                        defaultValue="Melbourne, Australia"
-                        placeholder="Home Address"
-                        type="text"
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="pr-1" md="4">
-                    <FormGroup>
-                      <label>City</label>
-                      <Input
-                        defaultValue="Melbourne"
-                        placeholder="City"
-                        type="text"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="px-1" md="4">
-                    <FormGroup>
-                      <label>Country</label>
-                      <Input
-                        defaultValue="Australia"
-                        placeholder="Country"
-                        type="text"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pl-1" md="4">
-                    <FormGroup>
-                      <label>Postal Code</label>
-                      <Input placeholder="ZIP Code" type="number" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
-                    <FormGroup>
-                      <label>About Me</label>
-                      <Input
-                        type="textarea"
-                        defaultValue="Oh so, your weak rhyme You doubt I'll bother, reading into it"
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <div className="update ml-auto mr-auto">
+                  <div className=" mr-auto mt-2">
                     <Button
-                      className="btn-round border-0"
-                      style={{ backgroundColor: " #81ACA8" }}
+                      variant="contained"
+                      style={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
                       type="submit"
                     >
                       Update Profile

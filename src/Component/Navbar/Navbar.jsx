@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import {
+  Toolbar,
+  Typography,
+  IconButton,
+  InputBase,
+  Tooltip,
+  Avatar,
+  Menu,
+  MenuItem,
+  Box,
+} from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "../Sidebar/Sidebar";
 import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+
 import { Link } from "react-router-dom";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { ListItemIcon } from "@mui/material";
@@ -151,7 +156,10 @@ const Navbar = () => {
                 ...(open && { display: "none" }),
               }}
             >
-              <MenuIcon style={{ color: `${theme.palette.primary.main}` }} className="fs-3" />
+              <MenuIcon
+                style={{ color: `${theme.palette.primary.main}` }}
+                className="fs-3"
+              />
             </IconButton>
             <Typography
               variant="h6"
@@ -171,7 +179,10 @@ const Navbar = () => {
             >
               {open ? "" : "KORPPI"}
             </Typography>
-            <Search style={{color: `${theme.palette.primary.main}` }} className="bg-body-tertiary">
+            <Search
+              style={{ color: `${theme.palette.primary.main}` }}
+              className="bg-body-tertiary"
+            >
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -229,21 +240,25 @@ const Navbar = () => {
           </Toolbar>
         </AppBar>
         <Sidebar open={open} setOpen={setOpen} />
-        <div className="w-100  m-3 mt-5">
+        <div className="w-100 m-3 mt-5">
           <div
             style={{ marginTop: "2.2%" }}
             className="w-100  card rounded-2 shadow "
           >
-            <nav aria-label="breadcrumb ">
-              <ol className="d-flex justify-content-start align-content-center  breadcrumb">
+            <nav
+              aria-label="breadcrumb "
+              style={{ height: "35px", display: "flex" }}
+              className="mt-2"
+            >
+              <ol className="breadcrumb">
                 <li className="ps-2 breadcrumb-item">
-                  <HomeIcon className="text-secondary mt-2 fs-3" />
+                  <HomeIcon className="text-secondary  fs-3" />
                 </li>
                 {path.map((item, index) => (
-                  <li key={index} className="breadcrumb-item mt-2 ">
+                  <li key={index} className="breadcrumb-item ">
                     <NavLink
                       to={`/dashboard/${item}`}
-                      className="text-decoration-none text-black fw-bold breadcrumb-item-color"
+                      className="text-decoration-none text-secondary fw-normal fs-6 "
                     >
                       {item}
                     </NavLink>

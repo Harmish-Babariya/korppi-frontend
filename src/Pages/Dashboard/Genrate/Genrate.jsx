@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Input from "../../../Component/Input";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+
 import Paper from "@mui/material/Paper";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
@@ -14,32 +12,50 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
 const Genrate = () => {
-  const [personName, setPersonName] = React.useState([]);
   const [expanded, setExpanded] = React.useState("panel1");
-
-  const handleChangeMultiple = (event) => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setPersonName(value);
-  };
+  const [companydata, setCompanyData] = useState([
+    {
+      name: "Noumair",
+      company: "Microsoft",
+    },
+    {
+      name: "Alvarado Turner",
+      company: "Microsoft",
+    },
+    {
+      name: "Evangelina Mcclain",
+      company: "Microsoft",
+    },
+    {
+      name: "Candice Munoz",
+      company: "Microsoft",
+    },
+    {
+      name: "Bernard Langley",
+      company: "Microsoft",
+    },
+    {
+      name: "Noumair",
+      company: "Microsoft",
+    },
+    {
+      name: "Alvarado Turner",
+      company: "Microsoft",
+    },
+    {
+      name: "Evangelina Mcclain",
+      company: "Microsoft",
+    },
+    {
+      name: "Candice Munoz",
+      company: "Microsoft",
+    },
+    {
+      name: "Bernard Langley",
+      company: "Microsoft",
+    },
+  ]);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -65,6 +81,7 @@ const Genrate = () => {
                             }}
                             variant="contained"
                             className="fw-bold w-50"
+                            size="large"
                           >
                             Free Plan
                           </Button>
@@ -152,7 +169,7 @@ const Genrate = () => {
                               type={"text"}
                               // value={endustry}
                               // onchange={(e) => endustry(e.target.value)}
-                              // size={"small"}
+                              size={"small"}
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             />
 
@@ -163,7 +180,7 @@ const Genrate = () => {
                               type={"text"}
                               // value={password}
                               // onchange={(e) => setPassword(e.target.value)}
-                              // size={"small"}
+                              size={"small"}
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             />
                             <Input
@@ -173,6 +190,7 @@ const Genrate = () => {
                               type={"text"}
                               // value={SMPTServer}
                               // onchange={(e) => setSMPTServer(e.target.value)}
+                              size="small"
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             />
                             <hr />
@@ -184,6 +202,7 @@ const Genrate = () => {
                               // value={SMPTPort}
                               // onchange={(e) => setSMPTPort(e.target.value)}
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                              size="small"
                             />
                             <p className="fw-light fs-6">87 Email to generet</p>
                           </div>
@@ -200,50 +219,65 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div>
-                          <label htmlFor="Emails to generate">
-                            Emails to generate
-                          </label>
-                          <div>
-                            <input type="text" className="rounded border-1" />
-                            <Button
-                              sx={{
-                                backgroundColor: `${theme.palette.primary.main}`,
+                          <Input
+                            id={"Emails to generate"}
+                            lebel={"Emails to generate"}
+                            className={""}
+                            type={"text"}
+                            // value={user}
+                            // onchange={(e) => setUser(e.target.value)}
+                            size={"small"}
+                            classnamelebal={"mt-2 w-100"}
+                          />
+
+                          <Button
+                            sx={{
+                              backgroundColor: `${theme.palette.primary.main}`,
+                            }}
+                            variant="contained"
+                            className="ms-2 "
+                            size="medium"
+                          >
+                            Select
+                          </Button>
+                          <div
+                            className="mt-2 mb-2"
+                            style={{ maxHeight: "300px" }}
+                          >
+                            <table
+                              className="table table-hover bg-body-secondary"
+                              style={{ minWidth: "100%" }}
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Company</th>
+                                </tr>
+                              </thead>
+                            </table>
+                            <div
+                              style={{
+                                marginTop: "-15px",
+                                maxHeight: "250px",
+                                overflowY: "scroll",
                               }}
-                              variant="contained"
-                              className="ms-2"
-                              size="small"
                             >
-                              Select
-                            </Button>
-                          </div>
-                          <div className="text-center mt-2">
-                            <FormControl
-                              sx={{ m: 1, minWidth: 150, maxWidth: 400 }}
-                            >
-                              <InputLabel
-                                shrink
-                                htmlFor="select-multiple-native"
+                              <table
+                                className="table table-hover"
+                                style={{ minWidth: "100%" }}
                               >
-                                Company
-                              </InputLabel>
-                              <Select
-                                multiple
-                                native
-                                value={personName}
-                                onChange={handleChangeMultiple}
-                                label="Native"
-                                inputProps={{
-                                  id: "select-multiple-native",
-                                }}
-                              >
-                                {names.map((name) => (
-                                  <option key={name} value={name}>
-                                    {name}
-                                  </option>
-                                ))}
-                              </Select>
-                            </FormControl>
+                                <tbody>
+                                  {companydata?.map((value, index) => (
+                                    <tr key={index}>
+                                      <td>{value.name}</td>
+                                      <td>{value.company}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
+
                           <Button
                             sx={{
                               backgroundColor: `${theme.palette.primary.main}`,
@@ -259,7 +293,9 @@ const Genrate = () => {
                   </Paper>
 
                   <Card className="mt-2 p-3 bg-body-secondary">
-                    <span><span className="fw-bold">Email</span> being generated as:</span>
+                    <span>
+                      <span className="fw-bold">Email</span> being generated as:
+                    </span>
                     <span>Noumair.rafiq@odinseye.live</span>
                   </Card>
                 </Col>
