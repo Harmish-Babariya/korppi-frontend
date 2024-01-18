@@ -17,10 +17,10 @@ import {
 import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import Dashboardpage from "../../Pages/Dashboard/Dashboardpage/Dashboardpage";
+import Dashboardpage from "../../Pages/Dashboard/DashboardPage";
 import Send from "../../Pages/Dashboard/Send/Send";
 import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
-import Genrate from "../../Pages/Dashboard/Genrate/Genrate";
+import Genrate from "../../Pages/Dashboard/Generate";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { theme } from "../../Theme/Theme";
@@ -79,7 +79,7 @@ const Sidebar = ({ open, setOpen }) => {
     {
       name: "Dashboard",
       icon: <DashboardIcon />,
-      path: "/dashboard/dashboardpage",
+      path: "/dashboard/dashboard",
       element: <Dashboardpage />,
     },
     {

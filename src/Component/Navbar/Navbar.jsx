@@ -12,7 +12,6 @@ import {
   MenuItem,
   Box,
 } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "../Sidebar/Sidebar";

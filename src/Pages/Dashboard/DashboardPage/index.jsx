@@ -1,14 +1,11 @@
 import React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { PieChart } from "@mui/x-charts/PieChart";
-import Stack from "@mui/material/Stack";
+
 import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   Row,
   Col,
