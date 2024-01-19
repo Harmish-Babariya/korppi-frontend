@@ -75,7 +75,7 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div className="d-flex flex-column mb-3">
-                          <Button
+                          {/* <Button
                             sx={{
                               backgroundColor: `${theme.palette.primary.main}`,
                             }}
@@ -88,7 +88,7 @@ const Genrate = () => {
 
                           <h1 className="fw-medium fs-3 mt-2">
                             $ 180 <span className="fs-5 fw-light">/month</span>{" "}
-                          </h1>
+                          </h1> */}
                           <div className="w-100">
                             <Accordion
                               className="w-auto"

@@ -8,7 +8,7 @@ import { theme } from "./Theme/Theme";
 import { Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import Box from "@mui/material/Box";
-
+import Admin from "./Admin";
 function App() {
   return (
     <Box sx={{ height: "auto" }} className="h-100">
@@ -19,6 +19,7 @@ function App() {
           {/* <Route element={<PrivateRoutes />}> */}
           <Route path="/dashboard/*" element={<Navbar />} />
           {/* </Route> */}
+          <Route path="/admin/*" element={<Admin />} />
         </Routes>
       </ThemeProvider>
     </Box>

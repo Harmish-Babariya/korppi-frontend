@@ -23,8 +23,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { useSelector, useDispatch } from "react-redux";
 import login from "../../assets/img/login.png";
+import { loginhandle } from "../../Redux/AuthSlice";
 function Copyright(props) {
   return (
     <Typography
@@ -46,8 +47,10 @@ const defaultTheme = createTheme();
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-
+  const { Auth, status } = useSelector((state) => state.login);
+  console.log(Auth, status);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -60,28 +63,24 @@ const Login = () => {
       password: Yup.string().required("password is required").min(6),
     }),
     onSubmit: async (value) => {
-      value
-        ? localStorage.setItem("user_token", JSON.stringify(value)) &
-          toast.success("WELCOME TO KORPPI") &
-          navigate("/dashboard")
-        : "";
 
-      // try {
-      //   let response = await api.post("", {
-      //     email: value.email,
-      //     password: value.password,
-      //   });
-      //   if (response.isSuccess) {
-      //     const { token } = response.data;
-      //     localStorage.setItem("user_token", token);
-      //     toast.success(response.message);
-      //     navigate("/dashboard");
-      //   } else {
-      //     toast.error(data.message);
-      //   }
-      // } catch (error) {
-      //   console.error(error);
-      // }
+      try {
+        // let response = await api.post("", {
+        //   email: value.email,
+        //   password: value.password,
+        // });
+        if (value) {
+          // const { token } = response.data;
+          // localStorage.setItem("user_token", token);
+          dispatch(loginhandle(value))
+          // toast.success(response.message);
+          navigate("/dashboard");
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
 

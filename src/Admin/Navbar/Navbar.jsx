@@ -23,8 +23,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import Dashboard from "../../Pages/Dashboard";
-import Settings from "../CompanySettings/Settings";
+import Dashboard from "../Dashboard";
 import { theme } from "../../Theme/Theme";
 const drawerWidth = 240;
 
@@ -128,9 +127,9 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
   const handleUser = (prop) => {
-    prop === "Profile" ? navigate("/dashboard/profile") : "";
+    prop === "Profile" ? navigate("/admin/profile") : "";
     prop === "Logout" ? navigate("/login") : "";
-    prop === "Dashboard" ? navigate("/dashboard/dashboard") : "";
+    prop === "Dashboard" ? navigate("/admin/dashboard") : "";
   };
   return (
     <div>
@@ -253,7 +252,7 @@ const Navbar = () => {
                 {path.map((item, index) => (
                   <li key={index} className="breadcrumb-item ">
                     <NavLink
-                      to={`/dashboard/${item}`}
+                      to={`/admin/${item}`}
                       className="text-decoration-none text-secondary fw-normal fs-6 "
                     >
                       {item}
@@ -264,7 +263,6 @@ const Navbar = () => {
             </nav>
           </div>
           <Dashboard />
-          {show ? <Settings show={show} setShow={setShow} /> : ""}
         </div>
       </Box>
     </div>
