@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isAuthenticated: false,
-  status: false,
+  status: "loading",
   user:null
 };
 export const AuthSlice = createSlice({
@@ -11,7 +11,7 @@ export const AuthSlice = createSlice({
     loginhandle: (state, action) => {
       state.user = action
       state.isAuthenticated = true;
-      state.status = true;
+      state.status = "idle";
       localStorage.setItem("user_token", JSON.stringify(action.payload));
 
     },

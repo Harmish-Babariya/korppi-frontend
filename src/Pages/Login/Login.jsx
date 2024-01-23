@@ -50,7 +50,7 @@ const Login = () => {
   const { Auth, status } = useSelector((state) => state.login);
   console.log(Auth, status);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -63,7 +63,6 @@ const Login = () => {
       password: Yup.string().required("password is required").min(6),
     }),
     onSubmit: async (value) => {
-
       try {
         // let response = await api.post("", {
         //   email: value.email,
@@ -72,7 +71,7 @@ const Login = () => {
         if (value) {
           // const { token } = response.data;
           // localStorage.setItem("user_token", token);
-          dispatch(loginhandle(value))
+          dispatch(loginhandle(value));
           // toast.success(response.message);
           navigate("/dashboard");
         } else {

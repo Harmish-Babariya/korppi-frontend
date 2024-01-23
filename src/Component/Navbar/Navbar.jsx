@@ -86,7 +86,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = (props) => {
   const settings = [
     {
       name: "Profile",
@@ -112,7 +112,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = props;
   const [anchorElUser, setAnchorElUser] = useState(null);
   useEffect(() => {
     setPath(location.pathname.split("/").slice(2));
@@ -130,7 +130,7 @@ const Navbar = () => {
   const handleUser = (prop) => {
     prop === "Profile" ? navigate("/dashboard/profile") : "";
     prop === "Logout" ? navigate("/login") : "";
-    prop === "Dashboard" ? navigate("/dashboard/dashboard") : "";
+    prop === "Dashboard" ? navigate("/dashboard") : "";
   };
   return (
     <div>
@@ -187,7 +187,7 @@ const Navbar = () => {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-            <Box sx={{ marginLeft: "auto"  }}>
+            <Box sx={{ marginLeft: "auto" }}>
               <Link onClick={handleShow}>
                 <SettingsIcon className="me-2 fs-3 text-secondary" />
               </Link>
@@ -235,38 +235,8 @@ const Navbar = () => {
             </Box>
           </Toolbar>
         </AppBar>
-        <Sidebar open={open} setOpen={setOpen} />
-        <div className="w-100 m-3 mt-5">
-          <div
-            style={{ marginTop: "2.2%" }}
-            className="w-100  card rounded-2 shadow "
-          >
-            <nav
-              aria-label="breadcrumb "
-              style={{ height: "35px", display: "flex" }}
-              className="mt-2"
-            >
-              <ol className="breadcrumb">
-                <li className="ps-2 breadcrumb-item">
-                  <HomeIcon className="text-secondary  fs-3" />
-                </li>
-                {path.map((item, index) => (
-                  <li key={index} className="breadcrumb-item ">
-                    <NavLink
-                      to={`/dashboard/${item}`}
-                      className="text-decoration-none text-secondary fw-normal fs-6 "
-                    >
-                      {item}
-                    </NavLink>
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          </div>
-          <Dashboard />
-          {show ? <Settings show={show} setShow={setShow} /> : ""}
-        </div>
       </Box>
+      {show ? <Settings show={show} setShow={setShow} /> : ""}
     </div>
   );
 };

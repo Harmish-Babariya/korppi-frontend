@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
@@ -24,7 +24,8 @@ import Genrate from "../../Pages/Dashboard/Generate";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { theme } from "../../Theme/Theme";
-
+import Industry from "../../Admin/industry";
+import Company from "../../Admin/company";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -75,11 +76,12 @@ const Drawer = styled(MuiDrawer, {
 const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const routes = [
+  const [role, setRole] = useState("client");
+  const [routes, setRoutes] = useState([
     {
       name: "Dashboard",
       icon: <DashboardIcon />,
-      path: "/dashboard/dashboard",
+      path: "/dashboard",
       element: <Dashboardpage />,
     },
     {
@@ -100,8 +102,30 @@ const Sidebar = ({ open, setOpen }) => {
       path: "/dashboard/contacts",
       element: <Contacts />,
     },
+  ]);
+  useEffect(() => {
+    setRoutes(adminRoutes);
+  }, [role == "client"]);
+  const adminRoutes = [
+    {
+      name: "Dashboard",
+      icon: <DashboardIcon />,
+      path: "/dashboard",
+      element: <Dashboardpage />,
+    },
+    {
+      name: "Industry",
+      icon: <OutboxIcon />,
+      path: "/admin/industry",
+      element: <Industry />,
+    },
+    {
+      name: "Company",
+      icon: <MailIcon />,
+      path: "/admin/company",
+      element: <Company />,
+    },
   ];
-
   const theme = useTheme();
 
   const handleDrawerClose = () => {
@@ -140,7 +164,7 @@ const Sidebar = ({ open, setOpen }) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {routes.map((text, index) => (
+        {routes?.map((text, index) => (
           <ListItem
             key={index}
             disablePadding

@@ -61,7 +61,7 @@ const Genrate = () => {
     setExpanded(newExpanded ? panel : false);
   };
   return (
-    <div style={{ letterSpacing: "2px" }} className="content m-2">
+    <div style={{ letterSpacing: "1px" }} className="content">
       <Row>
         <Col md="12">
           <Card className="mb-2 border-0">
