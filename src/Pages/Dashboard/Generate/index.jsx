@@ -75,20 +75,17 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div className="d-flex flex-column mb-3">
-                          {/* <Button
-                            sx={{
-                              backgroundColor: `${theme.palette.primary.main}`,
-                            }}
-                            variant="contained"
-                            className="fw-bold w-50"
-                            size="large"
-                          >
-                            Free Plan
-                          </Button>
-
-                          <h1 className="fw-medium fs-3 mt-2">
-                            $ 180 <span className="fs-5 fw-light">/month</span>{" "}
-                          </h1> */}
+<label htmlFor="" className="fw-bold">Free Plan</label>
+<Input
+                              id={"freepaln"}
+                              lebel={"Free"}
+                              className={"mb-2"}
+                              type={"text"}
+                              // value={password}
+                              // onchange={(e) => setPassword(e.target.value)}
+                              size={"small"}
+                              classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                            />
                           <div className="w-100">
                             <Accordion
                               className="w-auto"
@@ -164,7 +161,7 @@ const Genrate = () => {
                           <div className="d-flex flex-column mb-3">
                             <Input
                               id={"endustry"}
-                              lebel={"Endustry"}
+                              lebel={"Industry"}
                               className={"mb-2"}
                               type={"text"}
                               // value={endustry}
@@ -194,10 +191,11 @@ const Genrate = () => {
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             />
                             <hr />
+                            <label htmlFor="" className="fw-bold">Select Industry</label>
                             <Input
                               id={"select industry"}
                               lebel={"Select Industry"}
-                              className={"mb-2"}
+                              className={"mb-2 mt-1"}
                               type={"text"}
                               // value={SMPTPort}
                               // onchange={(e) => setSMPTPort(e.target.value)}
@@ -219,6 +217,7 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div>
+                        <label htmlFor="" className="fw-bold">Emails to generate</label>
                           <Input
                             id={"Emails to generate"}
                             lebel={"Emails to generate"}

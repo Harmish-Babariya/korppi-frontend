@@ -76,7 +76,7 @@ const Drawer = styled(MuiDrawer, {
 const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [role, setRole] = useState("client");
+  const [admin, setAdmin] = useState(false);
   const [routes, setRoutes] = useState([
     {
       name: "Dashboard",
@@ -104,8 +104,10 @@ const Sidebar = ({ open, setOpen }) => {
     },
   ]);
   useEffect(() => {
-    setRoutes(adminRoutes);
-  }, [role == "client"]);
+    location.pathname.includes("admin")
+      ? setRoutes(adminRoutes) & setAdmin(true)
+      : null;
+  }, []);
   const adminRoutes = [
     {
       name: "Dashboard",
@@ -220,7 +222,7 @@ const Sidebar = ({ open, setOpen }) => {
             justifyContent: open ? "initial" : "center",
             px: 2.5,
             display: "",
-            marginTop: "370px",
+            marginTop: admin ? "370px" : "310px",
           }}
         >
           <ListItemIcon

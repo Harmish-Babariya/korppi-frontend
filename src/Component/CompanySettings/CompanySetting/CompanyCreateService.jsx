@@ -88,7 +88,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"price"}
                         lebel={"Price"}
-                        className={""}
+                        className={"mt-2"}
                         type={"number"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -98,7 +98,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"offers"}
                         lebel={"Offers"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -143,7 +143,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"feature2"}
                         lebel={"Feature2"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -153,7 +153,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"feature3"}
                         lebel={"Feature3"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -196,7 +196,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"benefits2"}
                         lebel={"Benefits2"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -206,7 +206,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"benefits3"}
                         lebel={"Benefits3"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -249,7 +249,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"target location(s)"}
                         lebel={"Target Location(s)"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -259,7 +259,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"employee count"}
                         lebel={"Employee Count"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -269,7 +269,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"Industr(y)/(ies)"}
                         lebel={"Industr(y)/(ies)"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -279,7 +279,7 @@ const CompanyCreateService = ({ show2, setShow2 }) => {
                       <Input
                         id={"Job Title(s)"}
                         lebel={"Job Title(s)"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}

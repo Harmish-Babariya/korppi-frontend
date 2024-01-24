@@ -3,10 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "@mui/material";
 import { theme } from "../../Theme/Theme";
 import Input from "../../Component/Input";
-import {
-  Row,
-  Col,
-} from "reactstrap";
+import { Row, Col } from "reactstrap";
 const CreateCompany = ({ show, setShow }) => {
   const handleClose = () => setShow(false);
 
@@ -66,7 +63,7 @@ const CreateCompany = ({ show, setShow }) => {
             <Input
               id={"region"}
               lebel={"Region"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -78,7 +75,7 @@ const CreateCompany = ({ show, setShow }) => {
             <Input
               id={"country"}
               lebel={"Country"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -90,7 +87,7 @@ const CreateCompany = ({ show, setShow }) => {
             <Input
               id={"postal_code"}
               lebel={"Postal_code"}
-              className={""}
+              className={"mt-2"}
               type={"email"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -104,7 +101,7 @@ const CreateCompany = ({ show, setShow }) => {
             <Input
               id={"linkedin_url"}
               lebel={"linkedin_url"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -116,7 +113,7 @@ const CreateCompany = ({ show, setShow }) => {
             <Input
               id={"linkedin_about"}
               lebel={"linkedin_about"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -128,7 +125,7 @@ const CreateCompany = ({ show, setShow }) => {
             <Input
               id={"linkedin_post"}
               lebel={"linkedin_post"}
-              className={""}
+              className={"mt-2"}
               type={"email"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -137,7 +134,6 @@ const CreateCompany = ({ show, setShow }) => {
             />{" "}
           </Col>
         </Row>
-    
       </Modal.Body>
       <Modal.Footer>
         <Button variant="contained" onClick={handleClose}>

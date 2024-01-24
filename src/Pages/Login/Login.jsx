@@ -26,6 +26,8 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import login from "../../assets/img/login.png";
 import { loginhandle } from "../../Redux/AuthSlice";
+import api from "../../service/api";
+
 function Copyright(props) {
   return (
     <Typography
@@ -48,7 +50,6 @@ const defaultTheme = createTheme();
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const { Auth, status } = useSelector((state) => state.login);
-  console.log(Auth, status);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -63,19 +64,20 @@ const Login = () => {
       password: Yup.string().required("password is required").min(6),
     }),
     onSubmit: async (value) => {
+      console.log(import.meta.env.VITE_API_URL)
       try {
-        // let response = await api.post("", {
-        //   email: value.email,
-        //   password: value.password,
-        // });
-        if (value) {
-          // const { token } = response.data;
-          // localStorage.setItem("user_token", token);
-          dispatch(loginhandle(value));
-          // toast.success(response.message);
+        let response = await api.post("/auth/login", {
+          email: value.email,
+          password: value.password,
+        });
+        if (response.isSuccess) {
+          const { token } = response.data;
+          localStorage.setItem("user_token", token);
+          dispatch(loginhandle(token));
+          toast.success(response.message);
           navigate("/dashboard");
         } else {
-          toast.error(data.message);
+          toast.error(response.message);
         }
       } catch (error) {
         console.error(error);

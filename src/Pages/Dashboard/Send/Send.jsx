@@ -13,7 +13,7 @@ const Send = () => {
     <div style={{ letterSpacing: "1px" }}>
       {" "}
       <Row className="w-100">
-        <Col md="4">
+        <Col md="5">
           <Card className="m-3 shadow">
             <CardHeader>
               <CardTitle tag="h5">Send</CardTitle>
@@ -51,7 +51,7 @@ const Send = () => {
             </CardBody>
           </Card>
         </Col>
-        <Col md="4">
+        <Col md="5">
           <Card className="m-3 shadow">
             <CardHeader>
               <CardTitle tag="h5">Daily Scheduler</CardTitle>
@@ -65,7 +65,7 @@ const Send = () => {
                 <Input
                   id={"email to send"}
                   lebel={"Email To Send Per Day"}
-                  className={"mb-2"}
+                  className={"mb-2 mt-2"}
                   type={"text"}
                   // value={endustry}
                   // onchange={(e) => endustry(e.target.value)}

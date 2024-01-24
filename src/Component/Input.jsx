@@ -13,14 +13,14 @@ const Input = ({
 }) => {
   return (
     <>
-      <label
+      {/* <label
         style={{ letterSpacing: "1px" }}
         htmlFor={lebel}
         id={id}
         className={classnamelebal}
       >
         {lebel}
-      </label>
+      </label> */}
       <TextField
         id={id}
         label={lebel}

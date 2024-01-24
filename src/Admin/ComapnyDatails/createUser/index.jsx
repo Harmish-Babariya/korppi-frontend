@@ -63,7 +63,7 @@ const CreateUser = ({ showUser, setShowUser }) => {
             <Input
               id={"email"}
               lebel={"Email"}
-              className={""}
+              className={"mt-2"}
               type={"email"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -75,7 +75,7 @@ const CreateUser = ({ showUser, setShowUser }) => {
             <Input
               id={"phone"}
               lebel={"Phone"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -87,7 +87,7 @@ const CreateUser = ({ showUser, setShowUser }) => {
             <Input
               id={"company_id"}
               lebel={"Company Id"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -101,7 +101,7 @@ const CreateUser = ({ showUser, setShowUser }) => {
             <Input
               id={"linkedin_url"}
               lebel={"Linkedin Url"}
-              className={""}
+              className={"mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}

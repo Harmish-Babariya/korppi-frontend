@@ -78,7 +78,7 @@ const CompanyEditService = ({ show, setShow }) => {
                       <Input
                         id={"price"}
                         lebel={"Price"}
-                        className={""}
+                        className={"mt-2"}
                         type={"number"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -88,7 +88,7 @@ const CompanyEditService = ({ show, setShow }) => {
                       <Input
                         id={"offers"}
                         lebel={"Offers"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -133,7 +133,7 @@ const CompanyEditService = ({ show, setShow }) => {
                       <Input
                         id={"feature2"}
                         lebel={"Feature2"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -143,7 +143,7 @@ const CompanyEditService = ({ show, setShow }) => {
                       <Input
                         id={"feature3"}
                         lebel={"Feature3"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -186,7 +186,7 @@ const CompanyEditService = ({ show, setShow }) => {
                       <Input
                         id={"benefits2"}
                         lebel={"Benefits2"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}
@@ -196,7 +196,7 @@ const CompanyEditService = ({ show, setShow }) => {
                       <Input
                         id={"benefits3"}
                         lebel={"Benefits3"}
-                        className={""}
+                        className={"mt-2"}
                         type={"text"}
                         // value={user}
                         // onchange={(e) => setUser(e.target.value)}

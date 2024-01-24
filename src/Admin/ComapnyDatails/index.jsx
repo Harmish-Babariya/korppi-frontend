@@ -16,7 +16,6 @@ const CompanyDatails = () => {
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
 
-
   const handleShow = () => setShow(true);
   const handleShowUser = () => setShowUser(true);
 
@@ -85,7 +84,7 @@ const CompanyDatails = () => {
 
   return (
     <>
-      <div className="card shadow w-100 mt-2">
+      <div style={{ letterSpacing: "1px" }} className="card shadow w-100 mt-2">
         <div>
           <h3 className="ms-2 mt-2">Company Details</h3>
         </div>
@@ -93,7 +92,7 @@ const CompanyDatails = () => {
           style={{ lineHeight: "10px" }}
           className="d-flex flex-row ms-2 mt-1"
         >
-          <div>
+          <div className="m-2">
             <p>
               <span className="fw-bold">Industryid :</span> {data[0].industryid}
             </p>
@@ -131,7 +130,10 @@ const CompanyDatails = () => {
           </div>
         </div>
       </div>
-      <div className="card shadow w-100 mt-2">
+      <div
+        style={{ letterSpacing: "0.8px" }}
+        className="card shadow w-100 mt-2"
+      >
         <div className="">
           <div className="d-flex">
             <div>

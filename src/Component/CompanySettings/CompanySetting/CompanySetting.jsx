@@ -60,7 +60,7 @@ const CompanySetting = () => {
             <Input
               id={"Industry"}
               lebel={"Industry"}
-              className={"w-100"}
+              className={"w-100 mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}

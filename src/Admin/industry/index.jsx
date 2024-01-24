@@ -103,7 +103,7 @@ const Industry = () => {
 
   return (
     <>
-       <div className="card shadow w-100 mt-3">
+      <div className="card shadow w-100 mt-3">
         <div className="d-flex">
           <div>
             <h3 className="ms-2 mt-3">Industry</h3>
@@ -111,19 +111,11 @@ const Industry = () => {
           <div className="ms-auto me-2">
             <Button
               variant="contained"
-              className="mt-3 fw-bold"
+              className="mt-3 fw-bold me-4"
               onClick={handleShow}
             >
-              <IoBagAdd className="me-1 mb-1" />
+              <MdCreate className="me-1 mb-1 mt-1" />
               Create
-            </Button>
-            <Button
-              variant="contained"
-              className="mt-3 ms-2 fw-bold"
-              // onClick={() => handleDelete(value._id)}
-            >
-              <MdCreate className="me-1" />
-              Add Field
             </Button>
           </div>
         </div>
