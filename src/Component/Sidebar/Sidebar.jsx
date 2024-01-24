@@ -220,7 +220,7 @@ const Sidebar = ({ open, setOpen }) => {
             justifyContent: open ? "initial" : "center",
             px: 2.5,
             display: "",
-            marginTop: "310px",
+            marginTop: "370px",
           }}
         >
           <ListItemIcon

@@ -103,15 +103,15 @@ const Industry = () => {
 
   return (
     <>
-       <div className="card shadow w-100 mt-2">
+       <div className="card shadow w-100 mt-3">
         <div className="d-flex">
           <div>
-            <h3 className="ms-2 mt-2">Industry</h3>
+            <h3 className="ms-2 mt-3">Industry</h3>
           </div>
           <div className="ms-auto me-2">
             <Button
               variant="contained"
-              className="mt-2 fw-bold"
+              className="mt-3 fw-bold"
               onClick={handleShow}
             >
               <IoBagAdd className="me-1 mb-1" />
@@ -119,7 +119,7 @@ const Industry = () => {
             </Button>
             <Button
               variant="contained"
-              className="mt-2 ms-2 fw-bold"
+              className="mt-3 ms-2 fw-bold"
               // onClick={() => handleDelete(value._id)}
             >
               <MdCreate className="me-1" />
@@ -129,7 +129,7 @@ const Industry = () => {
         </div>
         <CreateCompany show={show} setShow={setShow} />
 
-        <div className="table-responsive mb-2">
+        <div className="table-responsive mb-2 mt-3">
           <table className="table  text-center table-hover ">
             <thead
               style={{
@@ -199,27 +199,7 @@ const Industry = () => {
             </tbody>
           </table>
         </div>
-        <div className="ms-auto me-3 mb-2">
-          <Button
-            variant="contained"
-            size="small"
-            className="deleteicon   ms-2"
-            // onClick={() => handleDelete(value._id)}
-          >
-            edit
-            {/* <MdDelete className="fs-4" /> */}
-          </Button>
-          <Button
-            variant="contained"
-            size="small"
-            className="deleteicon   ms-2"
-            // onClick={() => handleDelete(value._id)}
-          >
-            Delete
-            {/* <MdDelete className="fs-4" /> */}
-          </Button>
-        </div>
-        <div className="ms-auto m-2">
+        <div className="ms-auto m-2 mb-3">
           {" "}
           <Stack spacing={2}>
             <Pagination count={10} />

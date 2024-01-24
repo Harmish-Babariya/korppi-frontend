@@ -44,7 +44,7 @@ const UserForgotPassword = ({ show, setShow }) => {
               color: `${theme.palette.primary.main}`,
               letterSpacing: "2px",
             }}
-            className="text-center fw-bold fs-2"
+            className="text-center fw-bold fs-3 mb-3"
           >
           Forgot Password
           </Modal.Title>

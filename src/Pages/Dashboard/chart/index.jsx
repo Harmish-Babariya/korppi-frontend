@@ -8,7 +8,7 @@ const MyChart = () => {
     datasets: [
       {
         label: "Monthly Sales",
-        data: [12, 19, 3, 5, 2, 3, 8],
+        data: [12, 19, 3, 8, 2, 3, 19],
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
         borderWidth: 1,
