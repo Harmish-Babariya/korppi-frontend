@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Chart from "chart.js/auto";
-import MyChart from "../chart";
+import EmailAnalyticsChart from "../chart";
 
 import { Card, CardBody, CardTitle, Row, Col, CardText } from "reactstrap";
 import EmailIcon from "@mui/icons-material/Email";
@@ -128,7 +128,7 @@ const Dashboardpage = () => {
           <h4 style={{marginTop:"0px"}} className="ms-3">56 mail</h4>
         </Col>
         <Col md="8" className="ms-auto me-2">
-          <MyChart />
+          <EmailAnalyticsChart />
         </Col>
       </Row>
     </>

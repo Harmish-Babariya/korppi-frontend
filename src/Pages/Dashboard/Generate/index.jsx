@@ -60,6 +60,13 @@ const Genrate = () => {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+  const handleGetStarted = () => {
+    // Add your logic here to handle the "Get Started" button click
+    // For example, you can navigate to a new page or perform an API call
+    console.log("Get Started button clicked");
+    // Add your custom logic here
+  };
+
   return (
     <div style={{ letterSpacing: "1px" }} className="content">
       <Row>
@@ -75,17 +82,19 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div className="d-flex flex-column mb-3">
-<label htmlFor="" className="fw-bold">Free Plan</label>
-<Input
-                              id={"freepaln"}
-                              lebel={"Free"}
-                              className={"mb-2"}
-                              type={"text"}
-                              // value={password}
-                              // onchange={(e) => setPassword(e.target.value)}
-                              size={"small"}
-                              classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            />
+                          <label htmlFor="" className="fw-bold">
+                            Free Plan
+                          </label>
+                          <Input
+                            id={"freepaln"}
+                            lebel={"Free"}
+                            className={"mb-2"}
+                            type={"text"}
+                            // value={password}
+                            // onchange={(e) => setPassword(e.target.value)}
+                            size={"small"}
+                            classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                          />
                           <div className="w-100">
                             <Accordion
                               className="w-auto"
@@ -135,6 +144,7 @@ const Genrate = () => {
                               }}
                               variant="contained"
                               className="mt-3 w-100 fw-medium "
+                              onClick={handleGetStarted}
                             >
                               Get Started
                             </Button>
@@ -191,7 +201,9 @@ const Genrate = () => {
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             />
                             <hr />
-                            <label htmlFor="" className="fw-bold">Select Industry</label>
+                            <label htmlFor="" className="fw-bold">
+                              Select Industry
+                            </label>
                             <Input
                               id={"select industry"}
                               lebel={"Select Industry"}
@@ -217,7 +229,9 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div>
-                        <label htmlFor="" className="fw-bold">Emails to generate</label>
+                          <label htmlFor="" className="fw-bold">
+                            Emails to generate
+                          </label>
                           <Input
                             id={"Emails to generate"}
                             lebel={"Emails to generate"}

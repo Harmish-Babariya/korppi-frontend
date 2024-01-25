@@ -23,7 +23,7 @@ const CreateCompany = ({ show, setShow }) => {
         <Row>
           <Col className="pr-1 d-flex flex-column" md="5">
             <Input
-              id={"Industry_id"}
+              id={"industry_id"}
               lebel={"Industry_Id"}
               className={""}
               type={"text"}

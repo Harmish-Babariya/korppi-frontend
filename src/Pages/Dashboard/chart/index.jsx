@@ -2,7 +2,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const MyChart = () => {
+const EmailAnalyticsChart = () => {
   const data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
@@ -27,4 +27,4 @@ const MyChart = () => {
   return <Bar data={data} options={options} />;
 };
 
-export default MyChart;
+export default EmailAnalyticsChart;

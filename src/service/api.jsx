@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 5000, // Set a timeout
@@ -6,25 +7,28 @@ const instance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+const handleRequestError = (requestType, endpoint, error) => {
+  console.error(`There was a problem with the ${requestType} request to ${endpoint}:`, error);
+  return error;
+};
+
 const api = {
   get: async (endpoint, params = {}) => {
     try {
       const response = await instance.get(endpoint, { params });
       return response.data;
     } catch (error) {
-      console.error("There was a problem with the GET request:", error);
-      return error;
+      return handleRequestError("GET", endpoint, error);
     }
   },
 
   post: async (endpoint, data = {}) => {
     try {
       const response = await instance.post(endpoint, data);
-      console.log(response)
       return response.data;
     } catch (error) {
-      console.error("There was a problem with the POST request:", error);
-      return error;
+      return handleRequestError("POST", endpoint, error);
     }
   },
 
@@ -33,8 +37,7 @@ const api = {
       const response = await instance.put(endpoint, data);
       return response.data;
     } catch (error) {
-      console.error("There was a problem with the PUT request:", error);
-      return error;
+      return handleRequestError("PUT", endpoint, error);
     }
   },
 
@@ -43,8 +46,8 @@ const api = {
       const response = await instance.delete(endpoint);
       return response.data;
     } catch (error) {
-      console.error("There was a problem with the DELETE request:", error);
-      return error;    }
+      return handleRequestError("DELETE", endpoint, error);
+    }
   },
 };
 

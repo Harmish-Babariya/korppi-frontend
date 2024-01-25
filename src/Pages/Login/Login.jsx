@@ -13,11 +13,11 @@ import {
   Button,
   Typography,
   FormControl,
+  OutlinedInput,
+  InputAdornment,
+  InputLabel,
+  IconButton,
 } from "@mui/material";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -64,7 +64,6 @@ const Login = () => {
       password: Yup.string().required("password is required").min(6),
     }),
     onSubmit: async (value) => {
-      console.log(import.meta.env.VITE_API_URL)
       try {
         let response = await api.post("/auth/login", {
           email: value.email,
