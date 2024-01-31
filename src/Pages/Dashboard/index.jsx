@@ -7,15 +7,20 @@ import Genrate from "./Generate";
 import Profile from "./Profile";
 import Box from "@mui/material/Box";
 const Dashboard = () => {
+  const dynamicRoutes = [
+    { path: "/", element: <Dashboardpage /> },
+    { path: "/generate", element: <Genrate /> },
+    { path: "/send", element: <Send /> },
+    { path: "/contacts", element: <Contacts /> },
+    { path: "/profile", element: <Profile /> },
+  ];
   return (
     <div>
       <Box className="w-100 p-0 h-100 card shadow" sx={{ marginTop: "12px" }}>
         <Routes>
-          <Route index path="/" element={<Dashboardpage />} />
-          <Route path="/generate" element={<Genrate />} />
-          <Route path="/send" element={<Send />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/profile" element={<Profile />} />
+          {dynamicRoutes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
         </Routes>
       </Box>
     </div>

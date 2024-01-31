@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Button } from "@mui/material";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
@@ -9,98 +9,29 @@ import { IoBagAdd } from "react-icons/io5";
 import { MdCreate } from "react-icons/md";
 import CreateCompany from "../companyCreate";
 import { useNavigate } from "react-router-dom";
+import api from "../../service/api";
+import { toast } from "react-toastify";
+
 const Company = () => {
   const [show, setShow] = useState(false);
+  const [data, setData] = useState([]);
+  const [header,setHeader]=useState({
+    search: "a",
+    pageNumber: 2,
+    pageSize:3
+})
   const navigate = useNavigate();
+  useEffect(() => {
+    fetchCompany();
+  }, []);
+  async function fetchCompany() {
+    const resData = await api.post("company/get", header);
+    if (resData.isSuccess) {
+      setData(resData.data);
+    } else toast.error(resData.message);
+  };
 
   const handleShow = () => setShow(true);
-
-  const [data, setData] = useState([
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-  ]);
   const handleCompanyDatails = (id) => {
     navigate(`/admin/company/${id}`);
   };
@@ -147,10 +78,10 @@ const Company = () => {
                 <th>#Region</th>
                 <th>#Country</th>
                 <th>#Postal code</th>
-                <th>#Linkedin url</th>
+                {/* <th>#Linkedin url</th>
                 <th>#Linkedin about</th>
                 <th>#Linkedin post</th>
-                <th>#Website url</th>
+                <th>#Website url</th> */}
                 <th>#Action</th>
               </tr>
             </thead>
@@ -158,25 +89,25 @@ const Company = () => {
               {data?.map((value, index) => {
                 return (
                   <tr key={index}>
-                    <td>{value.industryid}</td>
+                    <td>{value._id}</td>
                     <td>{value.size}</td>
                     <td>{value.revenue}</td>
                     <td>{value.region}</td>
                     <td>{value.country}</td>
-                    <td>{value.postalcode}</td>
-                    <td>
+                    <td>{value.postalCode}</td>
+                    {/* <td>
                       <a href="">{value.linkedinurl}</a>
                     </td>
                     <td>{value.linkedinabout}</td>
                     <td>{value.linkedinpost}</td>
                     <td>
                       <a href="">{value.websiteurl}</a>
-                    </td>
+                    </td> */}
                     <td className="d-flex text-center ">
                       <Button
                         variant="outlined"
                         className="text-secondary border-black"
-                        onClick={() => handleCompanyDatails(index)}
+                        onClick={() => handleCompanyDatails(value._id)}
                       >
                         <FaRegEye className="icon fs-4" />{" "}
                       </Button>

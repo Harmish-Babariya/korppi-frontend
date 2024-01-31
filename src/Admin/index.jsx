@@ -4,14 +4,17 @@ import Industry from "./industry";
 import Company from "./company";
 import CompanyDatails from "./ComapnyDatails";
 const Admin = () => {
+  const dynamicRoutes = [
+    { path: "/industry", element: <Industry /> },
+    { path: "/company", element: <Company /> },
+    { path: "/company/:id", element: <CompanyDatails /> },
+  ];
   return (
-    <div>
-      <Routes>
-        <Route path="/industry" element={<Industry />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/company/:id" element={<CompanyDatails />} />
-      </Routes>
-    </div>
+    <Routes>
+      {dynamicRoutes.map((route, index) => (
+        <Route key={index} path={route.path} element={route.element} />
+      ))}
+    </Routes>
   );
 };
 

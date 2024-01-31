@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -9,78 +10,31 @@ import { IoBagAdd } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { MdCreate } from "react-icons/md";
 import CreateUser from "./createUser";
+import api from "../../service/api";
 import UserForgotPassword from "./userForgotPassword";
 const CompanyDatails = () => {
   let { id } = useParams();
   const [detailsCompany, setDatalisCompany] = useState();
   const [show, setShow] = useState(false);
+  const [data, setData] = useState();
+  const header = {
+    id: id,
+  };
+  const fetchCompany = async () => {
+    const resData = await api.post("company/getById", header);
+    if (resData.isSuccess) {
+      console.log("id");
+      setData(resData.data);
+    } else toast.error(resData.message);
+  };
+  useEffect(() => {
+    fetchCompany();
+  }, [id]);
+
   const [showUser, setShowUser] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleShowUser = () => setShowUser(true);
-
-  const [data, setData] = useState([
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-    {
-      industryid: "John Smith",
-      size: 100,
-      revenue: 100000,
-      region: "John Smith",
-      country: "indian",
-      postalcode: 456001,
-      linkedinurl: "www.linkedin.com/in",
-      linkedinabout: "Frame your past",
-      linkedinpost: "linkedin post",
-      websiteurl: "http://www.ex.com",
-    },
-  ]);
 
   return (
     <>
@@ -94,43 +48,43 @@ const CompanyDatails = () => {
         >
           <div className="m-2">
             <p>
-              <span className="fw-bold">Industryid :</span> {data[0].industryid}
+              <span className="fw-bold">Industryid :</span> {data?.industryId}
             </p>
             <p>
-              <span className="fw-bold">Size :</span> {data[0].size}
+              <span className="fw-bold">Size :</span> {data?.size}
             </p>
             <p>
-              <span className="fw-bold">Revenue :</span> {data[0].revenue}
+              <span className="fw-bold">Revenue :</span> {data?.revenue}
             </p>
             <p>
-              <span className="fw-bold">Country :</span> {data[0].country}
+              <span className="fw-bold">Country :</span> {data?.country}
             </p>
             <p>
               <span className="fw-bold">Iinkedinabout :</span>{" "}
-              <a href="">{data[0].linkedinabout}</a>
+              <a href="">{data?.linkedinabout}</a>
             </p>
           </div>
           <div className="ms-5">
             <p>
-              <span className="fw-bold">Postalcode :</span> {data[0].postalcode}
+              <span className="fw-bold">Postalcode :</span> {data?.postalcode}
             </p>
             <p>
               <span className="fw-bold">Iinkedinurl :</span>{" "}
-              <a href="">{data[0].linkedinurl}</a>
+              <a href="">{data?.linkedinurl}</a>
             </p>
             <p>
-              <span className="fw-bold">Size :</span> {data[0].size}
+              <span className="fw-bold">Size :</span> {data?.size}
             </p>
             <p>
-              <span className="fw-bold">Revenue :</span> {data[0].revenue}
+              <span className="fw-bold">Revenue :</span> {data?.revenue}
             </p>
             <p>
-              <span className="fw-bold">Country :</span> {data[0].country}
+              <span className="fw-bold">Country :</span> {data?.country}
             </p>
           </div>
         </div>
       </div>
-      <div
+      {/* <div
         style={{ letterSpacing: "0.8px" }}
         className="card shadow w-100 mt-2"
       >
@@ -225,7 +179,7 @@ const CompanyDatails = () => {
             </Stack>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

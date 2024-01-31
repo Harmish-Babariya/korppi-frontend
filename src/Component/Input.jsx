@@ -7,28 +7,24 @@ const Input = ({
   className,
   type,
   value,
-  onchange,
+  onBlur,
+  onChange,
   size,
-  classnamelebal,
+  name,
+  
 }) => {
   return (
     <>
-      {/* <label
-        style={{ letterSpacing: "1px" }}
-        htmlFor={lebel}
-        id={id}
-        className={classnamelebal}
-      >
-        {lebel}
-      </label> */}
       <TextField
         id={id}
         label={lebel}
+        name={name}
         type={type}
         value={value}
         size={size}
         className={className}
-        onChange={onchange}
+        onChange={onChange}
+        onBlur={onBlur}
       />
     </>
   );

@@ -13,6 +13,7 @@ import Dashboard from "./Pages/Dashboard";
 import Sidebar from "./Component/Sidebar/Sidebar";
 import Admin from "./Admin";
 import { NavLink } from "reactstrap";
+import PrivateRoutes from "./Pages/Login/PrivateRoutes";
 function App() {
   const [path, setPath] = useState([]);
   const [show, setShow] = useState(false);
@@ -41,7 +42,7 @@ function App() {
             {window.location.pathname !== "/login" && (
               <div
                 style={{ marginTop: "2.2%" }}
-                className="w-100  card rounded-2 shadow"
+                className="w-100 card rounded-2 shadow"
               >
                 <nav
                   aria-label="breadcrumb "
@@ -69,10 +70,12 @@ function App() {
 
             <Routes>
               <Route path="/login" element={<Login />} />
-              {/* <Route element={<PrivateRoutes />}> */}
+              <Route element={<PrivateRoutes />}>
               <Route path="/dashboard/*" element={<Dashboard />} />
-              {/* </Route> */}
+              </Route>
+              <Route element={<PrivateRoutes />}>
               <Route path="/admin/*" element={<Admin />} />
+              </Route>
             </Routes>
           </div>
         </Box>
