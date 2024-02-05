@@ -4,7 +4,7 @@ import { BiSolidEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { IoBagAdd } from "react-icons/io5";
-import CreateCompany from "../companyCreate";
+import Createindustry from "./industryCreate";
 import Pagination from "@mui/material/Pagination";
 import { MdCreate } from "react-icons/md";
 
@@ -119,7 +119,7 @@ const Industry = () => {
             </Button>
           </div>
         </div>
-        <CreateCompany show={show} setShow={setShow} />
+        <Createindustry show={show} setShow={setShow} />
 
         <div className="table-responsive mb-2 mt-3">
           <table className="table  text-center table-hover ">

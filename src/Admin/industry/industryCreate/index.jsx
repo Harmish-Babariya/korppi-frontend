@@ -3,22 +3,22 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "@mui/material";
-import Input from "../../Component/Input";
-import { theme } from "../../Theme/Theme";
+import Input from "../../../Component/Input";
+import { theme } from "../../../Theme/Theme";
 import { Row, Col } from "reactstrap";
 import { toast } from "react-toastify";
-import api from "../../service/api";
-const CreateCompany = ({ show, setShow,fetchCompany }) => {
+import api from "../../../service/api";
+const Createindustry = ({ show, setShow }) => {
   const handleClose = () => setShow(false);
 
   const fieldConfigurations = [
-    { id: "name", lebel: "CompanyName", type: "text" },
-    { id: "industryId", lebel: "IndustryId", type: "text" },
-    { id: "size", lebel: "Size", type: "text" },
-    { id: "revenue", lebel: "Revenue", type: "text" },
-    { id: "region", lebel: "Region", type: "text" },
-    { id: "country", lebel: "Country", type: "text" },
-    { id: "postalCode", lebel: "PostalCode", type: "text" },
+    { id: "name", lebel: "IndustryName", type: "text" },
+    // { id: "industryId", lebel: "IndustryId", type: "text" },
+    // { id: "size", lebel: "Size", type: "text" },
+    // { id: "revenue", lebel: "Revenue", type: "text" },
+    // { id: "region", lebel: "Region", type: "text" },
+    // { id: "country", lebel: "Country", type: "text" },
+    // { id: "postalCode", lebel: "PostalCode", type: "text" },
     // { id: "linkedin_url", lebel: "LinkedIn URL", type: "text" },
     // { id: "linkedin_about", lebel: "LinkedIn About", type: "text" },
     // { id: "linkedin_post", lebel: "LinkedIn Post", type: "text" },
@@ -50,8 +50,6 @@ const CreateCompany = ({ show, setShow,fetchCompany }) => {
         if (resData.isSuccess) {
           toast.success("Company Create SuccessFull");
           setShow(false);
-          fetchCompany();
-          formik.resetForm()
         } else toast.error(resData.message);
       } catch (error) {
         toast.error("Company Data Not Add", error);
@@ -70,7 +68,7 @@ const CreateCompany = ({ show, setShow,fetchCompany }) => {
     >
       <form onSubmit={formik.handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title className="fw-medium">Create Company</Modal.Title>
+          <Modal.Title className="fw-medium">Create Industry</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
@@ -121,4 +119,4 @@ const CreateCompany = ({ show, setShow,fetchCompany }) => {
   );
 };
 
-export default CreateCompany;
+export default Createindustry;

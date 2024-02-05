@@ -1,131 +1,115 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import { Button } from "@mui/material";
 import { theme } from "../../../Theme/Theme";
 import Input from "../../../Component/Input";
+import api from "../../../service/api";
 import { Row, Col } from "reactstrap";
-const CreateUser = ({ showUser, setShowUser }) => {
+
+const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
   const handleClose = () => setShowUser(false);
 
+  const fieldConfigurations = [
+    { id: "firstName", lebel: "First Name", type: "text" },
+    { id: "lastName", lebel: "Last Name", type: "text" },
+    { id: "role", lebel: "Role", type: "text" },
+    { id: "email", lebel: "Email", type: "email" },
+    { id: "phone", lebel: "Phone", type: "text" },
+    { id: "companyId", lebel: "Company Id", type: "text" },
+    { id: "linkedinUrl", lebel: "LinkedIn Url", type: "text" },
+  ];
+  const initialValues = fieldConfigurations.reduce(
+    (acc, field) => ({ ...acc, [field.id]: "" }),
+    {}
+  );
+
+  const validationSchema = Yup.object().shape(
+    fieldConfigurations.reduce(
+      (acc, field) => ({
+        ...acc,
+        [field.id]: Yup.string().required(`${field.lebel} is required`),
+      }),
+      {}
+    )
+  );
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const resData = await api.post("/user/add", values);
+        if (resData.isSuccess) {
+          toast.success("User Create SuccessFull");
+          setShowUser(false);
+          formik.resetForm();
+          fetchUsers();
+        } else toast.error(resData.message);
+      } catch (error) {
+        toast.error("User Data Not Create", error);
+      }
+    },
+  });
   return (
     <Modal
-      className="mt-5 mb-5 "
+      className="mt-5 mb-5"
       size="lg"
       dialogClassName="modal-100w w-100"
-      style={{ letterSpacing: "1px" }}
+      style={{ letterSpacing: "1px", width: "500px", marginLeft: "500px" }}
       show={showUser}
       onHide={handleClose}
     >
-      <Modal.Header closeButton>
-        <Modal.Title className="fw-medium">Create User</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Row>
-          <Col className="pr-1 d-flex flex-column" md="5">
-            <Input
-              id={"first_name"}
-              lebel={"First Name"}
-              className={""}
-              type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />
-          </Col>
-          <Col className="" md="3">
-            <Input
-              id={"last_name"}
-              lebel={"Last Name"}
-              className={""}
-              type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />
-          </Col>
-          <Col className="pl-" md="4">
-            <Input
-              id={"role"}
-              lebel={"Role"}
-              className={""}
-              type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />{" "}
-          </Col>
-        </Row>
-        <Row>
-          <Col className="pr-1 d-flex flex-column" md="4">
-            <Input
-              id={"email"}
-              lebel={"Email"}
-              className={"mt-2"}
-              type={"email"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />
-          </Col>
-          <Col className="" md="4">
-            <Input
-              id={"phone"}
-              lebel={"Phone"}
-              className={"mt-2"}
-              type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />
-          </Col>
-          <Col className="pl-" md="4">
-            <Input
-              id={"company_id"}
-              lebel={"Company Id"}
-              className={"mt-2"}
-              type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />{" "}
-          </Col>
-        </Row>
-        <Row>
-          <Col className="pr-1 d-flex flex-column" md="4">
-            <Input
-              id={"linkedin_url"}
-              lebel={"Linkedin Url"}
-              className={"mt-2"}
-              type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
-              size={"small"}
-              classnamelebal={"mt-2"}
-            />
-          </Col>
-        </Row>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="contained" onClick={handleClose}>
-          Close
-        </Button>
-        <Button
-          variant="contained"
-          className="ms-1 text-white"
-          sx={{
-            color: `${theme.palette.primary.main}`,
-          }}
-          onClick={handleClose}
-        >
-          Create
-        </Button>
-      </Modal.Footer>
+      <form onSubmit={formik.handleSubmit}>
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-medium">Create User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            {fieldConfigurations.map((field) => (
+              <Col
+                key={field.id}
+                className="pr-1 d-flex flex-column mx-auto"
+                md="10"
+              >
+                <Input
+                  id={field.id}
+                  lebel={field.lebel}
+                  className={"mt-2"}
+                  type={field.type}
+                  name={field.id}
+                  value={formik.values[field.id]}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  size={"small"}
+                  classnamelebal={"mt-2"}
+                />
+                {formik.touched[field.id] && formik.errors[field.id] ? (
+                  <div className="error ms-2 text-danger">
+                    {formik.errors[field.id]}
+                  </div>
+                ) : null}
+              </Col>
+            ))}
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="contained" onClick={handleClose}>
+            Close
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            className="ms-1 text-white"
+            sx={{
+              color: `${theme.palette.primary.main}`,
+            }}
+          >
+            Create
+          </Button>
+        </Modal.Footer>
+      </form>
     </Modal>
   );
 };
