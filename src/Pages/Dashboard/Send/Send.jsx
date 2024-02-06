@@ -9,6 +9,29 @@ import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import { Button } from "@mui/material";
 import Input from "../../../Component/Input";
 const Send = () => {
+  const handleSend = () => {
+    // Add your logic here to handle sending email
+    console.log("Send button clicked");
+    // Example logic: You can make API calls, update state, etc.
+  };
+
+  const handleCreateSchedule = () => {
+    // Add your logic here to handle creating a daily schedule
+    console.log("Create button clicked");
+    // Example logic: You can make API calls, update state, etc.
+  };
+
+  const handleUpdateSchedule = () => {
+    // Add your logic here to handle updating a daily schedule
+    console.log("Update button clicked");
+    // Example logic: You can make API calls, update state, etc.
+  };
+
+  const handleCancel = () => {
+    // Add your logic here to handle canceling the operation
+    console.log("Cancel button clicked");
+    // Example logic: You can navigate to a different page, reset state, etc.
+  };
   return (
     <div style={{ letterSpacing: "1px" }}>
       {" "}
@@ -20,7 +43,9 @@ const Send = () => {
             </CardHeader>
             <CardBody>
               <Card className="mt-2 p-3 bg-body-secondary">
-                <span><span className="fw-bold">Email</span> being generated as:</span>
+                <span>
+                  <span className="fw-bold">Email</span> being generated as:
+                </span>
                 <span>Noumair.rafiq@odinseye.live</span>
               </Card>
               <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
@@ -45,6 +70,7 @@ const Send = () => {
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
                 className="w-100"
+                onClick={() => handleSend()}
               >
                 Send
               </Button>
@@ -58,7 +84,9 @@ const Send = () => {
             </CardHeader>
             <CardBody>
               <Card className="mt-2 p-3 bg-body-secondary">
-                <span><span className="fw-bold">Email</span> being generated as:</span>
+                <span>
+                  <span className="fw-bold">Email</span> being generated as:
+                </span>
                 <span>Noumair.rafiq@odinseye.live</span>
               </Card>
               <div className="d-flex flex-column">
@@ -90,7 +118,7 @@ const Send = () => {
               <Button
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
-                className=""
+                onClick={() => handleCreateSchedule()}
               >
                 Create
               </Button>
@@ -98,6 +126,7 @@ const Send = () => {
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
                 className="ms-2 "
+                onClick={() => handleUpdateSchedule()}
               >
                 Update
               </Button>
@@ -105,6 +134,7 @@ const Send = () => {
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
                 className="ms-2"
+                onClick={() => handleCancel()}
               >
                 Cancel
               </Button>

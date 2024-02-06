@@ -3,13 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import Dashboardpage from "./DashboardPage";
 import Send from "../../Pages/Dashboard/Send/Send";
 import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
-import Genrate from "./Generate";
+import Generate from "./Generate";
 import Profile from "./Profile";
 import Box from "@mui/material/Box";
 const Dashboard = () => {
   const dynamicRoutes = [
     { path: "/", element: <Dashboardpage /> },
-    { path: "/generate", element: <Genrate /> },
+    { path: "/generate", element: <Generate /> },
     { path: "/send", element: <Send /> },
     { path: "/contacts", element: <Contacts /> },
     { path: "/profile", element: <Profile /> },

@@ -16,7 +16,8 @@ import CompanyDeleteModal from "./companyDeleteModal";
 const Company = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editedCompany, setEditedCompany] = useState({});
-  const [deletedCompany, setDeletedCompany] = useState("");
+  const [deletedCompany, setDeletedCompany] = useState();
+  const [companyid, setCompanyId] = useState("");
   const [deleteModalShow, setDeleteModalShow] = useState(false);
   const [meta, setMeta] = useState();
   const [show, setShow] = useState(false);
@@ -58,11 +59,11 @@ const Company = () => {
     navigate(`/admin/company/${id}`);
   };
   const handleEditModalOpen = (company) => {
-    const { name, industryId, postalCode, region, revenue, size, country } =
+    const { name,_id, postalCode, region, revenue, size, country } =
       company;
+     
     const editdata = {
       name: name,
-      // industryId:industryId,
       postalCode: postalCode,
       region: region,
       revenue: revenue,
@@ -70,6 +71,7 @@ const Company = () => {
       country: country,
     };
     setEditedCompany(editdata);
+    setCompanyId(_id)
     setEditModalOpen(true);
   };
   const handleDeleteModalOpen = (company) => {
@@ -147,7 +149,7 @@ const Company = () => {
                           <Button
                             variant="outlined"
                             className="bg-body-secondary ms-2"
-                            onClick={() => handleEditModalOpen(value)}
+                            onClick={() => handleEditModalOpen(value._id)}
                           >
                             <BiSolidEdit className="fs-4" />{" "}
                           </Button>
@@ -157,6 +159,7 @@ const Company = () => {
                             editedCompany={editedCompany}
                             fetchCompany={fetchCompany}
                             setEditedCompany={setEditedCompany}
+                            companyId={companyid}
                           />
                           <Button
                             variant="outlined"

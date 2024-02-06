@@ -9,33 +9,44 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
+import axios from "axios";
 
-import {
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Paper,
-  Grid,
-  TextField,
-  FormControl,
-} from "@mui/material";
 import { theme } from "../../../Theme/Theme";
-const UserForgotPassword = ({ show, setShow }) => {
-  const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleSubmit = (e) => {
+const UserForgotPassword = ({ show, setShow }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(password);
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    try {
+      const response = await axios.post("YOUR_API_URL", {
+        password: password,
+      });
+      console.log("Password updated successfully:", response.data);
+      setShow(false); 
+    } catch (error) {
+      setError(error.message);
+    }
   };
+
   const handleClose = () => setShow(false);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   return (
     <>
-      {" "}
       <Modal show={show} onHide={handleClose} style={{ marginTop: "70px" }}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body className="mx-auto ">
@@ -46,11 +57,12 @@ const UserForgotPassword = ({ show, setShow }) => {
             }}
             className="text-center fw-bold fs-3 mb-3"
           >
-          Forgot Password
+            Forgot Password
           </Modal.Title>
 
           <Box
             component="form"
+            onSubmit={handleSubmit}
             sx={{
               "& > :not(style)": { width: "45ch" },
             }}
@@ -59,15 +71,13 @@ const UserForgotPassword = ({ show, setShow }) => {
             <div className="d-flex flex-column mb-4">
               <FormControl className="d-grid mb-2" variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
-                  New Password{" "}
+                  New Password
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  name="password"
                   type={showPassword ? "text" : "password"}
-                  // value={formik.values.password}
-                  // onChange={formik.handleChange}
-                  // onBlur={formik.handleBlur}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -84,16 +94,14 @@ const UserForgotPassword = ({ show, setShow }) => {
                 />
               </FormControl>
               <FormControl className="d-grid mb-2" variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
+                <InputLabel htmlFor="outlined-adornment-confirm-password">
                   Confirm Password
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
-                  name="password"
+                  id="outlined-adornment-confirm-password"
                   type={showPassword ? "text" : "password"}
-                  // value={formik.values.password}
-                  // onChange={formik.handleChange}
-                  // onBlur={formik.handleBlur}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -106,10 +114,10 @@ const UserForgotPassword = ({ show, setShow }) => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="Password"
+                  label="Confirm Password"
                 />
               </FormControl>
-
+              {error && <p style={{ color: "red" }}>{error}</p>}
               <Button
                 type="submit"
                 variant="outlined"
@@ -118,10 +126,10 @@ const UserForgotPassword = ({ show, setShow }) => {
                   backgroundColor: `${theme.palette.primary.main}`,
                   letterSpacing: "2px",
                 }}
-                // onClick={(e) => handleSubmit(e)}
               >
                 Save
               </Button>
+              
             </div>
           </Box>
         </Modal.Body>

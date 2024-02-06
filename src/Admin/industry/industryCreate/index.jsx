@@ -8,7 +8,7 @@ import { theme } from "../../../Theme/Theme";
 import { Row, Col } from "reactstrap";
 import { toast } from "react-toastify";
 import api from "../../../service/api";
-const Createindustry = ({ show, setShow }) => {
+const Createindustry = ({ show, setShow,fetchData }) => {
   const handleClose = () => setShow(false);
 
   const fieldConfigurations = [
@@ -43,16 +43,16 @@ const Createindustry = ({ show, setShow }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      
       try {
-        const resData = await api.post("/company/add", values);
-        console.log(resData);
+        const resData = await api.post("/industry/add", values);
         if (resData.isSuccess) {
-          toast.success("Company Create SuccessFull");
+          toast.success("Industry Create SuccessFull");
+          fetchData();
           setShow(false);
         } else toast.error(resData.message);
       } catch (error) {
-        toast.error("Company Data Not Add", error);
+        toast.error("Idustry Data Not Add", error);
       }
     },
   });

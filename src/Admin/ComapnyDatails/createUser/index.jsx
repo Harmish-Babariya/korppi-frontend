@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Button } from "@mui/material";
-import { theme } from "../../../Theme/Theme";
 import Input from "../../../Component/Input";
 import api from "../../../service/api";
 import { Row, Col } from "reactstrap";
@@ -12,15 +11,29 @@ import { Row, Col } from "reactstrap";
 const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
   const handleClose = () => setShowUser(false);
 
+  const [companyOptions, setCompanyOptions] = useState([]);
+  const fetchCompanies = async () => {
+    try {
+      const response = await api.post("company/get"); 
+      setCompanyOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  };
+  useEffect(() => {
+    fetchCompanies();
+  }, []);
+
   const fieldConfigurations = [
     { id: "firstName", lebel: "First Name", type: "text" },
     { id: "lastName", lebel: "Last Name", type: "text" },
     { id: "role", lebel: "Role", type: "text" },
     { id: "email", lebel: "Email", type: "email" },
     { id: "phone", lebel: "Phone", type: "text" },
-    { id: "companyId", lebel: "Company Id", type: "text" },
+    { id: "companyId", lebel: "Company ID", type: "select" }, 
     { id: "linkedinUrl", lebel: "LinkedIn Url", type: "text" },
   ];
+
   const initialValues = fieldConfigurations.reduce(
     (acc, field) => ({ ...acc, [field.id]: "" }),
     {}
@@ -35,6 +48,7 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
       {}
     )
   );
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -52,6 +66,7 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
       }
     },
   });
+
   return (
     <Modal
       className="mt-5 mb-5"
@@ -73,23 +88,41 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
                 className="pr-1 d-flex flex-column mx-auto"
                 md="10"
               >
-                <Input
-                  id={field.id}
-                  lebel={field.lebel}
-                  className={"mt-2"}
-                  type={field.type}
-                  name={field.id}
-                  value={formik.values[field.id]}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  size={"small"}
-                  classnamelebal={"mt-2"}
-                />
-                {formik.touched[field.id] && formik.errors[field.id] ? (
+                {field.type === "select" ? (
+                  <select
+                    id={field.id}
+                    name={field.id}
+                    value={formik.values[field.id]}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    className="mt-2 form-control"
+                  >
+                    <option value="">Select Company ID</option>
+                    {companyOptions.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option._id}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <Input
+                    id={field.id}
+                    lebel={field.lebel}
+                    className={"mt-2"}
+                    type={field.type}
+                    name={field.id}
+                    value={formik.values[field.id]}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    size={"small"}
+                    classnamelebal={"mt-2"}
+                  />
+                )}
+                {formik.touched[field.id] && formik.errors[field.id] && (
                   <div className="error ms-2 text-danger">
                     {formik.errors[field.id]}
                   </div>
-                ) : null}
+                )}
               </Col>
             ))}
           </Row>
@@ -98,14 +131,7 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
           <Button variant="contained" onClick={handleClose}>
             Close
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            className="ms-1 text-white"
-            sx={{
-              color: `${theme.palette.primary.main}`,
-            }}
-          >
+          <Button type="submit" variant="contained" className="ms-1 text-white">
             Create
           </Button>
         </Modal.Footer>

@@ -10,6 +10,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import EmailSetting from "./EmailSetting/EmailSetting";
 import CompanySetting from "./CompanySetting/CompanySetting";
 import { theme } from "../../Theme/Theme";
+
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
   const [email, setEmail] = useState(true);
@@ -21,7 +22,8 @@ function Settings({ show, setShow }) {
     setCompany(false);
     setEmail(true);
   };
-  const handleCompanhy = () => {
+
+  const handleCompany = () => {
     setValue("Company Setting");
     setEmail(false);
     setCompany(true);
@@ -30,7 +32,7 @@ function Settings({ show, setShow }) {
   return (
     <div>
       <Modal
-        className="mt-5 mb-5 "
+        className="mt-5"
         size="lg"
         dialogClassName="modal-90w w-100"
         style={{ letterSpacing: "1.5px" }}
@@ -69,7 +71,7 @@ function Settings({ show, setShow }) {
                     }}
                   >
                     <Nav.Link
-                      onClick={() => handleCompanhy()}
+                      onClick={() => handleCompany()} 
                       style={{ borderRadius: "8px" }}
                       className={`${
                         company
@@ -98,7 +100,7 @@ function Settings({ show, setShow }) {
             </Row>
           </Tab.Container>
         </Modal.Body>
-        <Modal.Footer>
+        {/* <Modal.Footer>
             <Button variant="contained" onClick={handleClose}>
               Close
             </Button>
@@ -112,7 +114,7 @@ function Settings({ show, setShow }) {
             >
               Save Changes
             </Button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </div>
   );

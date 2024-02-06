@@ -17,8 +17,6 @@ const CompanyDatails = () => {
   const [showUser, setShowUser] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editedUser, setEditedUser] = useState({});
-  // const [deletedCompany, setDeletedCompany] = useState("");
-  // const [deleteModalShow, setDeleteModalShow] = useState(false);;
   const [editedUserId, setEditedUserId] = useState(null);
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,7 +41,7 @@ const CompanyDatails = () => {
       const resData = await api.post("user/get", companyUser);
       if (resData.isSuccess) {
         setUserData(resData.data);
-        
+   
         setMeta(resData.meta);
       } else {
         toast.error(resData.message);
@@ -64,8 +62,12 @@ const CompanyDatails = () => {
     setEditModalOpen(true);
   };
   const handleDeleteUser = async (userId) => {
+    const userDelete ={
+      status: 3,
+      id: userId
+  }
     try {
-      const resData = await api.delete("/user/delete");
+      const resData = await api.post("/user/delete",userDelete);
       if (resData.isSuccess) {
         toast.success("User deleted successfully");
         fetchUsers();
@@ -103,19 +105,19 @@ const CompanyDatails = () => {
             <p>
               <span className="fw-bold">Country :</span> {data?.country}
             </p>
-            <p>
+            {/* <p>
               <span className="fw-bold">Iinkedinabout :</span>{" "}
               <a href="">{data?.linkedinabout}</a>
-            </p>
+            </p> */}
           </div>
           <div className="ms-5">
             <p>
               <span className="fw-bold">Postal_Code :</span> {data?.postalCode}
             </p>
-            <p>
+            {/* <p>
               <span className="fw-bold">Iinkedinurl :</span>{" "}
               <a href="">{data?.linkedinurl}</a>
-            </p>
+            </p> */}
             <p>
               <span className="fw-bold">Size :</span> {data?.size}
             </p>
@@ -152,7 +154,7 @@ const CompanyDatails = () => {
           {userData.length > 0 ? (
             <>
               <div className="table-responsive mb-2">
-                <table className="table  text-center table-hover ">
+                <table className="table  text-center table-hover overflow-auto">
                   <thead
                     style={{
                       backgroundColor: "#0F2422",
@@ -179,11 +181,11 @@ const CompanyDatails = () => {
                         <td>{user.phone}</td>
                         <td>{user.companyId}</td>
                         <td>{user.linkedinUrl}</td>
-                        <td>
+                        <td className="d-flex">
                           <Button
                             variant="outlined"
                             size="small"
-                            className="bg-body-secondary rounded ms-auto"
+                            className="bg-body-secondary rounded "
                             onClick={() => handleEditUser(user._id)}
                           >
                             <BiSolidEdit className="fs-4" />{" "}
@@ -200,7 +202,7 @@ const CompanyDatails = () => {
                           <Button
                             variant="outlined"
                             size="small"
-                            className="text-danger bg-danger-subtle  ms-2"
+                            className="text-danger bg-danger-subtle  ms-2 "
                             onClick={() => handleDeleteUser(user._id)}
                           >
                             <MdDelete className="fs-4" />
@@ -222,7 +224,7 @@ const CompanyDatails = () => {
               {show && <UserForgotPassword show={show} setShow={setShow} />}
 
               {meta.totalPages && (
-                <div className="ms-auto m-2 mb-2">
+                <div className="d-flex justify-content-end m-2 mb-2">
                   <Stack spacing={2}>
                     <Pagination
                       count={meta.totalPages}
@@ -235,7 +237,7 @@ const CompanyDatails = () => {
               )}
             </>
           ) : (
-            <h3 className="text-center fw-light fs-5">Loading...</h3>
+            <h3 className="text-center fw-light fs-5">User Not found</h3>
           )}
         </div>
       </div>

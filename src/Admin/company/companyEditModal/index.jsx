@@ -9,7 +9,8 @@ const CompanyEditModal = ({
   setEditModalOpen,
   editedCompany,
   setEditedCompany,
-  fetchCompany
+  fetchCompany,
+  companyid
 }) => {
   const handleEditModalClose = () => {
     setEditModalOpen(false);
@@ -24,17 +25,17 @@ const CompanyEditModal = ({
     }));
   };
   const handleEditSubmit = async () => {
+    console.log(companyid)
     try {
       const resData = await api.post(
         "/company/update",
-        ...editedCompany,
-        editedCompany._id
+        {...editedCompany,companyid}
+        
       );
-      console.log(resData);
       if (resData.isSuccess) {
         toast.success("Company Update SuccessFull");
         handleEditModalClose();
-        fetchCompany(); 
+        fetchCompany();
       } else {
         toast.error(resData.message);
       }
@@ -64,7 +65,7 @@ const CompanyEditModal = ({
         <Button variant="contained" onClick={handleEditModalClose}>
           Cancel
         </Button>
-        <Button variant="contained"  className="ms-2" onClick={handleEditSubmit}>
+        <Button variant="contained" className="ms-2" onClick={handleEditSubmit}>
           Save
         </Button>
       </Modal.Footer>

@@ -12,9 +12,9 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const Genrate = () => {
+const Generate = () => {
   const [expanded, setExpanded] = React.useState("panel1");
-  const [companydata, setCompanyData] = useState([
+  const [companyData, setCompanyData] = useState([
     {
       name: "Noumair",
       company: "Microsoft",
@@ -61,12 +61,14 @@ const Genrate = () => {
     setExpanded(newExpanded ? panel : false);
   };
   const handleGetStarted = () => {
-    // Add your logic here to handle the "Get Started" button click
-    // For example, you can navigate to a new page or perform an API call
     console.log("Get Started button clicked");
-    // Add your custom logic here
   };
-
+  const handleGenerate = () => {
+    console.log("Generate button clicked");
+  };
+  const handleSelect = () => {
+    console.log("Select button clicked");
+  };
   return (
     <div style={{ letterSpacing: "1px" }} className="content">
       <Row>
@@ -229,7 +231,7 @@ const Genrate = () => {
                       </CardHeader>
                       <CardBody>
                         <div>
-                          <label htmlFor="" className="fw-bold">
+                          <label htmlFor="" className="fw-bold w-100 mb-1">
                             Emails to generate
                           </label>
                           <Input
@@ -250,6 +252,7 @@ const Genrate = () => {
                             variant="contained"
                             className="ms-2 "
                             size="medium"
+                            onClick={()=>handleSelect()}
                           >
                             Select
                           </Button>
@@ -280,7 +283,7 @@ const Genrate = () => {
                                 style={{ minWidth: "100%" }}
                               >
                                 <tbody>
-                                  {companydata?.map((value, index) => (
+                                  {companyData?.map((value, index) => (
                                     <tr key={index}>
                                       <td>{value.name}</td>
                                       <td>{value.company}</td>
@@ -297,6 +300,7 @@ const Genrate = () => {
                             }}
                             variant="contained"
                             className="w-100 mt-2"
+                            onClick={() => handleGenerate()}
                           >
                             Generate
                           </Button>
@@ -321,4 +325,4 @@ const Genrate = () => {
   );
 };
 
-export default Genrate;
+export default Generate;
