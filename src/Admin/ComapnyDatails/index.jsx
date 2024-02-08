@@ -18,6 +18,7 @@ const CompanyDatails = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editedUser, setEditedUser] = useState({});
   const [editedUserId, setEditedUserId] = useState(null);
+  const [forgotUserId, setForgotUserId] = useState();
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [meta, setMeta] = useState();
@@ -34,7 +35,7 @@ const CompanyDatails = () => {
     const resData = await api.post("company/getById", companyId);
     if (resData.isSuccess) {
       setData(resData.data);
-    } else toast.error(resData.message);
+    } else  toast.error(response.response.data.message);
   };
   const fetchUsers = async () => {
     try {
@@ -44,7 +45,7 @@ const CompanyDatails = () => {
    
         setMeta(resData.meta);
       } else {
-        toast.error(resData.message);
+        toast.error(response.response.data.message);
       }
     } catch (error) {
       toast.error("Error fetching users", error);
@@ -72,15 +73,18 @@ const CompanyDatails = () => {
         toast.success("User deleted successfully");
         fetchUsers();
       } else {
-        toast.error(resData.message);
+        toast.error(response.response.data.message);
       }
     } catch (error) {
       toast.error("Error deleting user", error);
     }
   };
 
-  const handleShow = () => setShow(true);
-  const handleShowUser = () => setShowUser(true);
+  const handleShow = (id) => {
+    setForgotUserId(id)
+    setShow(true);
+   }
+ const handleShowUser = () => setShowUser(true);
 
   return (
     <>
@@ -93,6 +97,9 @@ const CompanyDatails = () => {
           className="d-flex flex-row ms-2 mt-1"
         >
           <div className="m-2">
+          <p>
+              <span className="fw-bold">Company Name :</span> {data?.name}
+            </p>
             <p>
               <span className="fw-bold">Industry_Id :</span> {data?.industryId}
             </p>
@@ -211,7 +218,7 @@ const CompanyDatails = () => {
                             variant="contained"
                             size="small"
                             className="ms-2"
-                            onClick={handleShow}
+                            onClick={()=>handleShow(user._id)}
                           >
                             Reset Password
                           </Button>
@@ -221,7 +228,7 @@ const CompanyDatails = () => {
                   </tbody>
                 </table>
               </div>
-              {show && <UserForgotPassword show={show} setShow={setShow} />}
+              {show && <UserForgotPassword show={show} setShow={setShow} forgotUserId={forgotUserId}/>}
 
               {meta.totalPages && (
                 <div className="d-flex justify-content-end m-2 mb-2">

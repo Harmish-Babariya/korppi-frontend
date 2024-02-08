@@ -1,0 +1,11 @@
+.selected-button {
+    background-color: #bb4c4c;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.non-selected-button {
+    background-color: #f8f9fa;
+    color: #000;
+}

@@ -15,9 +15,9 @@ import CompanyEditModal from "./companyEditModal";
 import CompanyDeleteModal from "./companyDeleteModal";
 const Company = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editedCompany, setEditedCompany] = useState({});
+
   const [deletedCompany, setDeletedCompany] = useState();
-  const [companyid, setCompanyId] = useState("");
+  const [companyid, setCompanyId] = useState();
   const [deleteModalShow, setDeleteModalShow] = useState(false);
   const [meta, setMeta] = useState();
   const [show, setShow] = useState(false);
@@ -58,20 +58,8 @@ const Company = () => {
   const handleCompanyDatails = (id) => {
     navigate(`/admin/company/${id}`);
   };
-  const handleEditModalOpen = (company) => {
-    const { name,_id, postalCode, region, revenue, size, country } =
-      company;
-     
-    const editdata = {
-      name: name,
-      postalCode: postalCode,
-      region: region,
-      revenue: revenue,
-      size: size,
-      country: country,
-    };
-    setEditedCompany(editdata);
-    setCompanyId(_id)
+  const handleEditModalOpen = (edit_id) => {
+    setCompanyId(edit_id);
     setEditModalOpen(true);
   };
   const handleDeleteModalOpen = (company) => {
@@ -154,12 +142,11 @@ const Company = () => {
                             <BiSolidEdit className="fs-4" />{" "}
                           </Button>
                           <CompanyEditModal
+                          companyid={companyid}
                             editModalOpen={editModalOpen}
                             setEditModalOpen={setEditModalOpen}
-                            editedCompany={editedCompany}
                             fetchCompany={fetchCompany}
-                            setEditedCompany={setEditedCompany}
-                            companyId={companyid}
+                            
                           />
                           <Button
                             variant="outlined"

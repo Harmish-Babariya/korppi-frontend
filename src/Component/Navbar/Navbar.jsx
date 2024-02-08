@@ -87,6 +87,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = (props) => {
+  const [admin, setAdmin] = useState(false);
   const settings = [
     {
       name: "Profile",
@@ -116,6 +117,9 @@ const Navbar = (props) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   useEffect(() => {
     setPath(location.pathname.split("/").slice(2));
+    location.pathname.includes("admin")
+    ? setAdmin(true)
+    : null;
   }, [location.pathname]);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -188,9 +192,9 @@ const Navbar = (props) => {
               />
             </Search>
             <Box sx={{ marginLeft: "auto" }}>
-              <Link onClick={handleShow}>
+           { !admin ? <Link onClick={handleShow}>
                 <SettingsIcon className="me-2 fs-3 text-secondary" />
-              </Link>
+              </Link> : null}
               <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Korppi" src="/static/images/avatar/2.jpg" />

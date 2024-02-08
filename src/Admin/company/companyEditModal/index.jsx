@@ -1,17 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
 import api from "../../../service/api";
+
 const CompanyEditModal = ({
   editModalOpen,
   setEditModalOpen,
-  editedCompany,
-  setEditedCompany,
   fetchCompany,
-  companyid
+  companyid,
 }) => {
+  const [editedCompany, setEditedCompany] = useState({});
+  const handleEditGetByID = async () => {
+    try {
+      const resData = await api.post("/company/getById", { id: companyid });
+      if (resData.isSuccess) {
+        const { name, postalCode, region, revenue, size, country } =
+          resData.data;
+        const editdata = {
+          name: name,
+          postalCode: postalCode,
+          region: region,
+          revenue: revenue,
+          size: size,
+          country: country,
+        };
+        setEditedCompany(editdata);
+      } else {
+        toast.error(resData.message);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch company data", error);
+    }
+  };
+  useEffect(() => {
+    if (editModalOpen && companyid) {
+      handleEditGetByID();
+    }
+  }, [editModalOpen, companyid]);
   const handleEditModalClose = () => {
     setEditModalOpen(false);
     setEditedCompany({});
@@ -25,13 +52,9 @@ const CompanyEditModal = ({
     }));
   };
   const handleEditSubmit = async () => {
-    console.log(companyid)
+    const updatedData = { ...editedCompany, id: companyid };
     try {
-      const resData = await api.post(
-        "/company/update",
-        {...editedCompany,companyid}
-        
-      );
+      const resData = await api.post("/company/update", updatedData);
       if (resData.isSuccess) {
         toast.success("Company Update SuccessFull");
         handleEditModalClose();

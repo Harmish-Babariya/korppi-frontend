@@ -61,7 +61,7 @@ const Login = () => {
       email: Yup.string()
         .email("please enter your valid email")
         .required("email is required"),
-      password: Yup.string().required("password is required").min(6),
+      password: Yup.string().required("password is required"),
     }),
     onSubmit: async (value) => {
       try {
@@ -76,7 +76,7 @@ const Login = () => {
           toast.success(response.message);
           navigate("/dashboard");
         } else {
-          toast.error(response.message);
+          toast.error(response.response.data.message);
         }
       } catch (error) {
         console.error(error);

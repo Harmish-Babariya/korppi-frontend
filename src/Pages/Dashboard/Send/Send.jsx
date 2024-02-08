@@ -35,8 +35,8 @@ const Send = () => {
   return (
     <div style={{ letterSpacing: "1px" }}>
       {" "}
-      <Row className="w-100">
-        <Col md="5">
+      <Row className="w-100 ">
+        <Col md="4">
           <Card className="m-3 shadow">
             <CardHeader>
               <CardTitle tag="h5">Send</CardTitle>
@@ -77,7 +77,7 @@ const Send = () => {
             </CardBody>
           </Card>
         </Col>
-        <Col md="5">
+        <Col md="4">
           <Card className="m-3 shadow">
             <CardHeader>
               <CardTitle tag="h5">Daily Scheduler</CardTitle>

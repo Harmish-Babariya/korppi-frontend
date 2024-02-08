@@ -10,11 +10,11 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import FormControl from "@mui/material/FormControl";
-import axios from "axios";
+import api from "../../../service/api";
 
 import { theme } from "../../../Theme/Theme";
 
-const UserForgotPassword = ({ show, setShow }) => {
+const UserForgotPassword = ({ show, setShow,forgotUserId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,9 +27,7 @@ const UserForgotPassword = ({ show, setShow }) => {
       return;
     }
     try {
-      const response = await axios.post("YOUR_API_URL", {
-        password: password,
-      });
+      const response = await api.post("/user/getById");
       console.log("Password updated successfully:", response.data);
       setShow(false); 
     } catch (error) {
@@ -129,7 +127,6 @@ const UserForgotPassword = ({ show, setShow }) => {
               >
                 Save
               </Button>
-              
             </div>
           </Box>
         </Modal.Body>

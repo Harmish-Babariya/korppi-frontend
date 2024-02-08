@@ -8,6 +8,19 @@ const instance = axios.create({
   },
 });
 
+instance.interceptors.request.use(
+  (config) => {
+  const userToken = JSON.parse(localStorage.getItem("user_token"));
+    if (userToken) {
+      config.headers.Authorization = `Bearer ${userToken.toString()}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 const handleRequestError = (requestType, endpoint, error) => {
   console.error(
     `There was a problem with the ${requestType} request to ${endpoint}:`,
