@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -8,33 +8,58 @@ import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import { Button } from "@mui/material";
 import Input from "../../../Component/Input";
+import "./send.css";
+
 const Send = () => {
+  const [emailToSend, setEmailToSend] = useState("");
+  const [schedule, setSchedule] = useState({
+    allDaysChecked: false,
+    daysChecked: {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
+      sunday: false,
+    },
+  });
+
+  const handleCheckboxChange = (event) => {
+    const { id, checked } = event.target;
+    if (id === "allDays") {
+      setSchedule({
+        ...schedule,
+        allDaysChecked: checked,
+        daysChecked: {
+          monday: checked,
+          tuesday: checked,
+          wednesday: checked,
+          thursday: checked,
+          friday: checked,
+          saturday: checked,
+          sunday: checked,
+        },
+      });
+    } else {
+      setSchedule({
+        ...schedule,
+        allDaysChecked: false,
+        daysChecked: { ...schedule.daysChecked, [id]: checked },
+      });
+    }
+  };
+
   const handleSend = () => {
-    // Add your logic here to handle sending email
-    console.log("Send button clicked");
-    // Example logic: You can make API calls, update state, etc.
+    // Handle sending email with the provided data
+    console.log("Email to send:", emailToSend);
+    console.log("Days checked:", schedule.daysChecked);
   };
 
-  const handleCreateSchedule = () => {
-    // Add your logic here to handle creating a daily schedule
-    console.log("Create button clicked");
-    // Example logic: You can make API calls, update state, etc.
-  };
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-  const handleUpdateSchedule = () => {
-    // Add your logic here to handle updating a daily schedule
-    console.log("Update button clicked");
-    // Example logic: You can make API calls, update state, etc.
-  };
-
-  const handleCancel = () => {
-    // Add your logic here to handle canceling the operation
-    console.log("Cancel button clicked");
-    // Example logic: You can navigate to a different page, reset state, etc.
-  };
   return (
     <div style={{ letterSpacing: "1px" }}>
-      {" "}
       <Row className="w-100 ">
         <Col md="4">
           <Card className="m-3 shadow">
@@ -57,8 +82,6 @@ const Send = () => {
                   lebel={"Email To Send"}
                   className={"mb-2"}
                   type={"text"}
-                  // value={endustry}
-                  // onchange={(e) => endustry(e.target.value)}
                   classnamelebal={"mb-1.5 fs-6 fw-medium"}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -95,9 +118,6 @@ const Send = () => {
                   lebel={"Email To Send Per Day"}
                   className={"mb-2 mt-2"}
                   type={"text"}
-                  // value={endustry}
-                  // onchange={(e) => endustry(e.target.value)}
-
                   classnamelebal={"mb-1.5 fs-6 fw-medium"}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -107,9 +127,26 @@ const Send = () => {
                     className="mt-2"
                   />
                 </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker label="Day TO Send" className=" mt-2" />
-                </LocalizationProvider>
+                <div className="mt-2">
+                  <input
+                    type="checkbox"
+                    id="allDays"
+                    checked={schedule.allDaysChecked}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor="allDays">All Days</label>
+                  {daysOfWeek.map((day) => (
+                    <React.Fragment key={day}>
+                      <input
+                        type="checkbox"
+                        id={day.toLowerCase()}
+                        checked={schedule.daysChecked[day.toLowerCase()]}
+                        onChange={handleCheckboxChange}
+                      />
+                      <label htmlFor={day.toLowerCase()}>{day.substring(0, 1)}</label>
+                    </React.Fragment>
+                  ))}
+                </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker label="End Date" className="mb-2 mt-2" />
                 </LocalizationProvider>

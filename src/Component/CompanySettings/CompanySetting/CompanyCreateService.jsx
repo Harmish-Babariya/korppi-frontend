@@ -15,11 +15,12 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import api from "../../../service/api";
-import axios from "axios";
+
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   price: Yup.number().required("Price is required"),
   offer: Yup.string().required("Offer is required"),
+  currency: Yup.string().required("Currency is required"),
   features1: Yup.string().required("Feature 1 is required"),
   features2: Yup.string().required("Feature 2 is required"),
   features3: Yup.string().required("Feature 3 is required"),
@@ -32,7 +33,7 @@ const validationSchema = Yup.object().shape({
   industry: Yup.string().required("Industry is required"),
   job_title: Yup.string().required("Job Title is required"),
 });
-const CompanyCreateService = ({ show2, setShow2,feachService }) => {
+const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
   const [activeTab, setActiveTab] = useState("service");
   const [title, setTitle] = useState("Company Create Service");
   const handleClose = () => setShow2(false);
@@ -41,6 +42,7 @@ const CompanyCreateService = ({ show2, setShow2,feachService }) => {
       title: "",
       price: "",
       offer: "",
+      currency: "",
       features1: "",
       features2: "",
       features3: "",
@@ -58,7 +60,7 @@ const CompanyCreateService = ({ show2, setShow2,feachService }) => {
       const serviceData = {
         title: values.title,
         price: values.price,
-        currency: "USD",
+        currency: values.currency,
         under_offer: false,
         offer: values.offer,
         features: [values.features1, values.features2, values.features3],
@@ -73,7 +75,7 @@ const CompanyCreateService = ({ show2, setShow2,feachService }) => {
         const resData = await api.post("/service/add", serviceData);
         if (resData.isSuccess) {
           toast.success("Service Create SuccessFull");
-          feachService()
+          fetchService();
           handleClose();
         } else {
           toast.error(resData.response.data.message);
@@ -209,21 +211,22 @@ const CompanyCreateService = ({ show2, setShow2,feachService }) => {
                           {formik.errors.offer}
                         </div>
                       )}
-                      {/* <Input
-                        id={"currency"}
-                        lebel={"Currency"}
-                        className={"mt-2"}
-                        type={""}
-                        value={formik.values.price}
+                      <select
+                        id="currency"
+                        name="currency"
+                        className="form-select mt-2"
+                        value={formik.values.currency}
                         onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.price && formik.errors.price && (
+                      >
+                        <option value="">Select Currency</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                      </select>
+                      {formik.touched.currency && formik.errors.currency && (
                         <div className="error ms-2 text-danger">
-                          {formik.errors.price}
-                        </div>
-                      )} */}
+                          {formik.errors.currency}
+                          </div>
+                      )}
                     </div>
                     <Button
                       variant="contained"

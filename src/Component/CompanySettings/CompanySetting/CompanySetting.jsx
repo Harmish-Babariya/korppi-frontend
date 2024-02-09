@@ -19,18 +19,24 @@ import Input from "../../Input";
 import "./companySettings.css";
 
 const CompanySetting = () => {
+  
   const theme = useTheme();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
   const { service, status } = useSelector((state) => state.Service);
   const [selectedService, setSelectedService] = useState(null);
+  const [editService, setEditService] = useState(null);
   const [serviceid, setServiceId] = useState();
-  const [selectedfeatures, setSelectedFeatures] = useState(service[0]?.features);
-  const [selectedbenefits, setSelectedBenefits] = useState(service[0]?.benefits);
+  const [selectedfeatures, setSelectedFeatures] = useState(
+    service[0]?.features
+  );
+  const [selectedbenefits, setSelectedBenefits] = useState(
+    service[0]?.benefits
+  );
   const handleShow = () => setShow(true);
   const handleShow2 = () => setShow2(true);
-  const feachService = async () => {
+  const fetchService = async () => {
     try {
       const resData = await api.post("service/get");
       if (resData.isSuccess) {
@@ -43,30 +49,39 @@ const CompanySetting = () => {
     }
   };
   useEffect(() => {
-    feachService();
+    fetchService();
   }, []);
-  const handleEdit = async() => {
-    handleShow()
+  const handleEdit = async () => {
     try {
-      const resData = await api.post("service/getById",{
-        serviceId: serviceid
-    });
+      if (!serviceid) {
+        toast.error("Please select a service product");
+        return;
+      }
+
+      if (editService) {
+        handleShow();
+        return;
+      }
+      const resData = await api.post("service/getById", {
+        serviceId: serviceid,
+      });
       if (resData.isSuccess) {
-       console.log(resData.data)
+        setEditService(resData.data);
+        handleShow();
       } else {
         toast.error(resData.response.data.message);
       }
     } catch (error) {
-      console.error("API Error:", error); 
+      console.error("API Error:", error);
     }
-  }
+  };
   const handleServiceClick = (id) => {
-    setSelectedService(id)
-    const fuature = service.find((value,index)=>index === id)
-    setSelectedFeatures(fuature.features)
-    setSelectedBenefits(fuature.benefits)
-    console.log(fuature._id)
-    setServiceId(fuature._id)
+    setSelectedService(id);
+    const fuature = service.find((value, index) => index === id);
+    setSelectedFeatures(fuature.features);
+    setSelectedBenefits(fuature.benefits);
+
+    setServiceId(fuature._id);
   };
   return (
     <>
@@ -79,11 +94,11 @@ const CompanySetting = () => {
           noValidate
           autoComplete="off"
         >
-          <div className="">
+          <div className="d-flex flex-column">
             <Input
               id={"companyname"}
               lebel={"Company Name"}
-              className={"w-100"}
+              className={"w-75"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -93,7 +108,7 @@ const CompanySetting = () => {
             <Input
               id={"Industry"}
               lebel={"Industry"}
-              className={"w-100 mt-2"}
+              className={"w-75  mt-2"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -105,7 +120,7 @@ const CompanySetting = () => {
             <Input
               id={"Companies You Work With "}
               lebel={"Companies You Work With"}
-              className={"w-100"}
+              className={"w-75"}
               type={"text"}
               // value={user}
               // onchange={(e) => setUser(e.target.value)}
@@ -117,10 +132,26 @@ const CompanySetting = () => {
       </div>
       <hr />
       <div className="row d-flex">
-        <div className="col-7">
-          <div className="mt-2 mb-2" style={{ maxHeight: "300px" }}>
-            <table className="table table-hover " style={{ minWidth: "100%" }}>
-              <thead className="fs-4">
+        <div className="col-6">
+          <div
+            className="mt-2 mb-2"
+            style={{
+              maxHeight: "300px",
+              borderRadius: "10px",
+              overflow: "hidden",
+              border: "1px solid #ced4da",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <table
+              className="table table-hover rounded"
+              style={{
+                minWidth: "100%",
+                overflow: "hidden",
+                borderRadius: "8px",
+              }}
+            >
+              <thead className="fs-4 border-bottom">
                 <tr>
                   <th>Service/Product</th>
                 </tr>
@@ -131,6 +162,7 @@ const CompanySetting = () => {
                 marginTop: "-15px",
                 maxHeight: "200px",
                 overflowY: "scroll",
+                display: "flex",
               }}
             >
               <table className="table" style={{ minWidth: "100%" }}>
@@ -139,7 +171,7 @@ const CompanySetting = () => {
                     <tr key={index}>
                       <td>
                         <button
-                          style={{ letterSpacing: "1.5px" }}
+                          style={{ letterSpacing: "1px",textAlign:"left" }}
                           className={`w-100 border-0  ${
                             selectedService === index
                               ? "selected-button"
@@ -159,8 +191,8 @@ const CompanySetting = () => {
           <Button
             sx={{ color: `${theme.palette.primary.main}` }}
             variant="outlined"
-            className="me-2 ms-3 fw-medium"
-            onClick={()=>handleEdit()}
+            className="me-2 ms-3 mt-2 fw-medium"
+            onClick={() => handleEdit()}
           >
             Edit
           </Button>
@@ -168,64 +200,84 @@ const CompanySetting = () => {
           <Button
             style={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant="contained"
-            className="fw-medium text-white"
+            className="fw-medium text-white mt-2"
             onClick={handleShow2}
           >
             Add Service
           </Button>
         </div>
 
-        {show && <CompanyEditService show={show} setShow={setShow} />}
+        {show && (
+          <CompanyEditService
+            show={show}
+            setShow={setShow}
+            editService={editService}
+            fetchService={fetchService}
+          />
+        )}
         {show2 && (
           <CompanyCreateService
             show2={show2}
             setShow2={setShow2}
-            feachService={feachService}
+            fetchService={fetchService}
           />
         )}
-        <div className="col-12 mt-2">
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              className="bg-body-secondary"
-            >
-              <Typography className="fw-bold">Featurs</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                <ul>
-                  {selectedfeatures.map((value, index) => (
-                    <li key={index}>{value.description}</li>
-                  ))}
-                </ul>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-              className="bg-body-secondary mt-2"
-            >
-              <Typography className="fw-bold">Benefits</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-              <ul>
-                  {selectedbenefits.map((value, index) => (
-                    <li key={index}>{value.description}</li>
-                  ))}
-                </ul>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+        <div className="col-6 mt-2">
+          <div
+            style={{
+              border: "1px solid #ced4da",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              padding: "10px",
+              width: "100%",
+            }}
+          >
+            <Accordion defaultExpanded>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                className="bg-body-secondary"
+              >
+                <Typography className="fw-bold">Features</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  <ul>
+                    {selectedfeatures &&
+                      selectedfeatures.map((value, index) => (
+                        <li key={index}>{value.description}</li>
+                      ))}
+                  </ul>
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+                className="bg-body-secondary mt-2"
+              >
+                <Typography className="fw-bold">Benefits</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  <ul>
+                    {selectedbenefits &&
+                      selectedbenefits.map((value, index) => (
+                        <li key={index}>{value.description}</li>
+                      ))}
+                  </ul>
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+
           <Button
             sx={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant="contained"
-            className="fw-medium text-white mt-2 ms-3"
+            className="fw-medium text-white mt-2"
           >
             Save
           </Button>

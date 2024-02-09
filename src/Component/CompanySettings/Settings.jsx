@@ -11,6 +11,7 @@ import EmailSetting from "./EmailSetting/EmailSetting";
 import CompanySetting from "./CompanySetting/CompanySetting";
 import { theme } from "../../Theme/Theme";
 
+
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
   const [email, setEmail] = useState(true);
@@ -32,10 +33,10 @@ function Settings({ show, setShow }) {
   return (
     <div>
       <Modal
-        className="mt-5"
+        className=" modal"
         size="lg"
         dialogClassName="modal-90w w-100"
-        style={{ letterSpacing: "1.5px" }}
+        style={{ letterSpacing: "1.5px",marginTop:"40px" }}
         show={show}
         onHide={handleClose}
       >
@@ -88,17 +89,33 @@ function Settings({ show, setShow }) {
               <Col sm={9}>
                 <Tab.Content>
                   <Tab.Pane eventKey="email">
-                    <h4>Personal</h4>
+                    <h4 className="ms-2">Personal</h4>
                     <EmailSetting />
+                    <div className="d-flex justify-content-end mt-2">
+          <Button variant="contained" onClick={handleClose}>
+              Close
+            </Button>
+            <Button
+              variant="outlined"
+              className="ms-1"
+              sx={{
+                color: `${theme.palette.primary.main}`,
+              }}
+              onClick={handleClose}
+            >
+              Save & Close
+            </Button>
+            </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="company">
-                    <h2>Company</h2>
+                    <h2 className="ms-2">Company</h2>
                     <CompanySetting />
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>
           </Tab.Container>
+         
         </Modal.Body>
         {/* <Modal.Footer>
             <Button variant="contained" onClick={handleClose}>

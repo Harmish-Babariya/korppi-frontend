@@ -25,7 +25,7 @@ function App() {
   }, [location.pathname]);
   return (
     <Box sx={{ height: "auto", p: 0, mr: 0 }} className="h-100">
-      <ToastContainer position="bottom-center" autoClose={2000} />
+      <ToastContainer position="top-center" autoClose={2000} />
       <ThemeProvider theme={theme}>
         {window.location.pathname !== "/login" && (
           <Navbar open={open} setOpen={setOpen} />
