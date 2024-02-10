@@ -56,7 +56,14 @@ const Generate = () => {
       company: "Microsoft",
     },
   ]);
-
+  const industryOptions = [
+    "Technology",
+    "Finance",
+    "Healthcare",
+    "Education",
+    "Retail",
+    // Add more options as needed
+  ];
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -171,7 +178,7 @@ const Generate = () => {
                           autoComplete="off"
                         >
                           <div className="d-flex flex-column mb-3">
-                            <Input
+                            {/* <Input
                               id={"endustry"}
                               lebel={"Industry"}
                               className={"mb-2"}
@@ -191,8 +198,16 @@ const Generate = () => {
                               // onchange={(e) => setPassword(e.target.value)}
                               size={"small"}
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            />
-                            <Input
+                            /> */}
+                            <div>
+                            <p>
+                              <strong>Industry :</strong>Data
+                            </p>
+                            <p>
+                              <strong>Companies You Work With :</strong>Microsoft
+                            </p>
+                            </div>
+                            {/* <Input
                               id={"companies you work with"}
                               lebel={"Companies You Work With"}
                               className={"mb-2"}
@@ -201,12 +216,25 @@ const Generate = () => {
                               // onchange={(e) => setSMPTServer(e.target.value)}
                               size="small"
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            />
+                            /> */}
                             <hr />
                             <label htmlFor="" className="fw-bold">
                               Select Industry
                             </label>
-                            <Input
+                            <select
+                      id="selectIndustry"
+                      className="form-select mb-2 mt-1"
+                      // value={SMPTPort}
+                     // onchange={(e) => setSMPTPort(e.target.value)}
+                    >
+                      {/* Map through industry options and create options */}
+                      {industryOptions.map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                            {/* <Input
                               id={"select industry"}
                               lebel={"Select Industry"}
                               className={"mb-2 mt-1"}
@@ -215,7 +243,7 @@ const Generate = () => {
                               // onchange={(e) => setSMPTPort(e.target.value)}
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                               size="small"
-                            />
+                            /> */}
                             <p className="fw-light fs-6">87 Email to generet</p>
                           </div>
                         </Box>

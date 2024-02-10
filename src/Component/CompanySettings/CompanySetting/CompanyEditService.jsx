@@ -25,13 +25,13 @@ const validationSchema = Yup.object().shape({
   benefits1: Yup.string().required("Benefit 1 is required"),
   benefits2: Yup.string().required("Benefit 2 is required"),
   benefits3: Yup.string().required("Benefit 3 is required"),
-  // target_name: Yup.string().required("Target Name is required"),
-  // location: Yup.string().required("Location is required"),
-  // employee_count: Yup.string().required("Employee Count is required"),
-  // industry: Yup.string().required("Industry is required"),
-  // job_title: Yup.string().required("Job Title is required"),
+  target_name: Yup.string().required("Target Name is required"),
+  location: Yup.string().required("Location is required"),
+  employee_count: Yup.string().required("Employee Count is required"),
+  industry: Yup.string().required("Industry is required"),
+  job_title: Yup.string().required("Job Title is required"),
 });
-const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
+const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
   const [activeTab, setActiveTab] = useState("service");
   const [title, setTitle] = useState("Company Service Update ");
   const [firstEditService] = editService;
@@ -41,37 +41,77 @@ const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
       title: firstEditService.title || "",
       price: firstEditService.price || "",
       offer: firstEditService.offer || "",
+      currency: firstEditService.currency || "",
       features1: firstEditService.features[0]?.description || "",
       features2: firstEditService.features[1]?.description || "",
       features3: firstEditService.features[2]?.description || "",
       benefits1: firstEditService.benefits[0]?.description || "",
       benefits2: firstEditService.benefits[1]?.description || "",
       benefits3: firstEditService.benefits[2]?.description || "",
-      // target_name: firstEditService.target_name || "",
-      // location: firstEditService.location?.join(",") || "",
-      // employee_count: firstEditService.employee_count?.join(",") || "",
-      // industry: firstEditService.company?.industry || "",
-      // job_title: firstEditService.job_title || "",
+      target_name: firstEditService.target_market?.target_name || "",
+      location: firstEditService.target_market?.location?.join(",") || "",
+      employee_count:
+        firstEditService.target_market?.employee_count?.join(",") || "",
+      industry: firstEditService.target_market?.industry?.join(",") || "",
+      job_title: firstEditService.target_market?.job_title || "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      const {
+        title,
+        price,
+        offer,
+        features1,
+        features2,
+        features3,
+        benefits1,
+        benefits2,
+        benefits3,
+        target_name,
+        location,
+        employee_count,
+        industry,
+        job_title,
+      } = values;
+
+      if (
+        !title ||
+        !price ||
+        !offer ||
+        !features1 ||
+        !features2 ||
+        !features3 ||
+        !benefits1 ||
+        !benefits2 ||
+        !benefits3 ||
+        !target_name ||
+        !location ||
+        !employee_count ||
+        !industry ||
+        !job_title
+      ) {
+        toast.error("All fields are required");
+        return;
+      }
+
       const serviceEdit = {
-        title: values.title,
-        price: values.price,
-        currency: "USD",
+        title,
+        price,
+        currency: values.currency,
         under_offer: false,
-        offer: values.offer,
-        features: [values.features1, values.features2, values.features3],
-        benefits: [values.benefits1, values.benefits2, values.benefits3],
-        target_name: "target_name",
-        location: [],
-        employee_count: [],
-        industry: [],
-        job_title: "job_title",
-        serviceId: firstEditService._id
+        offer,
+        features: [features1, features2, features3],
+        benefits: [benefits1, benefits2, benefits3],
+        target_name,
+        location: [location.split(",").map((loc) => loc.trim())],
+        employee_count: [
+          employee_count.split(",").map((count) => count.trim()),
+        ],
+        industry: [industry],
+        job_title,
+        serviceId: firstEditService._id,
       };
       try {
-       
         const resData = await api.post("/service/update", serviceEdit);
         if (resData.isSuccess) {
           toast.success("Service Update SuccessFull");
@@ -90,7 +130,7 @@ const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
     { key: "service", label: "Service", icon: <RiCustomerServiceLine /> },
     { key: "feature", label: "Features", icon: <BiLogoPeriscope /> },
     { key: "benefits", label: "Benefits", icon: <DiCoda /> },
-    // { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
+    { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
   ];
 
   const handleTabChange = (tabKey) => {
@@ -211,21 +251,22 @@ const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
                           {formik.errors.offer}
                         </div>
                       )}
-                      {/* <Input
-                        id={"currency"}
-                        lebel={"Currency"}
-                        className={"mt-2"}
-                        type={""}
-                        value={formik.values.price}
+                      <select
+                        id="currency"
+                        name="currency"
+                        className="form-select mt-2"
+                        value={formik.values.currency}
                         onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.price && formik.errors.price && (
+                      >
+                        <option value="">Select Currency</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                      </select>
+                      {formik.touched.currency && formik.errors.currency && (
                         <div className="error ms-2 text-danger">
-                          {formik.errors.price}
+                          {formik.errors.currency}
                         </div>
-                      )} */}
+                      )}
                     </div>
                     <Button
                       variant="contained"
@@ -365,7 +406,7 @@ const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
                     >
                       Back
                     </Button>
-                    {/* <Button
+                    <Button
                       variant="contained"
                       sx={{
                         backgroundColor: `${theme.palette.primary.main}`,
@@ -374,18 +415,9 @@ const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
                       onClick={() => handleNext()}
                     >
                       Next
-                    </Button> */}
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      sx={{ backgroundColor: `${theme.palette.primary.main}` }}
-                      className="ms-2 mt-2"
-                      onClick={formik.handleSubmit}
-                    >
-                      Update Service
                     </Button>
                   </Tab.Pane>
-                  {/* <Tab.Pane eventKey="targetmarket">
+                  <Tab.Pane eventKey="targetmarket">
                     <div className="d-flex flex-column m-2">
                       <Input
                         id={"target_name"}
@@ -484,7 +516,7 @@ const CompanyEditService = ({ show, setShow, editService ,fetchService}) => {
                     >
                       Update Service
                     </Button>
-                  </Tab.Pane> */}
+                  </Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>

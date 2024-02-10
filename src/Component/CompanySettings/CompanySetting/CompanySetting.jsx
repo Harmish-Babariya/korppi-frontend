@@ -19,7 +19,6 @@ import Input from "../../Input";
 import "./companySettings.css";
 
 const CompanySetting = () => {
-  
   const theme = useTheme();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -57,15 +56,11 @@ const CompanySetting = () => {
         toast.error("Please select a service product");
         return;
       }
-
-      if (editService) {
-        handleShow();
-        return;
-      }
       const resData = await api.post("service/getById", {
         serviceId: serviceid,
       });
       if (resData.isSuccess) {
+       
         setEditService(resData.data);
         handleShow();
       } else {
@@ -80,7 +75,6 @@ const CompanySetting = () => {
     const fuature = service.find((value, index) => index === id);
     setSelectedFeatures(fuature.features);
     setSelectedBenefits(fuature.benefits);
-
     setServiceId(fuature._id);
   };
   return (
@@ -171,7 +165,7 @@ const CompanySetting = () => {
                     <tr key={index}>
                       <td>
                         <button
-                          style={{ letterSpacing: "1px",textAlign:"left" }}
+                          style={{ letterSpacing: "1px", textAlign: "left" }}
                           className={`w-100 border-0  ${
                             selectedService === index
                               ? "selected-button"
