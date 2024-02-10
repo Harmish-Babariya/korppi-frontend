@@ -52,6 +52,19 @@ const Login = () => {
   const { Auth, status } = useSelector((state) => state.login);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const fetchUser = async() => {
+    try {
+      let response = await api.post("user/getById");
+      if (response.isSuccess) {
+        console.log(response.data);
+        dispatch(loginhandle(response.data));
+      } else {
+        toast.error(response.response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -72,9 +85,9 @@ const Login = () => {
         if (response.isSuccess) {
           const { token } = response.data;
           localStorage.setItem("user_token", token);
-          dispatch(loginhandle(token));
           toast.success(response.message);
           navigate("/dashboard");
+          fetchUser()
         } else {
           toast.error(response.response.data.message);
         }

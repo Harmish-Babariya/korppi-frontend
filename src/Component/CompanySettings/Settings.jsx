@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
@@ -8,16 +8,17 @@ import Tab from "react-bootstrap/Tab";
 import MailIcon from "@mui/icons-material/Mail";
 import BusinessIcon from "@mui/icons-material/Business";
 import EmailSetting from "./EmailSetting/EmailSetting";
+import { useSelector, useDispatch } from "react-redux";
 import CompanySetting from "./CompanySetting/CompanySetting";
 import { theme } from "../../Theme/Theme";
-
-
+import api from "../../service/api";
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
   const [email, setEmail] = useState(true);
   const [company, setCompany] = useState(false);
+  const userDatails = useSelector((state) => state.login.userDatails);
+  const [companyDatails, setCompanyDatails] = useState();
   const handleClose = () => setShow(false);
-
   const handleEmail = () => {
     setValue("User Profile Email Setting");
     setCompany(false);
@@ -36,7 +37,7 @@ function Settings({ show, setShow }) {
         className=" modal"
         size="lg"
         dialogClassName="modal-90w w-100"
-        style={{ letterSpacing: "1.5px",marginTop:"40px" }}
+        style={{ letterSpacing: "1.5px", marginTop: "40px" }}
         show={show}
         onHide={handleClose}
       >
@@ -72,7 +73,7 @@ function Settings({ show, setShow }) {
                     }}
                   >
                     <Nav.Link
-                      onClick={() => handleCompany()} 
+                      onClick={() => handleCompany()}
                       style={{ borderRadius: "8px" }}
                       className={`${
                         company
@@ -90,22 +91,22 @@ function Settings({ show, setShow }) {
                 <Tab.Content>
                   <Tab.Pane eventKey="email">
                     <h4 className="ms-2">Personal</h4>
-                    <EmailSetting />
+                    <EmailSetting userDatails={userDatails} />
                     <div className="d-flex justify-content-end mt-2">
-          <Button variant="contained" onClick={handleClose}>
-              Close
-            </Button>
-            <Button
-              variant="outlined"
-              className="ms-1"
-              sx={{
-                color: `${theme.palette.primary.main}`,
-              }}
-              onClick={handleClose}
-            >
-              Save & Close
-            </Button>
-            </div>
+                      <Button variant="contained" onClick={handleClose}>
+                        Close
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        className="ms-1"
+                        sx={{
+                          color: `${theme.palette.primary.main}`,
+                        }}
+                        onClick={handleClose}
+                      >
+                        Save & Close
+                      </Button>
+                    </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="company">
                     <h2 className="ms-2">Company</h2>
@@ -115,7 +116,6 @@ function Settings({ show, setShow }) {
               </Col>
             </Row>
           </Tab.Container>
-         
         </Modal.Body>
         {/* <Modal.Footer>
             <Button variant="contained" onClick={handleClose}>

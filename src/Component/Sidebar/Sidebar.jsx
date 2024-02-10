@@ -23,6 +23,7 @@ import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Generate";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { theme } from "../../Theme/Theme";
 import Industry from "../../Admin/industry";
 import Company from "../../Admin/company";
@@ -76,6 +77,7 @@ const Drawer = styled(MuiDrawer, {
 const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const userDatails = useSelector((state) => state.login.userDatails); 
   const [admin, setAdmin] = useState(false);
   const [routes, setRoutes] = useState([
     {

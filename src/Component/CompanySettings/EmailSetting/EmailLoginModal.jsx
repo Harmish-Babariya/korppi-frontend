@@ -3,16 +3,55 @@ import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Box from "@mui/material/Box";
 import Input from "../../Input";
+import { toast } from "react-toastify";
+import api from "../../../service/api";
 import { theme } from "../../../Theme/Theme";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUser, loginhandle } from "../../../Redux/AuthSlice";
 const EmailLoginModal = ({ show, setShow }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [SMPTServer, setSMPTServer] = useState("");
-  const [SMPTPort, setSMPTPort] = useState("");
+  let userDatails = useSelector((state) => state.login.userDatails);
+  const [email, setEmail] = useState(userDatails.emailConfig.email);
+  const [password, setPassword] = useState(userDatails.emailConfig.password);
+  const [SMPTServer, setSMPTServer] = useState(userDatails.emailConfig.smtpServer);
+  const [SMPTPort, setSMPTPort] = useState(userDatails.emailConfig.smtpPort);
+  const dispatch = useDispatch()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email, password, SMPTServer, SMPTPort);
+    try {
+      const editedUser = {
+        emailConfig: {
+          email: email,
+          password: password,
+          smtpServer: SMPTServer,
+          smtpPort: SMPTPort,
+        },
+        id: userDatails._id,
+      };
+      const resData = await api.post("/user/update", editedUser);
+      if (resData.isSuccess) {
+        toast.success("User Update SuccessFull");
+        // dispatch(fetchUser)
+      } else {
+        toast.error(resData.message);
+      }
+      
+      try {
+        let response = await api.post("user/getById");
+        if (response.isSuccess) {
+          dispatch(loginhandle(response.data));
+          userDatails = useSelector((state) => state.login.userDatails);
+        } else {
+          toast.error(response.response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error("User Data Not Updated", error);
+    }
   };
   const handleClose = () => setShow(false);
 
@@ -23,7 +62,10 @@ const EmailLoginModal = ({ show, setShow }) => {
         <Modal.Header className="" closeButton></Modal.Header>
         <Modal.Body className="mx-auto ">
           <Modal.Title
-            style={{ color: `${theme.palette.primary.main}`, letterSpacing: "2px" }}
+            style={{
+              color: `${theme.palette.primary.main}`,
+              letterSpacing: "2px",
+            }}
             className="text-center fw-bold fs-2"
           >
             Login
@@ -43,7 +85,7 @@ const EmailLoginModal = ({ show, setShow }) => {
                 className={"mb-2"}
                 type={"email"}
                 value={email}
-                onchange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 size={"small"}
                 classnamelebal={"mb-1.5 fs-6 fw-medium"}
               />
@@ -54,7 +96,7 @@ const EmailLoginModal = ({ show, setShow }) => {
                 className={"mb-2"}
                 type={"password"}
                 value={password}
-                onchange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 size={"small"}
                 classnamelebal={"mb-1.5 fs-6 fw-medium"}
               />
@@ -64,7 +106,7 @@ const EmailLoginModal = ({ show, setShow }) => {
                 className={"mb-2"}
                 type={"text"}
                 value={SMPTServer}
-                onchange={(e) => setSMPTServer(e.target.value)}
+                onChange={(e) => setSMPTServer(e.target.value)}
                 size={"small"}
                 classnamelebal={"mb-1.5 fs-6 fw-medium"}
               />
@@ -75,7 +117,7 @@ const EmailLoginModal = ({ show, setShow }) => {
                 className={"mb-2"}
                 type={"text"}
                 value={SMPTPort}
-                onchange={(e) => setSMPTPort(e.target.value)}
+                onChange={(e) => setSMPTPort(e.target.value)}
                 size={"small"}
                 classnamelebal={"mb-1.5 fs-6 fw-medium"}
               />
@@ -84,7 +126,10 @@ const EmailLoginModal = ({ show, setShow }) => {
                 type="submit"
                 variant="outlined"
                 className="btn mt-3 fw-bold text-white "
-                style={{ backgroundColor: `${theme.palette.primary.main}`, letterSpacing: "2px" }}
+                style={{
+                  backgroundColor: `${theme.palette.primary.main}`,
+                  letterSpacing: "2px",
+                }}
                 onClick={(e) => handleSubmit(e)}
               >
                 Login

@@ -23,8 +23,9 @@ const CompanySetting = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-  const { service, status } = useSelector((state) => state.Service);
+  let { service, status } = useSelector((state) => state.Service);
   const [selectedService, setSelectedService] = useState(null);
+  const [companyDatails, setCompanyDatails] = useState(null);
   const [editService, setEditService] = useState(null);
   const [serviceid, setServiceId] = useState();
   const [selectedfeatures, setSelectedFeatures] = useState(
@@ -33,13 +34,28 @@ const CompanySetting = () => {
   const [selectedbenefits, setSelectedBenefits] = useState(
     service[0]?.benefits
   );
+  const [formData, setFormData] = useState({
+    companyName: service[0]?.company?.name,
+    industry:service[0]?.company?.industryId?.name,
+    // companiesYouWorkWith: "",
+  });
+ const [companyId, setComapnyID]=useState(service[0]?.company._id)
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   const handleShow = () => setShow(true);
   const handleShow2 = () => setShow2(true);
   const fetchService = async () => {
     try {
       const resData = await api.post("service/get");
       if (resData.isSuccess) {
+        console.log(resData.data)
         dispatch(servicehandle(resData.data));
+        service = useSelector((state) => state.Service);
       } else {
         toast.error(resData.response.data.message);
       }
@@ -49,7 +65,19 @@ const CompanySetting = () => {
   };
   useEffect(() => {
     fetchService();
+    
   }, []);
+
+  useEffect(() => {
+    if (service.length > 0) {
+      setFormData({
+        companyName: service[0]?.company?.name,
+        industry:service[0]?.company?.industryId?.name,
+      })
+      setComapnyID(service[0]?.company._id)
+      handleServiceClick(0);
+    }
+  }, [service]);
   const handleEdit = async () => {
     try {
       if (!serviceid) {
@@ -60,7 +88,7 @@ const CompanySetting = () => {
         serviceId: serviceid,
       });
       if (resData.isSuccess) {
-       
+        console.log(resData.data)
         setEditService(resData.data);
         handleShow();
       } else {
@@ -70,12 +98,28 @@ const CompanySetting = () => {
       console.error("API Error:", error);
     }
   };
+  const handleSubmit = async() => {
+    try {
+      const resData = await api.post("/company/update", {
+        id: companyId,
+        name:formData.companyName
+      });
+      if (resData.isSuccess) {
+        toast.success("Company Update SuccessFull");
+      } else {
+        toast.error(resData.message);
+      }
+    } catch (error) {
+      console.log("========>sfsdssds", error)
+      toast.error("Company Data Not Updated", error);
+    }
+  }
   const handleServiceClick = (id) => {
     setSelectedService(id);
     const fuature = service.find((value, index) => index === id);
-    setSelectedFeatures(fuature.features);
-    setSelectedBenefits(fuature.benefits);
-    setServiceId(fuature._id);
+    setSelectedFeatures(fuature?.features);
+    setSelectedBenefits(fuature?.benefits);
+    setServiceId(fuature?._id);
   };
   return (
     <>
@@ -91,37 +135,42 @@ const CompanySetting = () => {
           <div className="d-flex flex-column">
             <Input
               id={"companyname"}
+              name={"companyName"}
               lebel={"Company Name"}
               className={"w-75"}
               type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
+              value={formData.companyName}
+              onChange={handleChange}
               size={"small"}
               classnamelebal={"mt-1"}
             />
             <Input
               id={"Industry"}
+              name={"industry"}
               lebel={"Industry"}
-              className={"w-75  mt-2"}
+              className={"w-75  mt-2 disabled"}
               type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
+              value={formData.industry}
+              onChange={handleChange}
               size={"small"}
               classnamelebal={"mt-1"}
+              readonly
+              disabled={'true'}
             />
           </div>
-          <div>
+          {/* <div>
             <Input
               id={"Companies You Work With "}
+              name={"companiesYouWorkWith"}
               lebel={"Companies You Work With"}
               className={"w-75"}
               type={"text"}
-              // value={user}
-              // onchange={(e) => setUser(e.target.value)}
+              value={formData.companiesYouWorkWith}
+              onChange={handleChange}
               size={"small"}
               classnamelebal={"mt-1"}
             />
-          </div>
+          </div> */}
         </Box>
       </div>
       <hr />
@@ -272,6 +321,7 @@ const CompanySetting = () => {
             sx={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant="contained"
             className="fw-medium text-white mt-2"
+            onClick={()=>handleSubmit()}
           >
             Save
           </Button>

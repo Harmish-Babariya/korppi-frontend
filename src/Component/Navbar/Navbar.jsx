@@ -133,7 +133,7 @@ const Navbar = (props) => {
   };
   const handleUser = (prop) => {
     prop === "Profile" ? navigate("/dashboard/profile") : "";
-    prop === "Logout" ? navigate("/login") : "";
+    prop === "Logout" ? localStorage.clear() & navigate("/login") : "";
     prop === "Dashboard" ? navigate("/dashboard") : "";
   };
   return (

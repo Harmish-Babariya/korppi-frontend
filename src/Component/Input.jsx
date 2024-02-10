@@ -11,7 +11,7 @@ const Input = ({
   onChange,
   size,
   name,
-  
+  disabled
 }) => {
   return (
     <>
@@ -25,6 +25,7 @@ const Input = ({
         className={className}
         onChange={onChange}
         onBlur={onBlur}
+        disabled={disabled || false}
       />
     </>
   );

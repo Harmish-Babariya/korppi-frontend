@@ -8,21 +8,10 @@ import Input from "../../../Component/Input";
 import api from "../../../service/api";
 import { Row, Col } from "reactstrap";
 
-const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
+const CreateUser = ({ showUser, setShowUser, fetchUsers, companyId }) => {
   const handleClose = () => setShowUser(false);
 
   const [companyOptions, setCompanyOptions] = useState([]);
-  const fetchCompanies = async () => {
-    try {
-      const response = await api.post("company/get"); 
-      setCompanyOptions(response.data);
-    } catch (error) {
-      console.error("Error fetching companies:", error);
-    }
-  };
-  useEffect(() => {
-    fetchCompanies();
-  }, []);
 
   const fieldConfigurations = [
     { id: "firstName", lebel: "First Name", type: "text" },
@@ -30,12 +19,12 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
     { id: "role", lebel: "Role", type: "text" },
     { id: "email", lebel: "Email", type: "email" },
     { id: "phone", lebel: "Phone", type: "text" },
-    { id: "companyId", lebel: "Company ID", type: "select" }, 
+
     { id: "linkedinUrl", lebel: "LinkedIn Url", type: "text" },
   ];
 
   const initialValues = fieldConfigurations.reduce(
-    (acc, field) => ({ ...acc, [field.id]: "" }),
+    (acc, field) => ({ ...acc, [field.id]: "", companyId }),
     {}
   );
 
@@ -84,40 +73,23 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers }) => {
           <Row>
             {fieldConfigurations.map((field) => (
               <Col
-                key={field.id}
+                key={field.zid}
                 className="pr-1 d-flex flex-column mx-auto"
                 md="10"
               >
-                {field.type === "select" ? (
-                  <select
-                    id={field.id}
-                    name={field.id}
-                    value={formik.values[field.id]}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="mt-2 form-control"
-                  >
-                    <option value="">Select Company ID</option>
-                    {companyOptions.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option._id}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <Input
-                    id={field.id}
-                    lebel={field.lebel}
-                    className={"mt-2"}
-                    type={field.type}
-                    name={field.id}
-                    value={formik.values[field.id]}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    size={"small"}
-                    classnamelebal={"mt-2"}
-                  />
-                )}
+                <Input
+                  id={field.id}
+                  lebel={field.lebel}
+                  className={"mt-2"}
+                  type={field.type}
+                  name={field.id}
+                  value={formik.values[field.id]}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  size={"small"}
+                  classnamelebal={"mt-2"}
+                />
+
                 {formik.touched[field.id] && formik.errors[field.id] && (
                   <div className="error ms-2 text-danger">
                     {formik.errors[field.id]}

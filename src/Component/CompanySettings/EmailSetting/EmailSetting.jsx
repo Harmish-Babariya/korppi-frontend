@@ -5,9 +5,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import EmailLoginModal from "./EmailLoginModal";
 import { theme } from "../../../Theme/Theme";
-const EmailSetting = () => {
+const EmailSetting = ({userDatails}) => {
   const [show, setShow] = useState(false);
-
+console.log(userDatails)
   const handleShow = () => setShow(true);
 
   return (
@@ -28,22 +28,25 @@ const EmailSetting = () => {
               label="First Name"
               variant="outlined"
               size="small"
+              value={userDatails.firstName}
               fullWidth
             />
-            <TextField
+            {/* <TextField
               id="outlined-basic"
               label="Job Title"
               variant="outlined"
+            value={userDatails.lastName}
               size="small"
               className="mt-2"
               fullWidth
-            />
+            /> */}
           </div>
           <div>
             <TextField
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
+            value={userDatails.lastName}
               size="small"
               fullWidth
             />

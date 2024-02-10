@@ -101,7 +101,7 @@ const CompanyDatails = () => {
               <span className="fw-bold">Company Name :</span> {data?.name}
             </p>
             <p>
-              <span className="fw-bold">Industry_Id :</span> {data?.industryId}
+              <span className="fw-bold">Industry_Id :</span> {data?.industryId.name  }
             </p>
             <p>
               <span className="fw-bold">Size :</span> {data?.size}
@@ -113,7 +113,7 @@ const CompanyDatails = () => {
               <span className="fw-bold">Country :</span> {data?.country}
             </p>
             {/* <p>
-              <span className="fw-bold">Iinkedinabout :</span>{" "}
+              <span className="fw-bold">Iinkedinabout :</span>
               <a href="">{data?.linkedinabout}</a>
             </p> */}
           </div>
@@ -122,7 +122,7 @@ const CompanyDatails = () => {
               <span className="fw-bold">Postal_Code :</span> {data?.postalCode}
             </p>
             {/* <p>
-              <span className="fw-bold">Iinkedinurl :</span>{" "}
+              <span className="fw-bold">Iinkedinurl :</span>
               <a href="">{data?.linkedinurl}</a>
             </p> */}
             <p>
@@ -157,7 +157,7 @@ const CompanyDatails = () => {
               </Button>
             </div>
           </div>
-          <CreateUser showUser={showUser} setShowUser={setShowUser} fetchUsers={fetchUsers}/>
+          <CreateUser showUser={showUser} setShowUser={setShowUser} fetchUsers={fetchUsers} companyId={id}/>
           {userData.length > 0 ? (
             <>
               <div className="table-responsive mb-2">
@@ -195,7 +195,7 @@ const CompanyDatails = () => {
                             className="bg-body-secondary rounded "
                             onClick={() => handleEditUser(user._id)}
                           >
-                            <BiSolidEdit className="fs-4" />{" "}
+                            <BiSolidEdit className="fs-4" />
                           </Button>
                           {editModalOpen && (
                             <EditUserModal
