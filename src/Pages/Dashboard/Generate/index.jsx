@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Input from "../../../Component/Input";
 
 import Paper from "@mui/material/Paper";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
-import { Button } from "@mui/material";
+import { Button, MenuItem, Select } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { servicehandle } from "../../../Redux/CompanyServiceSlice";
+import { useDispatch, useSelector } from "react-redux";
+import api from "../../../service/api";
+import { toast } from "react-toastify";
 
 const Generate = () => {
+  const dispatch = useDispatch();
+  let { service } = useSelector((state) => state.Service);
+  const [selectedService, setSelectedService] = useState();
+  const [targetMarket, setTargetMarket] = useState([]);
   const [expanded, setExpanded] = React.useState("panel1");
   const [companyData, setCompanyData] = useState([
     {
@@ -76,6 +84,45 @@ const Generate = () => {
   const handleSelect = () => {
     console.log("Select button clicked");
   };
+  const fetchService = async () => {
+    try {
+      const resData = await api.post("service/get");
+      if (resData.isSuccess) {
+        dispatch(servicehandle(resData.data));
+        service = useSelector((state) => state.Service);
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+  const fetchTargetMarket = async () => {
+    try {
+      const resData = await api.post("target-market/get");
+      if (resData.isSuccess) {
+        setTargetMarket(resData.data);
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+
+  function handleServiceChange(e) {
+    e.preventDefault();
+    const newValue = e.target.value;
+    setSelectedService(service.find((item) => item._id === newValue));
+  }
+  useEffect(() => {
+    fetchService();
+    fetchTargetMarket();
+  }, []);
+
+  useEffect(() => {
+    setSelectedService(service[0]);
+  }, [service]);
   return (
     <div style={{ letterSpacing: "1px" }} className="content">
       <Row>
@@ -87,24 +134,52 @@ const Generate = () => {
                   <Paper elevation={3}>
                     <Card className="shadow">
                       <CardHeader>
-                        <CardTitle tag="h5">Interactive Dashboards</CardTitle>
+                        <CardTitle tag="h5">
+                          <Select
+                            name="services"
+                            id="services"
+                            className=""
+                            value={
+                              selectedService ? selectedService._id : "Default"
+                            }
+                            onChange={(e) => handleServiceChange(e)}
+                          >
+                            <MenuItem value="Default" disabled>
+                              Select service
+                            </MenuItem>
+                            {service ? (
+                              service.map((single) => (
+                                <MenuItem key={single._id} value={single._id}>
+                                  {single.title}
+                                </MenuItem>
+                              ))
+                            ) : (
+                              <option value="">Data Loading...</option>
+                            )}
+                          </Select>
+                        </CardTitle>
                       </CardHeader>
                       <CardBody>
                         <div className="d-flex flex-column mb-3">
-                          <label htmlFor="" className="fw-bold">
-                            Free Plan
+                          <label htmlFor="" className="fw-bold text-capitalize">
+                            Plan {selectedService?.offer}
                           </label>
                           <Input
                             id={"freepaln"}
-                            lebel={"Free"}
                             className={"mb-2"}
                             type={"text"}
-                            // value={password}
+                            value={
+                              "Price - " +
+                              (selectedService?.price
+                                ? selectedService?.price
+                                : "")
+                            }
                             // onchange={(e) => setPassword(e.target.value)}
                             size={"small"}
                             classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                            disabled={true}
                           />
-                          <div className="w-100">
+                          <Card className="w-100">
                             <Accordion
                               className="w-auto"
                               expanded={expanded === "panel1"}
@@ -117,15 +192,19 @@ const Generate = () => {
                                 className="bg-body-secondary"
                               >
                                 <Typography className="fs-5 fw-lighter">
-                                  Featurs
+                                  Features
                                 </Typography>
                               </AccordionSummary>
-                              <AccordionDetails>
-                                <Typography>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Suspendisse malesuada lacus
-                                  ex, sit amet blandit leo lobortis eget.
-                                </Typography>
+                              <AccordionDetails className="mw-100 overflow-y-scroll">
+                                {selectedService
+                                  ? selectedService.features.map(
+                                      (ele, index) => (
+                                        <Typography key={index}>
+                                          {ele.description}
+                                        </Typography>
+                                      )
+                                    )
+                                  : "Data Loading..."}
                               </AccordionDetails>
                             </Accordion>
                             <Accordion>
@@ -140,23 +219,53 @@ const Generate = () => {
                                 </Typography>
                               </AccordionSummary>
                               <AccordionDetails>
-                                <Typography>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Suspendisse malesuada lacus
-                                  ex, sit amet blandit leo lobortis eget.
-                                </Typography>
+                                {selectedService
+                                  ? selectedService.benefits.map(
+                                      (ele, index) => (
+                                        <Typography key={index}>
+                                          {ele.description}
+                                        </Typography>
+                                      )
+                                    )
+                                  : "Data Loading..."}
                               </AccordionDetails>
                             </Accordion>
-                            <Button
-                              sx={{
-                                backgroundColor: `${theme.palette.primary.main}`,
-                              }}
-                              variant="contained"
-                              className="mt-3 w-100 fw-medium "
-                              onClick={handleGetStarted}
-                            >
-                              Get Started
-                            </Button>
+                            {console.log(selectedService)}
+                          </Card>
+                          <div className="mt-3 p-1">
+                            <span>
+                              <b>Target Market Label:</b>
+                              {selectedService?.target_market?.targetName}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Target location: </b>
+                              {selectedService?.target_market?.location.map(
+                                (ele) => (
+                                  <>{ele}</>
+                                )
+                              )}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Employee Count:</b>
+                              {selectedService?.target_market?.employeeCount[0]}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Industry: </b>
+                              {selectedService?.target_market?.industry.map(
+                                (ele) => (
+                                  <>{ele}</>
+                                )
+                              )}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Job Title: </b>
+                              {selectedService?.target_market?.jobTitle}
+                            </span>
+                            <br />
                           </div>
                         </div>
                       </CardBody>
@@ -200,12 +309,13 @@ const Generate = () => {
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             /> */}
                             <div>
-                            <p>
-                              <strong>Industry :</strong>Data
-                            </p>
-                            <p>
-                              <strong>Companies You Work With :</strong>Microsoft
-                            </p>
+                              <p>
+                                <strong>Industry :</strong>{selectedService?.company?.industryId?.name ? selectedService?.company?.industryId?.name : 'No Data Available'}
+                              </p>
+                              <p>
+                                <strong>Companies You Work With :</strong>
+                                Microsoft
+                              </p>
                             </div>
                             {/* <Input
                               id={"companies you work with"}
@@ -219,21 +329,25 @@ const Generate = () => {
                             /> */}
                             <hr />
                             <label htmlFor="" className="fw-bold">
-                              Select Industry
+                              Select Target Market
                             </label>
                             <select
-                      id="selectIndustry"
-                      className="form-select mb-2 mt-1"
-                      // value={SMPTPort}
-                     // onchange={(e) => setSMPTPort(e.target.value)}
-                    >
-                      {/* Map through industry options and create options */}
-                      {industryOptions.map((option, index) => (
-                        <option key={index} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                              id="selectTargetMarket"
+                              className="form-select mb-2 mt-1"
+                              // value={SMPTPort}
+                              // onchange={(e) => setSMPTPort(e.target.value)}
+                            >
+                              {console.log('===>selectedService',selectedService)}
+                              {targetMarket ? (
+                                targetMarket.map((market, index) => (
+                                  <option key={index} value={market._id}>
+                                    {market?.targetName}
+                                  </option>
+                                ))
+                              ) : (
+                                <option>Data Loading...</option>
+                              )}
+                            </select>
                             {/* <Input
                               id={"select industry"}
                               lebel={"Select Industry"}
@@ -280,7 +394,7 @@ const Generate = () => {
                             variant="contained"
                             className="ms-2 "
                             size="medium"
-                            onClick={()=>handleSelect()}
+                            onClick={() => handleSelect()}
                           >
                             Select
                           </Button>
