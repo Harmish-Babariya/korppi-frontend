@@ -138,7 +138,7 @@ const Generate = () => {
                           <Select
                             name="services"
                             id="services"
-                            className=""
+                            className="w-100"
                             value={
                               selectedService ? selectedService._id : "Default"
                             }
@@ -234,7 +234,7 @@ const Generate = () => {
                           </Card>
                           <div className="mt-3 p-1">
                             <span>
-                              <b>Target Market Label:</b>
+                              <b>Target Market Label: </b>
                               {selectedService?.target_market?.targetName}
                             </span>
                             <br />
@@ -248,7 +248,7 @@ const Generate = () => {
                             </span>
                             <br />
                             <span>
-                              <b>Employee Count:</b>
+                              <b>Employee Count: </b>
                               {selectedService?.target_market?.employeeCount[0]}
                             </span>
                             <br />
@@ -337,7 +337,6 @@ const Generate = () => {
                               // value={SMPTPort}
                               // onchange={(e) => setSMPTPort(e.target.value)}
                             >
-                              {console.log('===>selectedService',selectedService)}
                               {targetMarket ? (
                                 targetMarket.map((market, index) => (
                                   <option key={index} value={market._id}>
