@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Input from "../../../Component/Input";
+import { FaCheckCircle } from "react-icons/fa";
 
 import Paper from "@mui/material/Paper";
 import { theme } from "../../../Theme/Theme";
@@ -200,7 +201,7 @@ const Generate = () => {
                                   ? selectedService.features.map(
                                       (ele, index) => (
                                         <Typography key={index}>
-                                          {ele.description}
+                                          <FaCheckCircle /> &nbsp; {ele.description}
                                         </Typography>
                                       )
                                     )
@@ -223,7 +224,7 @@ const Generate = () => {
                                   ? selectedService.benefits.map(
                                       (ele, index) => (
                                         <Typography key={index}>
-                                          {ele.description}
+                                          <FaCheckCircle /> &nbsp; {ele.description}
                                         </Typography>
                                       )
                                     )
@@ -357,7 +358,7 @@ const Generate = () => {
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                               size="small"
                             /> */}
-                            <p className="fw-light fs-6">87 Email to generet</p>
+                            <p className="fw-light fs-6">87 Email to genereted</p>
                           </div>
                         </Box>
                       </CardBody>
