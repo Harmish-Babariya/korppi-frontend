@@ -236,6 +236,16 @@ const Generate = () => {
                             {console.log(selectedService)}
                           </Card>
 
+                          <Button
+                            variant="text"
+                            className="btn mt-3 fw-bold text-white w-50"
+                            style={{
+                              backgroundColor: `${theme.palette.primary.main}`,
+                              letterSpacing: "2px",
+                            }}
+                          >
+                            {selectedService?.offer ? selectedService?.offer + 'Off' : "No Offer"}
+                          </Button>
                           <span className="m-2 fw-bold fs-3 bg-transparent ">
                             {selectedService?.currency === "USD"
                               ? "$"
