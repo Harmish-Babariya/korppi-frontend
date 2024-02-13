@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Box from "@mui/material/Box";
 import Input from "../../Input";
@@ -8,6 +8,10 @@ import api from "../../../service/api";
 import { theme } from "../../../Theme/Theme";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, loginhandle } from "../../../Redux/AuthSlice";
+import { FcGoogle } from "react-icons/fc";
+import { TfiMicrosoftAlt } from "react-icons/tfi";
+
+
 const EmailLoginModal = ({ show, setShow }) => {
   let userDatails = useSelector((state) => state.login.userDatails);
   const [email, setEmail] = useState(userDatails.emailConfig.email);
@@ -134,6 +138,25 @@ const EmailLoginModal = ({ show, setShow }) => {
               >
                 Login
               </Button>
+              <div className="d-flex flex-row">
+              <Button
+                variant="outlined"
+                className="btn mt-3 text-bg-light w-50"
+                style={{
+                  backgroundColor: `white`,
+                  letterSpacing: "2px",
+                }}
+              >
+                <FcGoogle fontSize={"2.5rem"} /> &nbsp; Login With Google
+              </Button>
+              &nbsp;
+              <Button
+                variant="outlined"
+                className="btn mt-3 text-bg-light w-50"
+              >
+                <TfiMicrosoftAlt color="blue" fontSize={"1.5rem"} /> &nbsp; Login With Office 
+              </Button>
+              </div>
             </div>
           </Box>
         </Modal.Body>

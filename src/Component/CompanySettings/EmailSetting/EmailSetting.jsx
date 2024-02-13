@@ -5,11 +5,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import EmailLoginModal from "./EmailLoginModal";
 import { theme } from "../../../Theme/Theme";
+import { Input } from "reactstrap";
 const EmailSetting = ({userDatails}) => {
   const [show, setShow] = useState(false);
-console.log(userDatails)
+  const [signature, setSignature] = useState(userDatails?.firstName + ' ' +userDatails?.lastName + "\n" + userDatails?.role +" | " + userDatails?.companyId.name + "\n" + "E: " + userDatails?.email);
   const handleShow = () => setShow(true);
-
   return (
     <>
       <div className="d-flex">
@@ -31,15 +31,15 @@ console.log(userDatails)
               value={userDatails.firstName}
               fullWidth
             />
-            {/* <TextField
+            <TextField
               id="outlined-basic"
               label="Job Title"
               variant="outlined"
-            value={userDatails.lastName}
+              value={userDatails.role}
               size="small"
               className="mt-2"
               fullWidth
-            /> */}
+            />
           </div>
           <div>
             <TextField
@@ -93,14 +93,18 @@ console.log(userDatails)
             variant="h10"
             component="div"
           >
-            <Typography variant="h10">John Deo</Typography>
-            <Typography>Founder | Runic data</Typography>
-            <Typography>
-              <span className="fw-bold">W:</span>runicdata.com
-            </Typography>
-            <Typography>
-              <span className="fw-bold">E:</span> johndeo.rafiq@gmail.com
-            </Typography>
+            <textarea
+              id={"Singature"}
+              name={"Singature"}
+              className={"w-100 bg-transparent border-0"}
+              style={{"outline": "none"}}
+              type={"text"}
+              value={signature}
+              onChange={(e) => setSignature(e.target.value)}
+              size={"small"}
+              classnamelebal={"mt-1"}
+            />
+            
           </Typography>
         </div>
       </div>

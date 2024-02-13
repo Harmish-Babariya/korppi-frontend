@@ -17,6 +17,7 @@ import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { theme } from "../../../Theme/Theme";
 import Input from "../../Input";
 import "./companySettings.css";
+import { FaCheckCircle } from "react-icons/fa";
 
 const CompanySetting = () => {
   const theme = useTheme();
@@ -36,10 +37,10 @@ const CompanySetting = () => {
   );
   const [formData, setFormData] = useState({
     companyName: service[0]?.company?.name,
-    industry:service[0]?.company?.industryId?.name,
-    // companiesYouWorkWith: "",
+    industry: service[0]?.company?.industryId?.name,
+    companiesYouWorkWith: "",
   });
- const [companyId, setComapnyID]=useState(service[0]?.company._id)
+  const [companyId, setComapnyID] = useState(service[0]?.company._id);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -53,7 +54,6 @@ const CompanySetting = () => {
     try {
       const resData = await api.post("service/get");
       if (resData.isSuccess) {
-        console.log(resData.data)
         dispatch(servicehandle(resData.data));
         service = useSelector((state) => state.Service);
       } else {
@@ -65,16 +65,15 @@ const CompanySetting = () => {
   };
   useEffect(() => {
     fetchService();
-    
   }, []);
 
   useEffect(() => {
     if (service.length > 0) {
       setFormData({
         companyName: service[0]?.company?.name,
-        industry:service[0]?.company?.industryId?.name,
-      })
-      setComapnyID(service[0]?.company._id)
+        industry: service[0]?.company?.industryId?.name,
+      });
+      setComapnyID(service[0]?.company._id);
       handleServiceClick(0);
     }
   }, [service]);
@@ -88,7 +87,6 @@ const CompanySetting = () => {
         serviceId: serviceid,
       });
       if (resData.isSuccess) {
-        console.log(resData.data)
         setEditService(resData.data);
         handleShow();
       } else {
@@ -98,11 +96,11 @@ const CompanySetting = () => {
       console.error("API Error:", error);
     }
   };
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     try {
       const resData = await api.post("/company/update", {
         id: companyId,
-        name:formData.companyName
+        name: formData.companyName,
       });
       if (resData.isSuccess) {
         toast.success("Company Update SuccessFull");
@@ -110,10 +108,9 @@ const CompanySetting = () => {
         toast.error(resData.message);
       }
     } catch (error) {
-      console.log("========>sfsdssds", error)
       toast.error("Company Data Not Updated", error);
     }
-  }
+  };
   const handleServiceClick = (id) => {
     setSelectedService(id);
     const fuature = service.find((value, index) => index === id);
@@ -158,7 +155,7 @@ const CompanySetting = () => {
               disabled={'true'}
             />
           </div>
-          {/* <div>
+          <div>
             <Input
               id={"Companies You Work With "}
               name={"companiesYouWorkWith"}
@@ -170,12 +167,12 @@ const CompanySetting = () => {
               size={"small"}
               classnamelebal={"mt-1"}
             />
-          </div> */}
+          </div>
         </Box>
       </div>
       <hr />
       <div className="row d-flex">
-        <div className="col-6">
+        <div className="col-4">
           <div
             className="mt-2 mb-2"
             style={{
@@ -194,7 +191,7 @@ const CompanySetting = () => {
                 borderRadius: "8px",
               }}
             >
-              <thead className="fs-4 border-bottom">
+              <thead className="fs-6 border-bottom">
                 <tr>
                   <th>Service/Product</th>
                 </tr>
@@ -231,10 +228,12 @@ const CompanySetting = () => {
               </table>
             </div>
           </div>
+          <div className="d-flex flex-column">
           <Button
             sx={{ color: `${theme.palette.primary.main}` }}
             variant="outlined"
-            className="me-2 ms-3 mt-2 fw-medium"
+            size="small"
+            className="mt-2 fw-medium"
             onClick={() => handleEdit()}
           >
             Edit
@@ -243,11 +242,86 @@ const CompanySetting = () => {
           <Button
             style={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant="contained"
+            size="small"
             className="fw-medium text-white mt-2"
             onClick={handleShow2}
           >
             Add Service
           </Button>
+          </div>
+        </div>
+        <div className="col-4">
+          <div
+            className="mt-2 mb-2"
+            style={{
+              maxHeight: "300px",
+              borderRadius: "10px",
+              overflow: "hidden",
+              border: "1px solid #ced4da",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <table
+              className="table table-hover rounded"
+              style={{
+                minWidth: "100%",
+                overflow: "hidden",
+                borderRadius: "8px",
+              }}
+            >
+              <thead className="fs-6 border-bottom">
+                <tr>
+                  <th>Target Market</th>
+                </tr>
+              </thead>
+            </table>
+            <div
+              style={{
+                marginTop: "-15px",
+                maxHeight: "200px",
+                overflowY: "scroll",
+                display: "flex",
+              }}
+            >
+              <table className="table" style={{ minWidth: "100%" }}>
+                <tbody>
+                    <tr>
+                      <td>
+                        <button
+                          style={{ letterSpacing: "1px", textAlign: "left" }}
+                          className={`w-100 border-0  ${
+                            service[selectedService] && service[selectedService].target_market?.targetName ? "selected-button" : "non-selected-button"
+                          }`}
+                        >
+                          {service[selectedService] && service[selectedService].target_market?.targetName ? service[selectedService].target_market?.targetName : 'No Data Available'}
+                        </button>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {/* <div className="d-flex flex-column">
+          <Button
+            sx={{ color: `${theme.palette.primary.main}` }}
+            variant="outlined"
+            size="small"
+            className="mt-2 fw-medium"
+            onClick={() => handleEdit()}
+          >
+            Edit
+          </Button>
+
+          <Button
+            style={{ backgroundColor: `${theme.palette.primary.main}` }}
+            variant="contained"
+            size="small" 
+            className="fw-medium text-white mt-2"
+            onClick={handleShow2}
+          >
+            Create Market
+          </Button>
+          </div> */}
         </div>
 
         {show && (
@@ -285,14 +359,13 @@ const CompanySetting = () => {
                 <Typography className="fw-bold">Features</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  <ul>
-                    {selectedfeatures &&
-                      selectedfeatures.map((value, index) => (
-                        <li key={index}>{value.description}</li>
-                      ))}
-                  </ul>
-                </Typography>
+              {selectedfeatures
+                  ? selectedfeatures.map((ele, index) => (
+                      <Typography key={index}>
+                        <FaCheckCircle /> &nbsp; {ele.description}
+                      </Typography>
+                    ))
+                  : "Data Loading..."}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -305,14 +378,13 @@ const CompanySetting = () => {
                 <Typography className="fw-bold">Benefits</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  <ul>
-                    {selectedbenefits &&
-                      selectedbenefits.map((value, index) => (
-                        <li key={index}>{value.description}</li>
-                      ))}
-                  </ul>
-                </Typography>
+                {selectedbenefits
+                  ? selectedbenefits.map((ele, index) => (
+                      <Typography key={index}>
+                        <FaCheckCircle /> &nbsp; {ele.description}
+                      </Typography>
+                    ))
+                  : "Data Loading..."}
               </AccordionDetails>
             </Accordion>
           </div>
@@ -321,7 +393,7 @@ const CompanySetting = () => {
             sx={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant="contained"
             className="fw-medium text-white mt-2"
-            onClick={()=>handleSubmit()}
+            onClick={() => handleSubmit()}
           >
             Save
           </Button>

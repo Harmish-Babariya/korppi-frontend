@@ -162,7 +162,7 @@ const Generate = () => {
                       </CardHeader>
                       <CardBody>
                         <div className="d-flex flex-column mb-3">
-                          <label htmlFor="" className="fw-bold text-capitalize">
+                          {/* <label htmlFor="" className="fw-bold text-capitalize">
                             Plan {selectedService?.offer}
                           </label>
                           <Input
@@ -179,7 +179,7 @@ const Generate = () => {
                             size={"small"}
                             classnamelebal={"mb-1.5 fs-6 fw-medium"}
                             disabled={true}
-                          />
+                          /> */}
                           <Card className="w-100">
                             <Accordion
                               className="w-auto"
@@ -201,7 +201,8 @@ const Generate = () => {
                                   ? selectedService.features.map(
                                       (ele, index) => (
                                         <Typography key={index}>
-                                          <FaCheckCircle /> &nbsp; {ele.description}
+                                          <FaCheckCircle /> &nbsp;
+                                          {ele.description}
                                         </Typography>
                                       )
                                     )
@@ -224,7 +225,8 @@ const Generate = () => {
                                   ? selectedService.benefits.map(
                                       (ele, index) => (
                                         <Typography key={index}>
-                                          <FaCheckCircle /> &nbsp; {ele.description}
+                                          <FaCheckCircle /> &nbsp;
+                                          {ele.description}
                                         </Typography>
                                       )
                                     )
@@ -233,6 +235,15 @@ const Generate = () => {
                             </Accordion>
                             {console.log(selectedService)}
                           </Card>
+
+                          <span className="m-2 fw-bold fs-3 bg-transparent ">
+                            {selectedService?.currency === "USD"
+                              ? "$"
+                              : selectedService?.currency === "EUR"
+                              ? "£"
+                              : selectedService?.currency}
+                            {selectedService?.price}
+                          </span>
                           <div className="mt-3 p-1">
                             <span>
                               <b>Target Market Label: </b>
@@ -311,7 +322,10 @@ const Generate = () => {
                             /> */}
                             <div>
                               <p>
-                                <strong>Industry :</strong>{selectedService?.company?.industryId?.name ? selectedService?.company?.industryId?.name : 'No Data Available'}
+                                <strong>Industry :</strong>
+                                {selectedService?.company?.industryId?.name
+                                  ? selectedService?.company?.industryId?.name
+                                  : "No Data Available"}
                               </p>
                               <p>
                                 <strong>Companies You Work With :</strong>
@@ -358,7 +372,9 @@ const Generate = () => {
                               classnamelebal={"mb-1.5 fs-6 fw-medium"}
                               size="small"
                             /> */}
-                            <p className="fw-light fs-6">87 Email to genereted</p>
+                            <p className="fw-light fs-6">
+                              87 Email to genereted
+                            </p>
                           </div>
                         </Box>
                       </CardBody>
