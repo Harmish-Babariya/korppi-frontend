@@ -47,7 +47,7 @@ const Createindustry = ({ show, setShow,fetchData }) => {
       try {
         const resData = await api.post("/industry/add", values);
         if (resData.isSuccess) {
-          toast.success("Industry Create SuccessFull");
+          toast.success("Industry Create Successful");
           fetchData();
           setShow(false);
         } else toast.error(resData.message);

@@ -10,7 +10,6 @@ import BusinessIcon from "@mui/icons-material/Business";
 import EmailSetting from "./EmailSetting/EmailSetting";
 import { useSelector, useDispatch } from "react-redux";
 import CompanySetting from "./CompanySetting/CompanySetting";
-import { theme } from "../../Theme/Theme";
 import api from "../../service/api";
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
@@ -91,26 +90,11 @@ function Settings({ show, setShow }) {
                 <Tab.Content>
                   <Tab.Pane eventKey="email">
                     <h4 className="ms-2">Personal</h4>
-                    <EmailSetting userDatails={userDatails} />
-                    <div className="d-flex justify-content-end mt-2">
-                      <Button variant="contained" onClick={handleClose}>
-                        Close
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        className="ms-1"
-                        sx={{
-                          color: `${theme.palette.primary.main}`,
-                        }}
-                        onClick={handleClose}
-                      >
-                        Save & Close
-                      </Button>
-                    </div>
+                    <EmailSetting userDatails={userDatails} handleClose={handleClose}/>
                   </Tab.Pane>
                   <Tab.Pane eventKey="company">
                     <h2 className="ms-2">Company</h2>
-                    <CompanySetting />
+                    <CompanySetting  handleClose={handleClose}/>
                   </Tab.Pane>
                 </Tab.Content>
               </Col>

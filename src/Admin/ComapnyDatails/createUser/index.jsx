@@ -45,7 +45,7 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers, companyId }) => {
       try {
         const resData = await api.post("/user/add", values);
         if (resData.isSuccess) {
-          toast.success("User Create SuccessFull");
+          toast.success("User Create Successful");
           setShowUser(false);
           formik.resetForm();
           fetchUsers();

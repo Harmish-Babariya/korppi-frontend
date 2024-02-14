@@ -64,7 +64,7 @@ const CreateCompany = ({ show, setShow, fetchCompany }) => {
       try {
         const resData = await api.post("/company/add", values);
         if (resData.isSuccess) {
-          toast.success("Company Create SuccessFull");
+          toast.success("Company Create Successful");
           setShow(false);
           fetchCompany();
           formik.resetForm();

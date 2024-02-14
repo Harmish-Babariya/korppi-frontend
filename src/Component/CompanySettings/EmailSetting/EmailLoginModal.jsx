@@ -22,7 +22,6 @@ const EmailLoginModal = ({ show, setShow }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password, SMPTServer, SMPTPort);
     try {
       const editedUser = {
         emailConfig: {
@@ -35,8 +34,8 @@ const EmailLoginModal = ({ show, setShow }) => {
       };
       const resData = await api.post("/user/update", editedUser);
       if (resData.isSuccess) {
-        toast.success("User Update SuccessFull");
-        // dispatch(fetchUser)
+        toast.success("User Update Successful");
+        setShow(false)
       } else {
         toast.error(resData.message);
       }
@@ -60,8 +59,7 @@ const EmailLoginModal = ({ show, setShow }) => {
   const handleClose = () => setShow(false);
 
   return (
-    <>
-      {" "}
+    <>      
       <Modal show={show} onHide={handleClose} style={{ marginTop: "70px" }}>
         <Modal.Header className="" closeButton></Modal.Header>
         <Modal.Body className="mx-auto ">

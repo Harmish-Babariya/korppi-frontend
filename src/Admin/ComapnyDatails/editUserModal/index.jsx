@@ -33,7 +33,7 @@ const EditUserModal = ({
           }
       const resData = await api.post("/user/update", editedUser);
       if (resData.isSuccess) {
-        toast.success("User Update SuccessFull");
+        toast.success("User Update Successful");
         handleEditModalClose();
         fetchUsers();
       } else {

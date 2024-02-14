@@ -56,7 +56,7 @@ const CompanyEditModal = ({
     try {
       const resData = await api.post("/company/update", updatedData);
       if (resData.isSuccess) {
-        toast.success("Company Update SuccessFull");
+        toast.success("Company Update Successful");
         handleEditModalClose();
         fetchCompany();
       } else {

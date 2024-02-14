@@ -114,7 +114,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       try {
         const resData = await api.post("/service/update", serviceEdit);
         if (resData.isSuccess) {
-          toast.success("Service Update SuccessFull");
+          toast.success("Service Update Successful");
           fetchService();
           handleClose();
         } else {

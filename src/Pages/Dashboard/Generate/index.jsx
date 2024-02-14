@@ -22,6 +22,7 @@ const Generate = () => {
   let { service } = useSelector((state) => state.Service);
   const [selectedService, setSelectedService] = useState();
   const [targetMarket, setTargetMarket] = useState([]);
+  const [selectedTargetMarket, setSelectedTargetMarket] = useState();
   const [expanded, setExpanded] = React.useState("panel1");
   const [companyData, setCompanyData] = useState([
     {
@@ -116,6 +117,13 @@ const Generate = () => {
     const newValue = e.target.value;
     setSelectedService(service.find((item) => item._id === newValue));
   }
+
+  function handleMarketChange(e) {
+    e.preventDefault();
+    const newValue = e.target.value;
+    setSelectedTargetMarket(targetMarket.find((item) => item._id === newValue));
+  }
+
   useEffect(() => {
     fetchService();
     fetchTargetMarket();
@@ -123,6 +131,7 @@ const Generate = () => {
 
   useEffect(() => {
     setSelectedService(service[0]);
+    setSelectedTargetMarket(targetMarket[0])
   }, [service]);
   return (
     <div style={{ letterSpacing: "1px" }} className="content">
@@ -233,7 +242,6 @@ const Generate = () => {
                                   : "Data Loading..."}
                               </AccordionDetails>
                             </Accordion>
-                            {console.log(selectedService)}
                           </Card>
 
                           <Button
@@ -358,9 +366,9 @@ const Generate = () => {
                             </label>
                             <select
                               id="selectTargetMarket"
-                              className="form-select mb-2 mt-1"
-                              // value={SMPTPort}
-                              // onchange={(e) => setSMPTPort(e.target.value)}
+                              className="form-select mb-2 mt-1 outline-none"
+                              value={selectedTargetMarket?._id}
+                              onChange={(e) => handleMarketChange(e)}
                             >
                               {targetMarket ? (
                                 targetMarket.map((market, index) => (
@@ -372,6 +380,8 @@ const Generate = () => {
                                 <option>Data Loading...</option>
                               )}
                             </select>
+                            
+                            {console.log(selectedTargetMarket)}
                             {/* <Input
                               id={"select industry"}
                               lebel={"Select Industry"}
@@ -385,6 +395,41 @@ const Generate = () => {
                             <p className="fw-light fs-6">
                               87 Email to genereted
                             </p>
+                            <div className="mt-3 p-1">
+                            <span>
+                              <b>Target Market Label: </b>
+                              {selectedTargetMarket?.targetName}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Target location: </b>
+                              {selectedTargetMarket?.location.map(
+                                (ele) => (
+                                  <>{ele}</>
+                                )
+                              )}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Employee Count: </b>
+                              {selectedTargetMarket?.employeeCount[0]}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Industry: </b>
+                              {selectedTargetMarket?.industry.map(
+                                (ele) => (
+                                  <>{ele}</>
+                                )
+                              )}
+                            </span>
+                            <br />
+                            <span>
+                              <b>Job Title: </b>
+                              {selectedTargetMarket?.jobTitle}
+                            </span>
+                            <br />
+                          </div>
                           </div>
                         </Box>
                       </CardBody>
@@ -402,15 +447,16 @@ const Generate = () => {
                           <label htmlFor="" className="fw-bold w-100 mb-1">
                             Emails to generate
                           </label>
+
+                          <div className="d-flex flex-row">
                           <Input
                             id={"Emails to generate"}
                             lebel={"Emails to generate"}
-                            className={""}
                             type={"text"}
                             // value={user}
                             // onchange={(e) => setUser(e.target.value)}
                             size={"small"}
-                            classnamelebal={"mt-2 w-100"}
+                            className={"mt-2 w-75"}
                           />
 
                           <Button
@@ -418,12 +464,13 @@ const Generate = () => {
                               backgroundColor: `${theme.palette.primary.main}`,
                             }}
                             variant="contained"
-                            className="ms-2 "
+                            className="m-2 "
                             size="medium"
                             onClick={() => handleSelect()}
                           >
                             Select
                           </Button>
+                          </div>
                           <div
                             className="mt-2 mb-2"
                             style={{ maxHeight: "300px" }}

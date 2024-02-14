@@ -19,7 +19,7 @@ import Input from "../../Input";
 import "./companySettings.css";
 import { FaCheckCircle } from "react-icons/fa";
 
-const CompanySetting = () => {
+const CompanySetting = ({ handleClose }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -38,7 +38,7 @@ const CompanySetting = () => {
   const [formData, setFormData] = useState({
     companyName: service[0]?.company?.name,
     industry: service[0]?.company?.industryId?.name,
-    companiesYouWorkWith: "",
+    companiesYouWorkWith: service[0]?.company?.partnerCompanies,
   });
   const [companyId, setComapnyID] = useState(service[0]?.company._id);
   const handleChange = (e) => {
@@ -72,6 +72,7 @@ const CompanySetting = () => {
       setFormData({
         companyName: service[0]?.company?.name,
         industry: service[0]?.company?.industryId?.name,
+        companiesYouWorkWith: service[0]?.company?.partnerCompanies
       });
       setComapnyID(service[0]?.company._id);
       handleServiceClick(0);
@@ -101,14 +102,18 @@ const CompanySetting = () => {
       const resData = await api.post("/company/update", {
         id: companyId,
         name: formData.companyName,
+        partnerCompanies: formData.companiesYouWorkWith
       });
       if (resData.isSuccess) {
-        toast.success("Company Update SuccessFull");
+        toast.success("Company Update Successful");
+        handleClose()
       } else {
         toast.error(resData.message);
+        handleClose()
       }
     } catch (error) {
       toast.error("Company Data Not Updated", error);
+      handleClose()
     }
   };
   const handleServiceClick = (id) => {
@@ -118,6 +123,7 @@ const CompanySetting = () => {
     setSelectedBenefits(fuature?.benefits);
     setServiceId(fuature?._id);
   };
+
   return (
     <>
       <div className="d-flex">
@@ -157,7 +163,7 @@ const CompanySetting = () => {
           </div>
           <div>
             <Input
-              id={"Companies You Work With "}
+              id={"companiesYouWorkWith"}
               name={"companiesYouWorkWith"}
               lebel={"Companies You Work With"}
               className={"w-75"}
@@ -165,7 +171,6 @@ const CompanySetting = () => {
               value={formData.companiesYouWorkWith}
               onChange={handleChange}
               size={"small"}
-              classnamelebal={"mt-1"}
             />
           </div>
         </Box>
@@ -339,7 +344,7 @@ const CompanySetting = () => {
             fetchService={fetchService}
           />
         )}
-        <div className="col-6 mt-2">
+        <div className="col-4 mt-2">
           <div
             style={{
               border: "1px solid #ced4da",

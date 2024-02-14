@@ -21,12 +21,14 @@ const validationSchema = Yup.object().shape({
   price: Yup.number().required("Price is required"),
   offer: Yup.string().required("Offer is required"),
   currency: Yup.string().required("Currency is required"),
-  features1: Yup.string().required("Feature 1 is required"),
-  features2: Yup.string().required("Feature 2 is required"),
-  features3: Yup.string().required("Feature 3 is required"),
-  benefits1: Yup.string().required("Benefit 1 is required"),
-  benefits2: Yup.string().required("Benefit 2 is required"),
-  benefits3: Yup.string().required("Benefit 3 is required"),
+  // features1: Yup.string().required("Feature 1 is required"),
+  // features2: Yup.string().required("Feature 2 is required"),
+  // features3: Yup.string().required("Feature 3 is required"),
+  features: Yup.array().of(Yup.string().required("Feature is required")),
+  benefits: Yup.array().of(Yup.string().required("Benefit is required")),
+  // benefits1: Yup.string().required("Benefit 1 is required"),
+  // benefits2: Yup.string().required("Benefit 2 is required"),
+  // benefits3: Yup.string().required("Benefit 3 is required"),
   target_name: Yup.string().required("Target Name is required"),
   location: Yup.string().required("Location is required"),
   employee_count: Yup.string().required("Employee Count is required"),
@@ -46,6 +48,8 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
       features1: "",
       features2: "",
       features3: "",
+      features: [""],
+      benefits: [""],
       benefits1: "",
       benefits2: "",
       benefits3: "",
@@ -63,8 +67,8 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
         currency: values.currency,
         under_offer: false,
         offer: values.offer,
-        features: [values.features1, values.features2, values.features3],
-        benefits: [values.benefits1, values.benefits2, values.benefits3],
+        features: values.features,
+        benefits: values.benefits,
         target_name: values.target_name,
         location: values.location.split(","),
         employee_count: values.employee_count.split(","),
@@ -74,7 +78,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
       try {
         const resData = await api.post("/service/add", serviceData);
         if (resData.isSuccess) {
-          toast.success("Service Create SuccessFull");
+          toast.success("Service Create Successful");
           fetchService();
           handleClose();
         } else {
@@ -118,6 +122,26 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
       const previousTab = tabs[previousIndex];
       setActiveTab(previousTab.key);
     }
+  };
+
+  const addFeature = () => {
+    formik.setFieldValue("features", [...formik.values.features, ""]);
+  };
+
+  const removeFeature = (index) => {
+    const newFeatures = [...formik.values.features];
+    newFeatures.splice(index, 1);
+    formik.setFieldValue("features", newFeatures);
+  };
+
+  const addBenefit = () => {
+    formik.setFieldValue("benefits", [...formik.values.benefits, ""]);
+  };
+
+  const removeBenefit = (index) => {
+    const newBenefits = [...formik.values.benefits];
+    newBenefits.splice(index, 1);
+    formik.setFieldValue("benefits", newBenefits);
   };
   return (
     <div>
@@ -225,7 +249,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                       {formik.touched.currency && formik.errors.currency && (
                         <div className="error ms-2 text-danger">
                           {formik.errors.currency}
-                          </div>
+                        </div>
                       )}
                     </div>
                     <Button
@@ -240,8 +264,8 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     </Button>
                   </Tab.Pane>
                   <Tab.Pane eventKey="feature">
-                    <div className="d-flex flex-column m-2">
-                      <Input
+                    <div className="m-2">
+                      {/* <Input
                         id={"features1"}
                         lebel={"Feature1"}
                         className={""}
@@ -285,8 +309,57 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                         <div className="error ms-2 text-danger">
                           {formik.errors.features3}
                         </div>
-                      )}
+                      )} */}
+                      {formik.values?.features?.map((feature, index) => (
+                        <>
+                          <div key={index} className="d-flex flex-row">
+                            <Input
+                              // id={"features" + (index + 1)}
+                              lebel={"Feature " + (index + 1)}
+                              className={"mt-2 w-75"}
+                              type={"text"}
+                              value={feature}
+                              onChange={(e) => {
+                                const newFeatures = [...formik.values.features];
+                                newFeatures[index] = e.target.value;
+                                formik.setFieldValue("features", newFeatures);
+                              }}
+                              size={"small"}
+                              classnamelebal={"mt-2"}
+                            />
+                            <Button
+                              variant="contained"
+                              onClick={() => removeFeature(index)}
+                              sx={{
+                                backgroundColor: `${theme.palette.primary.main}`,
+                              }}
+                              className="ms-2 mt-2"
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                          <div>
+                            {formik.touched?.features &&
+                              formik.errors?.features &&
+                              formik.errors?.features[index] && (
+                                <div className="error ms-2 text-danger">
+                                  {formik.errors.features[index]}
+                                </div>
+                              )}
+                          </div>
+                        </>
+                      ))}
                     </div>
+                    <Button
+                      variant="contained"
+                      onClick={addFeature}
+                      sx={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
+                      className="ms-2 mt-2"
+                    >
+                      Add Feature
+                    </Button>
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
@@ -309,8 +382,8 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     </Button>
                   </Tab.Pane>
                   <Tab.Pane eventKey="benefits">
-                    <div className="d-flex flex-column m-2">
-                      <Input
+                    <div className="m-2">
+                      {/* <Input
                         id={"benefits1"}
                         lebel={"Benefits1"}
                         className={""}
@@ -354,8 +427,58 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                         <div className="error ms-2 text-danger">
                           {formik.errors.benefits3}
                         </div>
-                      )}
+                      )} */}
+
+                      {formik.values?.benefits?.map((benefit, index) => (
+                        <>
+                          <div key={index} className="d-flex flex-row">
+                            <Input
+                              // id={"benefits" + (index + 1)}
+                              lebel={"Benefit " + (index + 1)}
+                              className={"mt-2 w-75"}
+                              type={"text"}
+                              value={benefit}
+                              onChange={(e) => {
+                                const newBenefits = [...formik.values.benefits];
+                                newBenefits[index] = e.target.value;
+                                formik.setFieldValue("benefits", newBenefits);
+                              }}
+                              size={"small"}
+                              classnamelebal={"mt-2"}
+                            />
+                            <Button
+                              variant="contained"
+                              onClick={() => removeBenefit(index)}
+                              sx={{
+                                backgroundColor: `${theme.palette.primary.main}`,
+                              }}
+                              className="ms-2 mt-2"
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                          <div>
+                            {formik.touched?.benefits &&
+                              formik.errors?.benefits &&
+                              formik.errors?.benefits[index] && (
+                                <div className="error ms-2 text-danger">
+                                  {formik.errors.benefits[index]}
+                                </div>
+                              )}
+                          </div>
+                        </>
+                      ))}
                     </div>
+                    <Button
+                      variant="contained"
+                      onClick={addBenefit}
+                      sx={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
+                      className="ms-2 mt-2"
+                    >
+                      Add Benefit
+                    </Button>
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
