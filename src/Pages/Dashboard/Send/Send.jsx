@@ -7,11 +7,13 @@ import dayjs from "dayjs";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import { Button } from "@mui/material";
+import Checkbox from '@mui/material/Checkbox';
 import Input from "../../../Component/Input";
 import "./send.css";
 
 const Send = () => {
   const [emailToSend, setEmailToSend] = useState("");
+  const [isSchedule, setIsSchedule] = useState(false);
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
     daysChecked: {
@@ -56,7 +58,15 @@ const Send = () => {
     console.log("Days checked:", schedule.daysChecked);
   };
 
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   return (
     <div style={{ letterSpacing: "1px" }}>
@@ -84,11 +94,18 @@ const Send = () => {
                   type={"text"}
                   classnamelebal={"mb-1.5 fs-6 fw-medium"}
                 />
+                <div>
+                <label className="fs-6 fw-medium">Schedule</label>
+                <Checkbox
+                  checked={isSchedule}
+                  onClick={() => setIsSchedule(!isSchedule)}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker label="Day" className="mb-2" />
+                  <DatePicker label="Day" className="mb-2" disabled={!isSchedule}/>
                 </LocalizationProvider>
               </div>
-
               <Button
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
@@ -143,7 +160,9 @@ const Send = () => {
                         checked={schedule.daysChecked[day.toLowerCase()]}
                         onChange={handleCheckboxChange}
                       />
-                      <label htmlFor={day.toLowerCase()}>{day.substring(0, 1)}</label>
+                      <label htmlFor={day.toLowerCase()}>
+                        {day.substring(0, 1)}
+                      </label>
                     </React.Fragment>
                   ))}
                 </div>
@@ -152,6 +171,7 @@ const Send = () => {
                 </LocalizationProvider>
                 <p>Auto-generate</p>
               </div>
+              <div className="d-flex flex-row justify-content-between">
               <Button
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
@@ -162,7 +182,6 @@ const Send = () => {
               <Button
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
-                className="ms-2 "
                 onClick={() => handleUpdateSchedule()}
               >
                 Update
@@ -170,11 +189,11 @@ const Send = () => {
               <Button
                 sx={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
-                className="ms-2"
                 onClick={() => handleCancel()}
               >
                 Cancel
               </Button>
+              </div>
             </CardBody>
           </Card>
         </Col>

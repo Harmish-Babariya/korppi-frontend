@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Component/Navbar/Navbar";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./Theme/Theme";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import HomeIcon from "@mui/icons-material/Home";
 import Box from "@mui/material/Box";
@@ -69,12 +69,14 @@ function App() {
             )}
 
             <Routes>
+              <Route path="/" element={<Navigate to={'/login'} />} />
               <Route path="/login" element={<Login />} />
               <Route element={<PrivateRoutes />}>
               <Route path="/dashboard/*" element={<Dashboard />} />
               </Route>
               <Route element={<PrivateRoutes />}>
               <Route path="/admin/*" element={<Admin />} />
+              <Route path="*" element={<Navigate to={'/login'} />} />
               </Route>
             </Routes>
           </div>

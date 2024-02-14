@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -21,7 +21,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import login from "../../assets/img/login.png";
@@ -49,7 +49,7 @@ const defaultTheme = createTheme();
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const { Auth, status } = useSelector((state) => state.login);
+  let token = localStorage.getItem("user_token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchUser = async() => {
@@ -103,6 +103,9 @@ const Login = () => {
     event.preventDefault();
   };
 
+  useEffect(() => {
+    token && navigate('/dashboard')
+  },[])
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
