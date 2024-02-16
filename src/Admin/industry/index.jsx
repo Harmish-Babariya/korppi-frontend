@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
@@ -7,11 +7,15 @@ import { IoBagAdd } from "react-icons/io5";
 import Createindustry from "./industryCreate";
 import Pagination from "@mui/material/Pagination";
 import { MdCreate } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import api from "../../service/api";
 import Stack from "@mui/material/Stack";
 const Industry = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
+  const userDatails = useSelector((state) => state.login.userDatails);
+  const navigate = useNavigate();
   const handleShow = () => setShow(true);
 
   const fetchData = async () => {
@@ -23,8 +27,8 @@ const Industry = () => {
     }
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    userDatails && userDatails.isAdmin ? fetchData() : navigate("/dashboard");
+  }, [userDatails]);
   return (
     <>
       <div className="card shadow w-100 mt-3">
@@ -43,7 +47,7 @@ const Industry = () => {
             </Button>
           </div>
         </div>
-        <Createindustry show={show} setShow={setShow} fetchData={fetchData}/>
+        <Createindustry show={show} setShow={setShow} fetchData={fetchData} />
 
         <div className="table-responsive mb-2 mt-3">
           <table className="table  text-center table-hover ">

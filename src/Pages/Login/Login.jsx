@@ -54,7 +54,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const fetchUser = async() => {
     try {
-      let response = await api.post("user/getById");
+      let response = await api.post("/user/getById");
       if (response.isSuccess) {
         console.log(response.data);
         dispatch(loginhandle(response.data));

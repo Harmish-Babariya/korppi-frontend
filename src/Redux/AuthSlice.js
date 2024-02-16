@@ -27,9 +27,12 @@ export const AuthSlice = createSlice({
         console.error(error);
       }
     },
+    updateUserData: (state, action) => {
+      state.userDatails = { ...state.userDatails, ...action.payload };
+    },
   },
 });
 
-export const { loginhandle,fetchUser } = AuthSlice.actions;
+export const { loginhandle, fetchUser, updateUserData } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

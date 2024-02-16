@@ -79,7 +79,15 @@ const Sidebar = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const userDatails = useSelector((state) => state.login.userDatails); 
   const [admin, setAdmin] = useState(false);
-  const [routes, setRoutes] = useState([
+  const [routes, setRoutes] = useState([]);
+  useEffect(() => {
+    // userDatails = useSelector((state) => state.login.userDatails); 
+    console.log(userDatails)
+    userDatails && userDatails.isAdmin
+      ? setRoutes(adminRoutes) & setAdmin(true)
+      : setRoutes(clientRoute) & setAdmin(false);
+  }, [userDatails]);
+  const clientRoute = [
     {
       name: "Dashboard",
       icon: <DashboardIcon />,
@@ -104,12 +112,7 @@ const Sidebar = ({ open, setOpen }) => {
       path: "/dashboard/contacts",
       element: <Contacts />,
     },
-  ]);
-  useEffect(() => {
-    location.pathname.includes("admin")
-      ? setRoutes(adminRoutes) & setAdmin(true)
-      : null;
-  }, []);
+  ]
   const adminRoutes = [
     {
       name: "Dashboard",
@@ -139,6 +142,7 @@ const Sidebar = ({ open, setOpen }) => {
     return location.pathname === path;
   };
   const handleLogOut = () => {
+    localStorage.clear() 
     navigate("/login");
   };
   return (

@@ -16,7 +16,46 @@ import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
-
+// {
+//   name: "Noumair",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Alvarado Turner",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Evangelina Mcclain",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Candice Munoz",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Bernard Langley",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Noumair",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Alvarado Turner",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Evangelina Mcclain",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Candice Munoz",
+//   company: "Microsoft",
+// },
+// {
+//   name: "Bernard Langley",
+//   company: "Microsoft",
+// },
 const Generate = () => {
   const dispatch = useDispatch();
   let { service } = useSelector((state) => state.Service);
@@ -24,56 +63,15 @@ const Generate = () => {
   const [targetMarket, setTargetMarket] = useState([]);
   const [selectedTargetMarket, setSelectedTargetMarket] = useState();
   const [expanded, setExpanded] = React.useState("panel1");
-  const [companyData, setCompanyData] = useState([
-    {
-      name: "Noumair",
-      company: "Microsoft",
-    },
-    {
-      name: "Alvarado Turner",
-      company: "Microsoft",
-    },
-    {
-      name: "Evangelina Mcclain",
-      company: "Microsoft",
-    },
-    {
-      name: "Candice Munoz",
-      company: "Microsoft",
-    },
-    {
-      name: "Bernard Langley",
-      company: "Microsoft",
-    },
-    {
-      name: "Noumair",
-      company: "Microsoft",
-    },
-    {
-      name: "Alvarado Turner",
-      company: "Microsoft",
-    },
-    {
-      name: "Evangelina Mcclain",
-      company: "Microsoft",
-    },
-    {
-      name: "Candice Munoz",
-      company: "Microsoft",
-    },
-    {
-      name: "Bernard Langley",
-      company: "Microsoft",
-    },
-  ]);
-  const industryOptions = [
-    "Technology",
-    "Finance",
-    "Healthcare",
-    "Education",
-    "Retail",
-    // Add more options as needed
-  ];
+  const [companyData, setCompanyData] = useState([]);
+  // const industryOptions = [
+  //   "Technology",
+  //   "Finance",
+  //   "Healthcare",
+  //   "Education",
+  //   "Retail",
+  //   // Add more options as needed
+  // ];
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -88,7 +86,7 @@ const Generate = () => {
   };
   const fetchService = async () => {
     try {
-      const resData = await api.post("service/get");
+      const resData = await api.post("/service/get");
       if (resData.isSuccess) {
         dispatch(servicehandle(resData.data));
         service = useSelector((state) => state.Service);
@@ -111,6 +109,20 @@ const Generate = () => {
       console.error("API Error:", error);
     }
   };
+  const fetchCompanyData = async (companyData) => {
+    console.log(companyData)
+    try {
+      const resData = await api.post("/prospects/get",companyData);
+      if (resData.isSuccess) {
+        console.log(resData.data)
+        setCompanyData(resData.data);
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
 
   function handleServiceChange(e) {
     e.preventDefault();
@@ -121,7 +133,15 @@ const Generate = () => {
   function handleMarketChange(e) {
     e.preventDefault();
     const newValue = e.target.value;
-    setSelectedTargetMarket(targetMarket.find((item) => item._id === newValue));
+    let data = targetMarket.find((item) => item._id === newValue)
+    setSelectedTargetMarket(data);
+    const companyData = {
+      employeeCount: data?.employeeCount,
+      location: data?.location,
+      industry: data?.industry,
+      role: data?.jobTitle
+  }
+     fetchCompanyData(companyData)
   }
 
   useEffect(() => {
@@ -482,7 +502,7 @@ const Generate = () => {
                               <thead>
                                 <tr>
                                   <th>Name</th>
-                                  <th>Company</th>
+                                  <th> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Company</th>
                                 </tr>
                               </thead>
                             </table>
@@ -500,8 +520,8 @@ const Generate = () => {
                                 <tbody>
                                   {companyData?.map((value, index) => (
                                     <tr key={index}>
-                                      <td>{value.name}</td>
-                                      <td>{value.company}</td>
+                                      <td>{`${value.firstName} ${value.lastName}`}</td>
+                                      <td>{value.company.name}</td>
                                     </tr>
                                   ))}
                                 </tbody>

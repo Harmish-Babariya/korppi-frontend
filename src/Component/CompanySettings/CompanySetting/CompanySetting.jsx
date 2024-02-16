@@ -54,6 +54,7 @@ const CompanySetting = ({ handleClose }) => {
     try {
       const resData = await api.post("service/get");
       if (resData.isSuccess) {
+       
         dispatch(servicehandle(resData.data));
         service = useSelector((state) => state.Service);
       } else {

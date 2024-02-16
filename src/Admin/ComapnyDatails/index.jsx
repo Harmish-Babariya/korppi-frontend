@@ -7,12 +7,16 @@ import { BiSolidEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { IoBagAdd } from "react-icons/io5";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { useParams ,useNavigate} from "react-router-dom";
 import { MdCreate } from "react-icons/md";
 import EditUserModal from "./editUserModal";
 import CreateUser from "./createUser";
 import api from "../../service/api";
 import UserForgotPassword from "./userForgotPassword";
+
+
 const CompanyDatails = () => {
   const [showUser, setShowUser] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -20,7 +24,11 @@ const CompanyDatails = () => {
   const [editedUserId, setEditedUserId] = useState(null);
   const [forgotUserId, setForgotUserId] = useState();
   const [userData, setUserData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1); 
+   const userDatails = useSelector((state) => state.login.userDatails);
+
   const [meta, setMeta] = useState();
   let { id } = useParams();
   const [show, setShow] = useState(false);
@@ -55,9 +63,8 @@ const CompanyDatails = () => {
     setCurrentPage(page);
   };
   useEffect(() => {
-    fetchCompany();
-    fetchUsers();
-  }, [id, currentPage]);
+    userDatails && userDatails.isAdmin ? fetchCompany() & fetchUsers() : navigate("/dashboard");
+  }, [id, currentPage,userDatails]);
   const handleEditUser = (userId) => {
     setEditedUserId(userId);
     setEditModalOpen(true);

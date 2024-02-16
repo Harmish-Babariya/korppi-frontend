@@ -11,6 +11,7 @@ import CreateCompany from "../companyCreate";
 import { useNavigate } from "react-router-dom";
 import api from "../../service/api";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import CompanyEditModal from "./companyEditModal";
 import CompanyDeleteModal from "./companyDeleteModal";
 const Company = () => {
@@ -19,6 +20,8 @@ const Company = () => {
   const [deletedCompany, setDeletedCompany] = useState();
   const [companyid, setCompanyId] = useState();
   const [deleteModalShow, setDeleteModalShow] = useState(false);
+  const userDatails = useSelector((state) => state.login.userDatails);
+  const navigate = useNavigate();
   const [meta, setMeta] = useState();
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
@@ -28,10 +31,9 @@ const Company = () => {
     pageNumber: pageNumber,
     pageSize: 7,
   };
-  const navigate = useNavigate();
   useEffect(() => {
-    fetchCompany();
-  }, [pageNumber]);
+    userDatails && userDatails.isAdmin ? fetchCompany(): navigate("/dashboard");
+  }, [pageNumber,userDatails]);
   async function fetchCompany() {
     const resData = await api.post("client/get", header);
     if (resData.isSuccess) {

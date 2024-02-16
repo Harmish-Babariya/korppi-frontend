@@ -20,7 +20,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
       "\n" +
       data?.role +
       " | " +
-      data?.companyId.name +
+      data?.companyId?.name +
       "\n" +
       "E: " +
       data?.email +

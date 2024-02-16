@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import {
   Card,
@@ -11,15 +11,35 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
 import Input from "../../../Component/Input";
 import { theme } from "../../../Theme/Theme";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { updateUserData } from "../../../Redux/AuthSlice";
 const Profile = () => {
+  const dispatch = useDispatch()
+  const userData = useSelector((state) => state.login.userDatails);
+  const [editedUserData, setEditedUserData] = useState(userData);
+
+  // Function to handle changes in input fields
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+
+  const handleSubmit = () => {
+    
+    dispatch(updateUserData(editedUserData)); 
+  };
   return (
-    <div className="content">
+    <div>
       <Row>
-        <Col md="4">
-          <Card className="card-user m-2 w-100 shadow">
+        <Col md="7">
+          <Card className="card-user m-2 w-100 shadow ">
             <CardBody>
               <div
                 style={{
@@ -34,8 +54,10 @@ const Profile = () => {
                   onClick={(e) => e.preventDefault()}
                 >
                   <AccountCircleIcon className="fs-1 m-2 text-white" />
-                  <h5 className="title text-white">John Doe</h5>
-                  <p className="description text-white pb-2">@johndoe</p>
+                  <h5 className="title text-white">{userData.firstName}</h5>
+                  <p className="description text-white pb-2">
+                    {userData.lastName}
+                  </p>
                 </a>
               </div>
               <p className="description text-center">
@@ -172,7 +194,7 @@ const Profile = () => {
             </CardBody>
           </Card>
         </Col>
-        <Col md="8">
+        <Col md="4">
           <Card className="card-user m-2 shadow ">
             <CardHeader
               style={{
@@ -184,8 +206,34 @@ const Profile = () => {
             </CardHeader>
             <CardBody>
               <Form>
+                <Row className="mt-3 ">
+                  <Col className="pr-1 d-flex flex-column" md="6">
+                    <Input
+                      id={"first name"}
+                      lebel={"First Name"}
+                      className={""}
+                      type={"text"}
+                      value={editedUserData.firstName}
+                      onChange={handleInputChange}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
+                  </Col>
+                  <Col className="pl-1 d-flex flex-column" md="6">
+                    <Input
+                      id={"last name"}
+                      lebel={"Last Name"}
+                      className={""}
+                      type={"text"}
+                      value={editedUserData.lastName}
+                      onChange={handleInputChange}
+                      size={"small"}
+                      classnamelebal={"mt-2"}
+                    />
+                  </Col>
+                </Row>
                 <Row>
-                  <Col className="pr-1 d-flex flex-column" md="5">
+                  {/* <Col className="pr-1 d-flex flex-column" md="5">
                     <Input
                       id={"Company"}
                       lebel={"Company"}
@@ -208,112 +256,49 @@ const Profile = () => {
                       size={"small"}
                       classnamelebal={"mt-2"}
                     />
-                  </Col>
-                  <Col className="pl-" md="3">
+                  </Col> */}
+                  <Col className="d-flex flex-column mt-2" md="12">
                     <Input
                       id={"email"}
                       lebel={"Email"}
                       className={""}
                       type={"email"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
+                      value={editedUserData.email}
+                      onChange={handleInputChange}
                       size={"small"}
                       classnamelebal={"mt-2"}
                     />{" "}
                   </Col>
                 </Row>
-                <Row className="mt-3 ">
-                  <Col className="pr-1 d-flex flex-column" md="6">
-                    <Input
-                      id={"first name"}
-                      lebel={"First Name"}
-                      className={""}
-                      type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col>
-                  <Col className="pl-1 d-flex flex-column" md="6">
-                    <Input
-                      id={"last name"}
-                      lebel={"Last Name"}
-                      className={""}
-                      type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col>
-                </Row>
                 <Row>
-                  <Col md="12" className="d-flex flex-column">
+                  <Col md="12" className="d-flex flex-column mt-2">
                     <Input
-                      id={"address"}
-                      lebel={"Address"}
+                      id={"role"}
+                      lebel={"Role"}
                       className={""}
                       type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
+                      value={editedUserData.role}
+                      onChange={handleInputChange}
                       size={"small"}
                       classnamelebal={"mt-2"}
                     />
                   </Col>
                 </Row>
-                <Row className="mt-2">
-                  <Col className="pr-1 d-flex flex-column" md="4">
+                <Row className="">
+                  <Col className="d-flex flex-column mt-2" md="12">
                     <Input
-                      id={"city"}
-                      lebel={"City"}
+                      id={"linkedinUrl"}
+                      lebel={"LinkedinUrl"}
                       className={""}
                       type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col>
-                  <Col className="px-1 d-flex flex-column" md="4">
-                    <Input
-                      id={"contry"}
-                      lebel={"Contry"}
-                      className={""}
-                      type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col>
-                  <Col className="" md="4">
-                    <Input
-                      id={"PostalCode"}
-                      lebel={"Postal Code"}
-                      className={""}
-                      type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
+                      value={editedUserData.linkedinUrl}
+                      onChange={handleInputChange}
                       size={"small"}
                       classnamelebal={"mt-2"}
                     />
                   </Col>
                 </Row>
-                <Row className="mt-2">
-                  <Col md="12" className="d-flex flex-column">
-                    <Input
-                      id={"PostalCode"}
-                      lebel={"Postal Code"}
-                      className={""}
-                      type={"textarea"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col>
-                </Row>
+
                 <Row>
                   <div className=" mr-auto mt-2">
                     <Button
@@ -321,7 +306,7 @@ const Profile = () => {
                       style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      type="submit"
+                      onClick={() => handleSubmit()}
                     >
                       Update Profile
                     </Button>

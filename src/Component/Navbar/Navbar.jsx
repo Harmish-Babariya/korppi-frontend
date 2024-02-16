@@ -26,6 +26,8 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "../../Pages/Dashboard";
 import Settings from "../CompanySettings/Settings";
 import { theme } from "../../Theme/Theme";
+import { useDispatch, useSelector } from "react-redux";
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -88,6 +90,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = (props) => {
   const [admin, setAdmin] = useState(false);
+  const userData = useSelector((state) => state.login.userDatails);
+
+
+
+  // Function to get the first letter of a string
+  const getFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase();
+  };
   const settings = [
     {
       name: "Profile",
@@ -198,6 +208,17 @@ const Navbar = (props) => {
               <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Korppi" src="/static/images/avatar/2.jpg" />
+                  {/* {userData.firstName && (
+          <>
+            {userData.profileImage ? (
+              <img src={userData.profileImage} alt="Profile" className="profile-image" />
+            ) : (
+              <div className="profile-letter">
+                <p>{getFirstLetter(userData.firstName)}</p>
+              </div>
+            )}
+          </>
+        )} */}
                 </IconButton>
               </Tooltip>
               <Menu
@@ -223,6 +244,7 @@ const Navbar = (props) => {
                         minWidth: 0,
                         color: "#083d38",
                       }}
+                      onClick={() => handleUser(setting.name)}
                     >
                       {setting.icon}
                     </ListItemIcon>
