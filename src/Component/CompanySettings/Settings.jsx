@@ -34,7 +34,7 @@ function Settings({ show, setShow }) {
     <div>
       <Modal
         className=" modal"
-        size="lg"
+        size="xl"
         dialogClassName="modal-90w w-100"
         style={{ letterSpacing: "1.5px", marginTop: "40px" }}
         show={show}

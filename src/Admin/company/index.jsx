@@ -24,7 +24,7 @@ const Company = () => {
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const header = {
-    search: "a",
+    search: "",
     pageNumber: pageNumber,
     pageSize: 7,
   };
@@ -33,7 +33,7 @@ const Company = () => {
     fetchCompany();
   }, [pageNumber]);
   async function fetchCompany() {
-    const resData = await api.post("company/get", header);
+    const resData = await api.post("client/get", header);
     if (resData.isSuccess) {
       setData(resData.data);
       setMeta(resData.meta);
@@ -56,7 +56,7 @@ const Company = () => {
   ];
   const handleShow = () => setShow(true);
   const handleCompanyDatails = (id) => {
-    navigate(`/admin/company/${id}`);
+    navigate(`/admin/client/${id}`);
   };
   const handleEditModalOpen = (edit_id) => {
     setCompanyId(edit_id);
@@ -71,7 +71,7 @@ const Company = () => {
       <div className="card shadow w-100 h-100 mt-3">
         <div className="d-flex">
           <div>
-            <h3 className="ms-2 mt-3">Company</h3>
+            <h3 className="ms-2 mt-3">Clients</h3>
           </div>
           <div className="ms-auto me-2">
             <Button
@@ -95,9 +95,9 @@ const Company = () => {
               <table className="table  text-center table-hover ">
                 <thead className="text-bg-danger">
                   <tr>
-                    <th>Company Name</th>
-                    <th>Revenue</th>
-                    <th>Size</th>
+                    <th>Client Name</th>
+                    <th>Email</th>
+                    <th>Website</th>
                     <th>Country</th>
                     <th>Postal Code</th>
                     <th>Region</th>
@@ -113,11 +113,11 @@ const Company = () => {
                     return (
                       <tr key={index}>
                         <td>{value.name}</td>
-                        <td>{value.revenue}</td>
-                        <td>{value.size}</td>
-                        <td>{value.country}</td>
-                        <td>{value.postalCode}</td>
-                        <td>{value.region}</td>
+                        <td>{value.email || 'N/A'}</td>
+                        <td>{value.websiteUrl || 'N/A'}</td>
+                        <td>{value.country || 'N/A'}</td>
+                        <td>{value.postalCode || 'N/A'}</td>
+                        <td>{value.region || 'N/A'}</td>
                         {/* <td>
                       <a href="">{value.linkedinurl}</a>
                     </td>

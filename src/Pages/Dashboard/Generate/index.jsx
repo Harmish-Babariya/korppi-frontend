@@ -343,11 +343,11 @@ const Generate = () => {
                                 <strong>Industry :</strong>
                                 {selectedService?.company?.industryId?.name
                                   ? selectedService?.company?.industryId?.name
-                                  : "No Data Available"}
+                                  : "N/A"}
                               </p>
                               <p>
                                 <strong>Companies You Work With :</strong>
-                                Microsoft
+                                {selectedService?.company?.partnerCompanies}
                               </p>
                             </div>
                             {/* <Input

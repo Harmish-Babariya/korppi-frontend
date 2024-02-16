@@ -99,7 +99,7 @@ const CompanySetting = ({ handleClose }) => {
   };
   const handleSubmit = async () => {
     try {
-      const resData = await api.post("/company/update", {
+      const resData = await api.post("/client/update", {
         id: companyId,
         name: formData.companyName,
         partnerCompanies: formData.companiesYouWorkWith

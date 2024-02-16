@@ -29,13 +29,15 @@ const CreateCompany = ({ show, setShow, fetchCompany }) => {
     fetchIndustryData();
   }, []);
   const fieldConfigurations = [
-    { id: "name", lebel: "CompanyName", type: "text" },
-    { id: "industryId", lebel: "IndustryId", type: "select" },
-    { id: "size", lebel: "Size", type: "text" },
-    { id: "revenue", lebel: "Revenue", type: "text" },
-    { id: "region", lebel: "Region", type: "text" },
-    { id: "country", lebel: "Country", type: "text" },
-    { id: "postalCode", lebel: "PostalCode", type: "text" },
+    { id: "name", lebel: "ClientName", type: "text" },
+    // { id: "industryId", lebel: "IndustryId", type: "select" },
+    // { id: "size", lebel: "Size", type: "text" },
+    // { id: "revenue", lebel: "Revenue", type: "text" },
+    // { id: "region", lebel: "Region", type: "text" },
+    // { id: "country", lebel: "Country", type: "text" },
+    // { id: "postalCode", lebel: "PostalCode", type: "text" },
+    { id: "websiteUrl", lebel: "WebsiteUrl", type: "text" },
+    { id: "email", lebel: "Email", type: "text" },
     // { id: "linkedin_url", lebel: "LinkedIn URL", type: "text" },
     // { id: "linkedin_about", lebel: "LinkedIn About", type: "text" },
     // { id: "linkedin_post", lebel: "LinkedIn Post", type: "text" },
@@ -46,15 +48,11 @@ const CreateCompany = ({ show, setShow, fetchCompany }) => {
     {}
   );
 
-  const validationSchema = Yup.object().shape(
-    fieldConfigurations.reduce(
-      (acc, field) => ({
-        ...acc, 
-        [field.id]: Yup.string().required(`${field.lebel} is required`),
-      }),
-      {}
-    )
-    
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("email is required"),
+    name: Yup.string().required("name is required"),
+    websiteUrl: Yup.string().required("Title is required"),
+  }
   );
 
   const formik = useFormik({
@@ -62,7 +60,7 @@ const CreateCompany = ({ show, setShow, fetchCompany }) => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const resData = await api.post("/company/add", values);
+        const resData = await api.post("/client/add", values);
         if (resData.isSuccess) {
           toast.success("Company Create Successful");
           setShow(false);

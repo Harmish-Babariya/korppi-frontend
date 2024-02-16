@@ -32,7 +32,7 @@ const CompanyDatails = () => {
     companyId: id,
   };
   const fetchCompany = async () => {
-    const resData = await api.post("company/getById", companyId);
+    const resData = await api.post("client/getById", companyId);
     if (resData.isSuccess) {
       setData(resData.data);
     } else  toast.error(response.response.data.message);
@@ -90,7 +90,7 @@ const CompanyDatails = () => {
     <>
       <div style={{ letterSpacing: "1px" }} className="card shadow w-100 mt-2">
         <div>
-          <h3 className="ms-2 mt-2">Company Details</h3>
+          <h3 className="ms-2 mt-2">Client Details</h3>
         </div>
         <div
           style={{ lineHeight: "10px" }}
@@ -98,41 +98,41 @@ const CompanyDatails = () => {
         >
           <div className="m-2">
           <p>
-              <span className="fw-bold">Company Name :</span> {data?.name}
+              <span className="fw-bold">Client Name :</span> {data?.name}
             </p>
             <p>
-              <span className="fw-bold">Industry_Id :</span> {data?.industryId.name  }
+              <span className="fw-bold">Email :</span> {data?.email || 'N/A' }
             </p>
             <p>
-              <span className="fw-bold">Size :</span> {data?.size}
+              <span className="fw-bold">Website URL :</span> {data?.websiteUrl || 'N/A' }
             </p>
             <p>
-              <span className="fw-bold">Revenue :</span> {data?.revenue}
+              <span className="fw-bold">Industry_Id :</span> {data?.industryId?.name || 'N/A'  }
             </p>
             <p>
-              <span className="fw-bold">Country :</span> {data?.country}
+              <span className="fw-bold">Size :</span> {data?.size || 'N/A' }
             </p>
             {/* <p>
               <span className="fw-bold">Iinkedinabout :</span>
               <a href="">{data?.linkedinabout}</a>
             </p> */}
           </div>
-          <div className="ms-5">
+          <div className="m-2">
             <p>
-              <span className="fw-bold">Postal_Code :</span> {data?.postalCode}
+              <span className="fw-bold">Postal_Code :</span> {data?.postalCode || 'N/A' }
             </p>
             {/* <p>
               <span className="fw-bold">Iinkedinurl :</span>
               <a href="">{data?.linkedinurl}</a>
             </p> */}
             <p>
-              <span className="fw-bold">Size :</span> {data?.size}
+              <span className="fw-bold">Size :</span> {data?.size || 'N/A' }
             </p>
             <p>
-              <span className="fw-bold">Revenue :</span> {data?.revenue}
+              <span className="fw-bold">Revenue :</span> {data?.revenue || 'N/A' }
             </p>
             <p>
-              <span className="fw-bold">Country :</span> {data?.country}
+              <span className="fw-bold">Country :</span> {data?.country || 'N/A' }
             </p>
           </div>
         </div>
@@ -144,7 +144,7 @@ const CompanyDatails = () => {
         <div className="">
           <div className="d-flex">
             <div>
-              <h3 className="ms-2 mt-2">Company Users</h3>
+              <h3 className="ms-2 mt-2">Client Users</h3>
             </div>
             <div className="ms-auto me-2">
               <Button
@@ -230,7 +230,7 @@ const CompanyDatails = () => {
               </div>
               {show && <UserForgotPassword show={show} setShow={setShow} forgotUserId={forgotUserId}/>}
 
-              {meta.totalPages && (
+              {meta.totalPages > 1 ? (
                 <div className="d-flex justify-content-end m-2 mb-2">
                   <Stack spacing={2}>
                     <Pagination
@@ -241,7 +241,17 @@ const CompanyDatails = () => {
                     />
                   </Stack>
                 </div>
-              )}
+              ) : <div className="d-flex justify-content-end m-2 mb-2">
+              <Stack spacing={2}>
+                <Pagination
+                  count={meta.totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  color="primary"
+                  disabled
+                />
+              </Stack>
+            </div>}
             </>
           ) : (
             <h3 className="text-center fw-light fs-5">User Not found</h3>

@@ -124,9 +124,9 @@ const Sidebar = ({ open, setOpen }) => {
       element: <Industry />,
     },
     {
-      name: "Company",
+      name: "Client",
       icon: <MailIcon />,
-      path: "/admin/company",
+      path: "/admin/client",
       element: <Company />,
     },
   ];

@@ -14,7 +14,7 @@ const CompanyEditModal = ({
   const [editedCompany, setEditedCompany] = useState({});
   const handleEditGetByID = async () => {
     try {
-      const resData = await api.post("/company/getById", { id: companyid });
+      const resData = await api.post("/client/getById", { id: companyid });
       if (resData.isSuccess) {
         const { name, postalCode, region, revenue, size, country } =
           resData.data;
@@ -54,7 +54,7 @@ const CompanyEditModal = ({
   const handleEditSubmit = async () => {
     const updatedData = { ...editedCompany, id: companyid };
     try {
-      const resData = await api.post("/company/update", updatedData);
+      const resData = await api.post("/client/update", updatedData);
       if (resData.isSuccess) {
         toast.success("Company Update Successful");
         handleEditModalClose();

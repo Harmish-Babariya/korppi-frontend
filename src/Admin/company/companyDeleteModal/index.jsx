@@ -20,7 +20,7 @@ const CompanyDeleteModal = ({
 
   const handleDelete = async () => {
     try {
-      const resData = await api.post("/company/update", deletecompany);
+      const resData = await api.post("/client/update", deletecompany);
       if (resData.isSuccess) {
         fetchCompany();
         handleDeleteModalClose();

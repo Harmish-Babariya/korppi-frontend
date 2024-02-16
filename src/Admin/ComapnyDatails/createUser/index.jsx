@@ -19,7 +19,6 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers, companyId }) => {
     { id: "role", lebel: "Role", type: "text" },
     { id: "email", lebel: "Email", type: "email" },
     { id: "phone", lebel: "Phone", type: "text" },
-
     { id: "linkedinUrl", lebel: "LinkedIn Url", type: "text" },
   ];
 
