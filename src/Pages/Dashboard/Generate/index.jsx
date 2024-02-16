@@ -62,16 +62,11 @@ const Generate = () => {
   const [selectedService, setSelectedService] = useState();
   const [targetMarket, setTargetMarket] = useState([]);
   const [selectedTargetMarket, setSelectedTargetMarket] = useState();
+  const [count, setCount] = useState(0);
+
   const [expanded, setExpanded] = React.useState("panel1");
   const [companyData, setCompanyData] = useState([]);
-  // const industryOptions = [
-  //   "Technology",
-  //   "Finance",
-  //   "Healthcare",
-  //   "Education",
-  //   "Retail",
-  //   // Add more options as needed
-  // ];
+
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -110,11 +105,10 @@ const Generate = () => {
     }
   };
   const fetchCompanyData = async (companyData) => {
-    console.log(companyData)
     try {
       const resData = await api.post("/prospects/get",companyData);
       if (resData.isSuccess) {
-        console.log(resData.data)
+        setCount(resData.meta.totalCount)
         setCompanyData(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -147,12 +141,21 @@ const Generate = () => {
   useEffect(() => {
     fetchService();
     fetchTargetMarket();
+    
   }, []);
 
   useEffect(() => {
     setSelectedService(service[0]);
     setSelectedTargetMarket(targetMarket[0])
-  }, [service]);
+    let data = targetMarket[0]
+    const companyData = {
+      employeeCount: data?.employeeCount,
+      location: data?.location,
+      industry: data?.industry,
+      role: data?.jobTitle
+    } 
+    targetMarket[0] && fetchCompanyData(companyData)
+  }, [service,targetMarket]);
   return (
     <div style={{ letterSpacing: "1px" }} className="content">
       <Row>
@@ -413,7 +416,7 @@ const Generate = () => {
                               size="small"
                             /> */}
                             <p className="fw-light fs-6">
-                              87 Email to genereted
+                              {count} Emails to genereted
                             </p>
                             <div className="mt-3 p-1">
                             <span>
