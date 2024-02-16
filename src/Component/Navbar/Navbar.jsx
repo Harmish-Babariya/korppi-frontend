@@ -202,9 +202,12 @@ const Navbar = (props) => {
               />
             </Search>
             <Box sx={{ marginLeft: "auto" }}>
-           { !admin ? <Link onClick={handleShow}>
+            <Link onClick={handleShow}>
                 <SettingsIcon className="me-2 fs-3 text-secondary" />
-              </Link> : null}
+              </Link>
+           {/* { !admin ? <Link onClick={handleShow}>
+                <SettingsIcon className="me-2 fs-3 text-secondary" />
+              </Link> : null} */}
               <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Korppi" src="/static/images/avatar/2.jpg" />
