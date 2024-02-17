@@ -14,56 +14,20 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { useDispatch, useSelector } from "react-redux";
+import {  useNavigate } from "react-router-dom";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
-// {
-//   name: "Noumair",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Alvarado Turner",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Evangelina Mcclain",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Candice Munoz",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Bernard Langley",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Noumair",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Alvarado Turner",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Evangelina Mcclain",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Candice Munoz",
-//   company: "Microsoft",
-// },
-// {
-//   name: "Bernard Langley",
-//   company: "Microsoft",
-// },
+
 const Generate = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   let { service } = useSelector((state) => state.Service);
+  const userDatails = useSelector((state) => state.login.userDatails);
   const [selectedService, setSelectedService] = useState();
+  const [generate, setGenerate] = useState(0);
   const [targetMarket, setTargetMarket] = useState([]);
   const [selectedTargetMarket, setSelectedTargetMarket] = useState();
   const [count, setCount] = useState(0);
-
   const [expanded, setExpanded] = React.useState("panel1");
   const [companyData, setCompanyData] = useState([]);
 
@@ -73,11 +37,49 @@ const Generate = () => {
   const handleGetStarted = () => {
     console.log("Get Started button clicked");
   };
-  const handleGenerate = () => {
-    console.log("Generate button clicked");
+  const handleGenerate = async () => {
+    const emails = companyData.map((ele) => {
+      return { companyId: ele.company._id, prospectId: ele._id };
+    });
+
+    try {
+      const resData = await api.post("/email/generate", {
+        emails: emails,
+        userId: userDatails._id,
+        sentBy: `${userDatails.firstName} ${userDatails.lastName}`,
+      });
+      if (resData.isSuccess) {
+        navigate("/dashboard/send")
+        toast.success("email Genrate Successful!");
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
   };
-  const handleSelect = () => {
-    console.log("Select button clicked");
+  const handleSelect = async () => {
+    let data = selectedTargetMarket;
+    const payload = {
+      employeeCount: data?.employeeCount,
+      location: data?.location,
+      industry: data?.industry,
+      role: data?.jobTitle,
+      pageSize: parseInt(generate),
+    };
+   
+    try {
+      const resData = await api.post("/prospects/get", payload);
+      if (resData.isSuccess) {
+      
+        setCount(resData.meta.totalCount);
+        setCompanyData(resData.data);
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
   };
   const fetchService = async () => {
     try {
@@ -96,6 +98,7 @@ const Generate = () => {
     try {
       const resData = await api.post("target-market/get");
       if (resData.isSuccess) {
+       
         setTargetMarket(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -106,9 +109,9 @@ const Generate = () => {
   };
   const fetchCompanyData = async (companyData) => {
     try {
-      const resData = await api.post("/prospects/get",companyData);
+      const resData = await api.post("/prospects/get", companyData);
       if (resData.isSuccess) {
-        setCount(resData.meta.totalCount)
+        setCount(resData.meta.totalCount);
         setCompanyData(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -127,35 +130,34 @@ const Generate = () => {
   function handleMarketChange(e) {
     e.preventDefault();
     const newValue = e.target.value;
-    let data = targetMarket.find((item) => item._id === newValue)
+    let data = targetMarket.find((item) => item._id === newValue);
     setSelectedTargetMarket(data);
-    const companyData = {
+    console.log(data);
+    const payload = {
       employeeCount: data?.employeeCount,
       location: data?.location,
       industry: data?.industry,
-      role: data?.jobTitle
-  }
-     fetchCompanyData(companyData)
+      role: data?.jobTitle,
+    };
+    fetchCompanyData(payload);
   }
 
   useEffect(() => {
     fetchService();
     fetchTargetMarket();
-    
   }, []);
 
   useEffect(() => {
     setSelectedService(service[0]);
-    setSelectedTargetMarket(targetMarket[0])
-    let data = targetMarket[0]
-    const companyData = {
-      employeeCount: data?.employeeCount,
-      location: data?.location,
-      industry: data?.industry,
-      role: data?.jobTitle
-    } 
-    targetMarket[0] && fetchCompanyData(companyData)
-  }, [service,targetMarket]);
+    setSelectedTargetMarket(targetMarket[0]);
+    const payload = {
+      employeeCount: targetMarket[0]?.employeeCount,
+      location: targetMarket[0]?.location,
+      industry: targetMarket[0]?.industry,
+      role: targetMarket[0]?.jobTitle,
+    };
+    targetMarket[0] && fetchCompanyData(payload);
+  }, [service, targetMarket]);
   return (
     <div style={{ letterSpacing: "1px" }} className="content">
       <Row>
@@ -275,7 +277,9 @@ const Generate = () => {
                               letterSpacing: "2px",
                             }}
                           >
-                            {selectedService?.offer ? selectedService?.offer + 'Off' : "No Offer"}
+                            {selectedService?.offer
+                              ? selectedService?.offer + "Off"
+                              : "No Offer"}
                           </Button>
                           <span className="m-2 fw-bold fs-3 bg-transparent ">
                             {selectedService?.currency === "USD"
@@ -340,27 +344,6 @@ const Generate = () => {
                           autoComplete="off"
                         >
                           <div className="d-flex flex-column mb-3">
-                            {/* <Input
-                              id={"endustry"}
-                              lebel={"Industry"}
-                              className={"mb-2"}
-                              type={"text"}
-                              // value={endustry}
-                              // onchange={(e) => endustry(e.target.value)}
-                              size={"small"}
-                              classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            />
-
-                            <Input
-                              id={"goal of email"}
-                              lebel={"Goal Of Email"}
-                              className={"mb-2"}
-                              type={"text"}
-                              // value={password}
-                              // onchange={(e) => setPassword(e.target.value)}
-                              size={"small"}
-                              classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            /> */}
                             <div>
                               <p>
                                 <strong>Industry :</strong>
@@ -373,23 +356,14 @@ const Generate = () => {
                                 {selectedService?.company?.partnerCompanies}
                               </p>
                             </div>
-                            {/* <Input
-                              id={"companies you work with"}
-                              lebel={"Companies You Work With"}
-                              className={"mb-2"}
-                              type={"text"}
-                              // value={SMPTServer}
-                              // onchange={(e) => setSMPTServer(e.target.value)}
-                              size="small"
-                              classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            /> */}
+
                             <hr />
                             <label htmlFor="" className="fw-bold">
                               Select Target Market
                             </label>
                             <select
                               id="selectTargetMarket"
-                              className="form-select mb-2 mt-1 outline-none"
+                              className="form-select mb-2 mt-1"
                               value={selectedTargetMarket?._id}
                               onChange={(e) => handleMarketChange(e)}
                             >
@@ -403,56 +377,41 @@ const Generate = () => {
                                 <option>Data Loading...</option>
                               )}
                             </select>
-                            
-                            {console.log(selectedTargetMarket)}
-                            {/* <Input
-                              id={"select industry"}
-                              lebel={"Select Industry"}
-                              className={"mb-2 mt-1"}
-                              type={"text"}
-                              // value={SMPTPort}
-                              // onchange={(e) => setSMPTPort(e.target.value)}
-                              classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                              size="small"
-                            /> */}
+
                             <p className="fw-light fs-6">
                               {count} Emails to genereted
                             </p>
                             <div className="mt-3 p-1">
-                            <span>
-                              <b>Target Market Label: </b>
-                              {selectedTargetMarket?.targetName}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Target location: </b>
-                              {selectedTargetMarket?.location.map(
-                                (ele) => (
+                              <span>
+                                <b>Target Market Label: </b>
+                                {selectedTargetMarket?.targetName}
+                              </span>
+                              <br />
+                              <span>
+                                <b>Target location: </b>
+                                {selectedTargetMarket?.location.map((ele) => (
                                   <>{ele}</>
-                                )
-                              )}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Employee Count: </b>
-                              {selectedTargetMarket?.employeeCount[0]}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Industry: </b>
-                              {selectedTargetMarket?.industry.map(
-                                (ele) => (
+                                ))}
+                              </span>
+                              <br />
+                              <span>
+                                <b>Employee Count: </b>
+                                {selectedTargetMarket?.employeeCount[0]}
+                              </span>
+                              <br />
+                              <span>
+                                <b>Industry: </b>
+                                {selectedTargetMarket?.industry.map((ele) => (
                                   <>{ele}</>
-                                )
-                              )}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Job Title: </b>
-                              {selectedTargetMarket?.jobTitle}
-                            </span>
-                            <br />
-                          </div>
+                                ))}
+                              </span>
+                              <br />
+                              <span>
+                                <b>Job Title: </b>
+                                {selectedTargetMarket?.jobTitle}
+                              </span>
+                              <br />
+                            </div>
                           </div>
                         </Box>
                       </CardBody>
@@ -472,27 +431,27 @@ const Generate = () => {
                           </label>
 
                           <div className="d-flex flex-row">
-                          <Input
-                            id={"Emails to generate"}
-                            lebel={"Emails to generate"}
-                            type={"text"}
-                            // value={user}
-                            // onchange={(e) => setUser(e.target.value)}
-                            size={"small"}
-                            className={"mt-2 w-75"}
-                          />
+                            <Input
+                              id={"Emails to generate"}
+                              lebel={"Emails to generate"}
+                              type={"text"}
+                              value={generate}
+                              onChange={(e) => setGenerate(e.target.value)}
+                              size={"small"}
+                              className={"mt-2 w-75"}
+                            />
 
-                          <Button
-                            sx={{
-                              backgroundColor: `${theme.palette.primary.main}`,
-                            }}
-                            variant="contained"
-                            className="m-2 "
-                            size="medium"
-                            onClick={() => handleSelect()}
-                          >
-                            Select
-                          </Button>
+                            <Button
+                              sx={{
+                                backgroundColor: `${theme.palette.primary.main}`,
+                              }}
+                              variant="contained"
+                              className="m-2 "
+                              size="medium"
+                              onClick={() => handleSelect()}
+                            >
+                              Select
+                            </Button>
                           </div>
                           <div
                             className="mt-2 mb-2"
@@ -505,7 +464,11 @@ const Generate = () => {
                               <thead>
                                 <tr>
                                   <th>Name</th>
-                                  <th> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Company</th>
+                                  <th>
+                                    {" "}
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    Company
+                                  </th>
                                 </tr>
                               </thead>
                             </table>
@@ -551,7 +514,7 @@ const Generate = () => {
                     <span>
                       <span className="fw-bold">Email</span> being generated as:
                     </span>
-                    <span>Noumair.rafiq@odinseye.live</span>
+                    <span>{`${userDatails?.emailConfig?.email}`}</span>
                   </Card>
                 </Col>
               </Row>

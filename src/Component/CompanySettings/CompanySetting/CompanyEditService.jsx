@@ -19,12 +19,8 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   price: Yup.number().required("Price is required"),
   offer: Yup.string().required("Offer is required"),
-  features1: Yup.string().required("Feature 1 is required"),
-  features2: Yup.string().required("Feature 2 is required"),
-  features3: Yup.string().required("Feature 3 is required"),
-  benefits1: Yup.string().required("Benefit 1 is required"),
-  benefits2: Yup.string().required("Benefit 2 is required"),
-  benefits3: Yup.string().required("Benefit 3 is required"),
+  features: Yup.array().of(Yup.string().required("Feature is required")),
+  benefits: Yup.array().of(Yup.string().required("Benefit is required")),
   target_name: Yup.string().required("Target Name is required"),
   location: Yup.string().required("Location is required"),
   employee_count: Yup.string().required("Employee Count is required"),
@@ -36,83 +32,71 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
   const [title, setTitle] = useState("Company Service Update ");
   const [firstEditService] = editService;
   const handleClose = () => setShow(false);
+  console.log(firstEditService)
+  const prepareServiceData = (values) => {
+    const {
+      title,
+      price,
+      offer,
+      features,
+      benefits,
+      target_name,
+      location,
+      employee_count,
+      industry,
+      job_title
+    } = values;
+    return {
+      title,
+      price,
+      currency: values.currency,
+      under_offer: false,
+      offer,
+      features: features.map(feature => feature.description), 
+      benefits: benefits.map(benefit => benefit.description), 
+      target_name,
+      location: location.split(",").map((loc) => loc.trim()),
+      employee_count: employee_count.split(",").map((count) => count.trim()),
+      industry: [industry],
+      job_title,
+      serviceId: firstEditService._id,
+    };
+  };
+  
   const formik = useFormik({
     initialValues: {
       title: firstEditService.title || "",
       price: firstEditService.price || "",
       offer: firstEditService.offer || "",
       currency: firstEditService.currency || "",
-      features1: firstEditService.features[0]?.description || "",
-      features2: firstEditService.features[1]?.description || "",
-      features3: firstEditService.features[2]?.description || "",
-      benefits1: firstEditService.benefits[0]?.description || "",
-      benefits2: firstEditService.benefits[1]?.description || "",
-      benefits3: firstEditService.benefits[2]?.description || "",
-      target_name: firstEditService.target_market?.target_name || "",
+      features: [...firstEditService.features.map(ele => ele.description)] || [],
+      benefits: [...firstEditService.benefits.map(ele => ele.description)] || [],
+      target_name: firstEditService.target_market?.targetName || "",
       location: firstEditService.target_market?.location?.join(",") || "",
       employee_count:
-        firstEditService.target_market?.employee_count?.join(",") || "",
+        firstEditService.target_market?.employeeCount?.join(",") || "",
       industry: firstEditService.target_market?.industry?.join(",") || "",
-      job_title: firstEditService.target_market?.job_title || "",
+      job_title: firstEditService.target_market?.jobTitle || "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const {
-        title,
-        price,
-        offer,
-        features1,
-        features2,
-        features3,
-        benefits1,
-        benefits2,
-        benefits3,
-        target_name,
-        location,
-        employee_count,
-        industry,
-        job_title,
-      } = values;
-
-      if (
-        !title ||
-        !price ||
-        !offer ||
-        !features1 ||
-        !features2 ||
-        !features3 ||
-        !benefits1 ||
-        !benefits2 ||
-        !benefits3 ||
-        !target_name ||
-        !location ||
-        !employee_count ||
-        !industry ||
-        !job_title
-      ) {
-        toast.error("All fields are required");
-        return;
-      }
-
-      const serviceEdit = {
-        title,
-        price,
-        currency: values.currency,
-        under_offer: false,
-        offer,
-        features: [features1, features2, features3],
-        benefits: [benefits1, benefits2, benefits3],
-        target_name,
-        location: [location.split(",").map((loc) => loc.trim())],
-        employee_count: [
-          employee_count.split(",").map((count) => count.trim()),
-        ],
-        industry: [industry],
-        job_title,
-        serviceId: firstEditService._id,
-      };
+      console.log(values)
       try {
-        const resData = await api.post("/service/update", serviceEdit);
+        const resData = await api.post("/service/update", {
+          serviceId: firstEditService._id,
+          title: values.title,
+          price: values.price,
+          currency: values.currency,
+          under_offer: false,
+          offer: values.offer,
+          features: values.features,
+          benefits: values.benefits,
+          target_name: values.target_name,
+          location: values.location.split(","),
+          employee_count: values.employee_count.split(","),
+          industry: values.industry.split(","),
+          job_title: values.job_title,
+        });
         if (resData.isSuccess) {
           toast.success("Service Update Successful");
           fetchService();
@@ -132,7 +116,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
     { key: "benefits", label: "Benefits", icon: <DiCoda /> },
     { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
   ];
-
+ 
   const handleTabChange = (tabKey) => {
     setActiveTab(tabKey);
     tabKey === "targetmarket"
@@ -144,6 +128,49 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
   };
   const handleNext = () => {
     const currentIndex = tabs.findIndex((tab) => tab.key === activeTab);
+    if (
+      currentIndex === 0 &&
+      !(
+        formik.values.title &&
+        formik.values.price &&
+        formik.values.offer &&
+        formik.values.currency
+      )
+    ) {
+      toast.error("All Fields Requires!");
+      return;
+    }
+
+    if (currentIndex === 1) {
+      if (formik.values.features.length === 0) {
+        toast.error("At Least One Field Require!");
+        return;
+      }
+      if (formik.values.features[0] === "") {
+        toast.error("All Fields Requires!");
+        return;
+      } else {
+        formik.values.features = formik.values.features.filter(
+          (item) => item !== ""
+        );
+      }
+    }
+
+    if (currentIndex === 2) {
+      if (formik.values.benefits.length === 0) {
+        toast.error("At Least One Field Require!");
+        return;
+      }
+      if (formik.values.benefits[0] === "") {
+        toast.error("All Fields Requires!");
+        return;
+      } else {
+        formik.values.benefits = formik.values.benefits.filter(
+          (item) => item !== ""
+        );
+      }
+    }
+
     const nextIndex = currentIndex + 1;
     if (nextIndex < tabs.length) {
       const nextTab = tabs[nextIndex];
@@ -158,6 +185,25 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       const previousTab = tabs[previousIndex];
       setActiveTab(previousTab.key);
     }
+  };
+  const addFeature = () => {
+    formik.setFieldValue("features", [...formik.values.features, ""]);
+  };
+
+  const removeFeature = (index) => {
+    const newFeatures = [...formik.values.features];
+    newFeatures.splice(index, 1);
+    formik.setFieldValue("features", newFeatures);
+  };
+
+  const addBenefit = () => {
+    formik.setFieldValue("benefits", [...formik.values.benefits, ""]);
+  };
+
+  const removeBenefit = (index) => {
+    const newBenefits = [...formik.values.benefits];
+    newBenefits.splice(index, 1);
+    formik.setFieldValue("benefits", newBenefits);
   };
   return (
     <div>
@@ -280,53 +326,57 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     </Button>
                   </Tab.Pane>
                   <Tab.Pane eventKey="feature">
-                    <div className="d-flex flex-column m-2">
-                      <Input
-                        id={"features1"}
-                        lebel={"Feature1"}
-                        className={""}
-                        type={"text"}
-                        value={formik.values.features1}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-1"}
-                      />
-                      {formik.touched.features1 && formik.errors.features1 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.features1}
-                        </div>
-                      )}
-                      <Input
-                        id={"features2"}
-                        lebel={"Feature2"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.features2}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.features2 && formik.errors.features2 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.features2}
-                        </div>
-                      )}
-                      <Input
-                        id={"features3"}
-                        lebel={"Feature3"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.features3}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.features3 && formik.errors.features3 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.features3}
-                        </div>
-                      )}
+                    <div className="m-2">
+                      {formik.values?.features?.map((feature, index) => (
+                        <>
+                          <div key={index} className="d-flex flex-row">
+                            <Input
+                              id={"features" + (index + 1)}
+                              lebel={"Feature " + (index + 1)}
+                              className={"mt-2 w-75"}
+                              type={"text"}
+                              value={feature}
+                              onChange={(e) => {
+                                const newFeatures = [...formik.values.features];
+                                newFeatures[index] = e.target.value;
+                                formik.setFieldValue("features", newFeatures);
+                              }}
+                              size={"small"}
+                              classnamelebal={"mt-2"}
+                            />
+                            <Button
+                              variant="contained"
+                              onClick={() => removeFeature(index)}
+                              sx={{
+                                backgroundColor: `${theme.palette.primary.main}`,
+                              }}
+                              className="ms-2 mt-2"
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                          <div>
+                            {formik.touched?.features &&
+                              formik.errors?.features &&
+                              formik.errors?.features[index] && (
+                                <div className="error ms-2 text-danger">
+                                  {formik.errors.features[index]}
+                                </div>
+                              )}
+                          </div>
+                        </>
+                      ))}
                     </div>
+                    <Button
+                      variant="contained"
+                      onClick={addFeature}
+                      sx={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
+                      className="ms-2 mt-2"
+                    >
+                      Add Feature
+                    </Button>
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
@@ -349,53 +399,57 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     </Button>
                   </Tab.Pane>
                   <Tab.Pane eventKey="benefits">
-                    <div className="d-flex flex-column m-2">
-                      <Input
-                        id={"benefits1"}
-                        lebel={"Benefits1"}
-                        className={""}
-                        type={"text"}
-                        value={formik.values.benefits1}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-1"}
-                      />
-                      {formik.touched.benefits1 && formik.errors.benefits1 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.benefits1}
-                        </div>
-                      )}
-                      <Input
-                        id={"benefits2"}
-                        lebel={"Benefits2"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.benefits2}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.benefits2 && formik.errors.benefits2 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.benefits2}
-                        </div>
-                      )}
-                      <Input
-                        id={"benefits3"}
-                        lebel={"Benefits3"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.benefits3}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.benefits3 && formik.errors.benefits3 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.benefits3}
-                        </div>
-                      )}
+                    <div className="m-2">
+                      {formik.values?.benefits?.map((benefit, index) => (
+                        <>
+                          <div key={index} className="d-flex flex-row">
+                            <Input
+                              // id={"benefits" + (index + 1)}
+                              lebel={"Benefit " + (index + 1)}
+                              className={"mt-2 w-75"}
+                              type={"text"}
+                              value={benefit}
+                              onChange={(e) => {
+                                const newBenefits = [...formik.values.benefits];
+                                newBenefits[index] = e.target.value;
+                                formik.setFieldValue("benefits", newBenefits);
+                              }}
+                              size={"small"}
+                              classnamelebal={"mt-2"}
+                            />
+                            <Button
+                              variant="contained"
+                              onClick={() => removeBenefit(index)}
+                              sx={{
+                                backgroundColor: `${theme.palette.primary.main}`,
+                              }}
+                              className="ms-2 mt-2"
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                          <div>
+                            {formik.touched?.benefits &&
+                              formik.errors?.benefits &&
+                              formik.errors?.benefits[index] && (
+                                <div className="error ms-2 text-danger">
+                                  {formik.errors.benefits[index]}
+                                </div>
+                              )}
+                          </div>
+                        </>
+                      ))}
                     </div>
+                    <Button
+                      variant="contained"
+                      onClick={addBenefit}
+                      sx={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
+                      className="ms-2 mt-2"
+                    >
+                      Add Benefit
+                    </Button>
                     <Button
                       variant="contained"
                       onClick={handlePrevious}

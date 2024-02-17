@@ -81,8 +81,6 @@ const Sidebar = ({ open, setOpen }) => {
   const [admin, setAdmin] = useState(false);
   const [routes, setRoutes] = useState([]);
   useEffect(() => {
-    // userDatails = useSelector((state) => state.login.userDatails); 
-    console.log(userDatails)
     userDatails && userDatails.isAdmin
       ? setRoutes(adminRoutes) & setAdmin(true)
       : setRoutes(clientRoute) & setAdmin(false);

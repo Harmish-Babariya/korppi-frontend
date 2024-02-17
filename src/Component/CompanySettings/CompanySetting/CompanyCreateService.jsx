@@ -21,14 +21,8 @@ const validationSchema = Yup.object().shape({
   price: Yup.number().required("Price is required"),
   offer: Yup.string().required("Offer is required"),
   currency: Yup.string().required("Currency is required"),
-  // features1: Yup.string().required("Feature 1 is required"),
-  // features2: Yup.string().required("Feature 2 is required"),
-  // features3: Yup.string().required("Feature 3 is required"),
   features: Yup.array().of(Yup.string().required("Feature is required")),
   benefits: Yup.array().of(Yup.string().required("Benefit is required")),
-  // benefits1: Yup.string().required("Benefit 1 is required"),
-  // benefits2: Yup.string().required("Benefit 2 is required"),
-  // benefits3: Yup.string().required("Benefit 3 is required"),
   target_name: Yup.string().required("Target Name is required"),
   location: Yup.string().required("Location is required"),
   employee_count: Yup.string().required("Employee Count is required"),
@@ -45,14 +39,8 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
       price: "",
       offer: "",
       currency: "",
-      features1: "",
-      features2: "",
-      features3: "",
       features: [""],
       benefits: [""],
-      benefits1: "",
-      benefits2: "",
-      benefits3: "",
       target_name: "",
       location: "",
       employee_count: "",
@@ -108,6 +96,49 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
   };
   const handleNext = () => {
     const currentIndex = tabs.findIndex((tab) => tab.key === activeTab);
+    if (
+      currentIndex === 0 &&
+      !(
+        formik.values.title &&
+        formik.values.price &&
+        formik.values.offer &&
+        formik.values.currency
+      )
+    ) {
+      toast.error("All Fields Requires!");
+      return;
+    }
+
+    if (currentIndex === 1) {
+      if (formik.values.features.length === 0) {
+        toast.error("At Least One Field Require!");
+        return;
+      }
+      if (formik.values.features[0] === "") {
+        toast.error("All Fields Requires!");
+        return;
+      } else {
+        formik.values.features = formik.values.features.filter(
+          (item) => item !== ""
+        );
+      }
+    }
+
+    if (currentIndex === 2) {
+      if (formik.values.benefits.length === 0) {
+        toast.error("At Least One Field Require!");
+        return;
+      }
+      if (formik.values.benefits[0] === "") {
+        toast.error("All Fields Requires!");
+        return;
+      } else {
+        formik.values.benefits = formik.values.benefits.filter(
+          (item) => item !== ""
+        );
+      }
+    }
+
     const nextIndex = currentIndex + 1;
     if (nextIndex < tabs.length) {
       const nextTab = tabs[nextIndex];
@@ -265,51 +296,6 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                   </Tab.Pane>
                   <Tab.Pane eventKey="feature">
                     <div className="m-2">
-                      {/* <Input
-                        id={"features1"}
-                        lebel={"Feature1"}
-                        className={""}
-                        type={"text"}
-                        value={formik.values.features1}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-1"}
-                      />
-                      {formik.touched.features1 && formik.errors.features1 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.features1}
-                        </div>
-                      )}
-                      <Input
-                        id={"features2"}
-                        lebel={"Feature2"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.features2}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.features2 && formik.errors.features2 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.features2}
-                        </div>
-                      )}
-                      <Input
-                        id={"features3"}
-                        lebel={"Feature3"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.features3}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.features3 && formik.errors.features3 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.features3}
-                        </div>
-                      )} */}
                       {formik.values?.features?.map((feature, index) => (
                         <>
                           <div key={index} className="d-flex flex-row">
@@ -383,52 +369,6 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                   </Tab.Pane>
                   <Tab.Pane eventKey="benefits">
                     <div className="m-2">
-                      {/* <Input
-                        id={"benefits1"}
-                        lebel={"Benefits1"}
-                        className={""}
-                        type={"text"}
-                        value={formik.values.benefits1}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-1"}
-                      />
-                      {formik.touched.benefits1 && formik.errors.benefits1 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.benefits1}
-                        </div>
-                      )}
-                      <Input
-                        id={"benefits2"}
-                        lebel={"Benefits2"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.benefits2}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.benefits2 && formik.errors.benefits2 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.benefits2}
-                        </div>
-                      )}
-                      <Input
-                        id={"benefits3"}
-                        lebel={"Benefits3"}
-                        className={"mt-2"}
-                        type={"text"}
-                        value={formik.values.benefits3}
-                        onChange={formik.handleChange}
-                        size={"small"}
-                        classnamelebal={"mt-2"}
-                      />
-                      {formik.touched.benefits3 && formik.errors.benefits3 && (
-                        <div className="error ms-2 text-danger">
-                          {formik.errors.benefits3}
-                        </div>
-                      )} */}
-
                       {formik.values?.benefits?.map((benefit, index) => (
                         <>
                           <div key={index} className="d-flex flex-row">

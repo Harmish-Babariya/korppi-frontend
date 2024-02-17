@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import {  useSelector } from "react-redux";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import { Button } from "@mui/material";
@@ -14,6 +15,7 @@ import "./send.css";
 const Send = () => {
   const [emailToSend, setEmailToSend] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
+  const userDatails = useSelector((state) => state.login.userDatails); 
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
     daysChecked: {
@@ -81,7 +83,7 @@ const Send = () => {
                 <span>
                   <span className="fw-bold">Email</span> being generated as:
                 </span>
-                <span>Noumair.rafiq@odinseye.live</span>
+                <span>{`${userDatails?.emailConfig.email}`}</span>
               </Card>
               <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
                 Email <span className="text-secondary">Available</span> to send
@@ -127,7 +129,7 @@ const Send = () => {
                 <span>
                   <span className="fw-bold">Email</span> being generated as:
                 </span>
-                <span>Noumair.rafiq@odinseye.live</span>
+                <span>{`${userDatails?.emailConfig.email}`}</span>
               </Card>
               <div className="d-flex flex-column">
                 <Input
