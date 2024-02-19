@@ -47,6 +47,7 @@ const Generate = () => {
         emails: emails,
         userId: userDatails._id,
         sentBy: `${userDatails.firstName} ${userDatails.lastName}`,
+        serviceId: selectedService._id
       });
       if (resData.isSuccess) {
         navigate("/dashboard/send")

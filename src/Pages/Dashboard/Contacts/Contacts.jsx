@@ -1,88 +1,118 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import api from "../../../service/api";
 import "./index.css";
 
 const Contacts = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchData = async () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [meta, setMeta] = useState();
+  const fetchEmailData = async () => {
     try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      setData(response.data);
+      const resData = await api.post("email/get", {
+        pageNumber: pageNumber,
+        pageSize: 7,
+      });
+      if (resData.isSuccess) {
+        console.log(resData.data)
+        setData(resData.data);
+        setMeta(resData.meta);
+      } else {
+        toast.error(resData.response.data.message);
+      }
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+      console.error("API Error:", error);
     }
   };
-
+  const handlePageChange = (event, newPage) => {
+    setPageNumber(newPage);
+  };
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchEmailData();
+  }, [pageNumber]);
 
-  const handleEdit = async (id) => {
-    try {
-      const response = await axios.put(
-        `https://jsonplaceholder.typicode.com/users/${id}`,
-        newData
-      );
-      console.log("User updated successfully:", response.data);
-    } catch (error) {
-      console.error("Error updating user:", error);
-    }
-  };
+  // const handleEdit = async (id) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `https://jsonplaceholder.typicode.com/users/${id}`,
+  //       newData
+  //     );
+  //     console.log("User updated successfully:", response.data);
+  //   } catch (error) {
+  //     console.error("Error updating user:", error);
+  //   }
+  // };
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(
-        `https://jsonplaceholder.typicode.com/users/${id}`
-      );
+  // const handleDelete = async (id) => {
+  //   try {
+  //     const response = await axios.delete(
+  //       `https://jsonplaceholder.typicode.com/users/${id}`
+  //     );
 
-      console.log("User deleted successfully:", response.data);
+  //     console.log("User deleted successfully:", response.data);
 
-      setData(data.filter((user) => user.id !== id));
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
+  //     setData(data.filter((user) => user.id !== id));
+  //   } catch (error) {
+  //     console.error("Error deleting user:", error);
+  //   }
+  // };
 
   return (
     <div className="contacts-container">
-      <table className="contacts-table">
+      <table className="contacts-table text-center">
         <thead>
-          <tr>
-            <th>ID</th>
+          <tr className="mx-auto">
             <th>Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Website</th>
             <th>Company</th>
-            <th>Actions</th> {/* New column for edit and delete buttons */}
+            <th>Email</th>
+            <th>View Email</th>
+            <th>Email Sent</th>
+            <th>Email Opened</th>
+            <th>Times Opened</th>
+            <th>Date Opened</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.username}</td>
-              <td>{item.email}</td>
-              <td>{item.phone}</td>
-              <td>{item.website}</td>
-              <td>{item.company.name}</td>
+            <tr key={item._id}>
+              <td>{item.companyId.name}</td>
+              <td>{item.companyId.name}</td>
               <td>
-                <button  className="edit-button" onClick={() => handleEdit(item.id)}>Edit</button>
-                <button className="delete-button" onClick={() => handleDelete(item.id)}>Delete</button>
+                <a href={`mailto:${item.prospectId.email}`}>
+                  {item.prospectId.email}
+                </a>
               </td>
+              <td>
+                {" "}
+                <button
+                  className="edit-button"
+                  // onClick={() => handleEdit(item.id)}
+                >
+                  View
+                </button>
+              </td>
+              <td>{item.isSent ? "TRUE" : "FALSE"}</td>
+              
+              <td>{item.isOpen ? "TRUE" : "FALSE"}</td>
+              <td>{item.counts}</td>
+              <td>{item.openAt}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      {
+        <div className="d-flex justify-content-end m-2 mb-3 ">
+          <Stack spacing={2}>
+            <Pagination
+              count={meta?.totalPages}
+              page={pageNumber}
+              onChange={handlePageChange}
+              color="primary"
+            />
+          </Stack>
+        </div>
+      }
     </div>
   );
 };

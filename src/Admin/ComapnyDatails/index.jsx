@@ -8,26 +8,27 @@ import { MdDelete } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { IoBagAdd } from "react-icons/io5";
 import { useSelector } from "react-redux";
-
-import { useParams ,useNavigate} from "react-router-dom";
+import ConfirmationModal from "./deleteUserModal";
+import { useParams, useNavigate } from "react-router-dom";
 import { MdCreate } from "react-icons/md";
 import EditUserModal from "./editUserModal";
 import CreateUser from "./createUser";
 import api from "../../service/api";
 import UserForgotPassword from "./userForgotPassword";
 
-
 const CompanyDatails = () => {
   const [showUser, setShowUser] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editedUser, setEditedUser] = useState({});
-  const [editedUserId, setEditedUserId] = useState(null);
+  // const [editedUserId, setEditedUserId] = useState();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [forgotUserId, setForgotUserId] = useState();
   const [userData, setUserData] = useState([]);
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1); 
-   const userDatails = useSelector((state) => state.login.userDatails);
+  const [currentPage, setCurrentPage] = useState(1);
+  const userDatails = useSelector((state) => state.login.userDatails);
 
   const [meta, setMeta] = useState();
   let { id } = useParams();
@@ -40,17 +41,20 @@ const CompanyDatails = () => {
     companyId: id,
   };
   const fetchCompany = async () => {
-    const resData = await api.post("client/getById", companyId);
-    if (resData.isSuccess) {
-      setData(resData.data);
-    } else  toast.error(response.response.data.message);
+    try {
+      const resData = await api.post("client/getById", companyId);
+      if (resData.isSuccess) {
+        setData(resData.data);
+      } else toast.error(response.response.data.message);
+    } catch (error) {
+      toast.error("Error fetching users", error);
+    }
   };
   const fetchUsers = async () => {
     try {
       const resData = await api.post("user/get", companyUser);
       if (resData.isSuccess) {
         setUserData(resData.data);
-   
         setMeta(resData.meta);
       } else {
         toast.error(response.response.data.message);
@@ -63,24 +67,43 @@ const CompanyDatails = () => {
     setCurrentPage(page);
   };
   useEffect(() => {
-    userDatails && userDatails.isAdmin ? fetchCompany() & fetchUsers() : navigate("/dashboard");
-  }, [id, currentPage,userDatails]);
-  const handleEditUser = (userId) => {
-    setEditedUserId(userId);
-    setEditModalOpen(true);
+    userDatails && userDatails.isAdmin
+      ? fetchCompany() & fetchUsers()
+      : navigate("/dashboard");
+  }, [id, currentPage, userDatails]);
+  const handleEditUser = async (userId) => {
+    console.log(userId)
+    // setEditedUserId(userId);
+    try {
+      const resData = await api.post("user/getById", { userId: userId });
+      if (resData.isSuccess) {
+        console.log(resData)
+        setEditedUser(resData.data);
+        setEditModalOpen(true);
+      } else {
+        console.log(resData);
+        toast.error(response.response.data.message);
+      }
+    } catch (error) {
+      toast.error("Error fetching users", error);
+    }
+  };
+  const handleDeleteModal = async (userId) => {
+    setSelectedUserId(userId);
+    setShowConfirmationModal(true);
   };
   const handleDeleteUser = async (userId) => {
-    const userDelete ={
-      status: 3,
-      id: userId
-  }
+    const userDelete = {
+      id: selectedUserId,
+    };
     try {
-      const resData = await api.post("/user/delete",userDelete);
+      const resData = await api.post("/user/delete", userDelete);
       if (resData.isSuccess) {
         toast.success("User deleted successfully");
         fetchUsers();
+        setShowConfirmationModal(false);
       } else {
-        toast.error(response.response.data.message);
+        toast.error(resData);
       }
     } catch (error) {
       toast.error("Error deleting user", error);
@@ -88,10 +111,10 @@ const CompanyDatails = () => {
   };
 
   const handleShow = (id) => {
-    setForgotUserId(id)
+    setForgotUserId(id);
     setShow(true);
-   }
- const handleShowUser = () => setShowUser(true);
+  };
+  const handleShowUser = () => setShowUser(true);
 
   return (
     <>
@@ -104,20 +127,22 @@ const CompanyDatails = () => {
           className="d-flex flex-row ms-2 mt-1"
         >
           <div className="m-2">
-          <p>
+            <p>
               <span className="fw-bold">Client Name :</span> {data?.name}
             </p>
             <p>
-              <span className="fw-bold">Email :</span> {data?.email || 'N/A' }
+              <span className="fw-bold">Email :</span> {data?.email || "N/A"}
             </p>
             <p>
-              <span className="fw-bold">Website URL :</span> {data?.websiteUrl || 'N/A' }
+              <span className="fw-bold">Website URL :</span>{" "}
+              {data?.websiteUrl || "N/A"}
             </p>
             <p>
-              <span className="fw-bold">Industry_Id :</span> {data?.industryId?.name || 'N/A'  }
+              <span className="fw-bold">Industry_Id :</span>{" "}
+              {data?.industryId?.name || "N/A"}
             </p>
             <p>
-              <span className="fw-bold">Size :</span> {data?.size || 'N/A' }
+              <span className="fw-bold">Size :</span> {data?.size || "N/A"}
             </p>
             {/* <p>
               <span className="fw-bold">Iinkedinabout :</span>
@@ -126,20 +151,23 @@ const CompanyDatails = () => {
           </div>
           <div className="m-2">
             <p>
-              <span className="fw-bold">Postal_Code :</span> {data?.postalCode || 'N/A' }
+              <span className="fw-bold">Postal_Code :</span>{" "}
+              {data?.postalCode || "N/A"}
             </p>
             {/* <p>
               <span className="fw-bold">Iinkedinurl :</span>
               <a href="">{data?.linkedinurl}</a>
             </p> */}
             <p>
-              <span className="fw-bold">Size :</span> {data?.size || 'N/A' }
+              <span className="fw-bold">Size :</span> {data?.size || "N/A"}
             </p>
             <p>
-              <span className="fw-bold">Revenue :</span> {data?.revenue || 'N/A' }
+              <span className="fw-bold">Revenue :</span>{" "}
+              {data?.revenue || "N/A"}
             </p>
             <p>
-              <span className="fw-bold">Country :</span> {data?.country || 'N/A' }
+              <span className="fw-bold">Country :</span>{" "}
+              {data?.country || "N/A"}
             </p>
           </div>
         </div>
@@ -164,7 +192,12 @@ const CompanyDatails = () => {
               </Button>
             </div>
           </div>
-          <CreateUser showUser={showUser} setShowUser={setShowUser} fetchUsers={fetchUsers} companyId={id}/>
+          <CreateUser
+            showUser={showUser}
+            setShowUser={setShowUser}
+            fetchUsers={fetchUsers}
+            companyId={id}
+          />
           {userData.length > 0 ? (
             <>
               <div className="table-responsive mb-2">
@@ -213,11 +246,16 @@ const CompanyDatails = () => {
                               fetchUsers={fetchUsers}
                             />
                           )}
+                          <ConfirmationModal
+                            show={showConfirmationModal}
+                            handleClose={() => setShowConfirmationModal(false)}
+                            handleDeleteUser={handleDeleteUser}
+                          />
                           <Button
                             variant="outlined"
                             size="small"
                             className="text-danger bg-danger-subtle  ms-2 "
-                            onClick={() => handleDeleteUser(user._id)}
+                            onClick={() => handleDeleteModal(user._id)}
                           >
                             <MdDelete className="fs-4" />
                           </Button>
@@ -225,7 +263,7 @@ const CompanyDatails = () => {
                             variant="contained"
                             size="small"
                             className="ms-2"
-                            onClick={()=>handleShow(user._id)}
+                            onClick={() => handleShow(user._id)}
                           >
                             Reset Password
                           </Button>
@@ -235,30 +273,24 @@ const CompanyDatails = () => {
                   </tbody>
                 </table>
               </div>
-              {show && <UserForgotPassword show={show} setShow={setShow} forgotUserId={forgotUserId}/>}
-
-              {meta.totalPages > 1 ? (
-                <div className="d-flex justify-content-end m-2 mb-2">
-                  <Stack spacing={2}>
-                    <Pagination
-                      count={meta.totalPages}
-                      page={currentPage}
-                      onChange={handlePageChange}
-                      color="primary"
-                    />
-                  </Stack>
-                </div>
-              ) : <div className="d-flex justify-content-end m-2 mb-2">
-              <Stack spacing={2}>
-                <Pagination
-                  count={meta.totalPages}
-                  page={currentPage}
-                  onChange={handlePageChange}
-                  color="primary"
-                  disabled
+              {show && (
+                <UserForgotPassword
+                  show={show}
+                  setShow={setShow}
+                  forgotUserId={forgotUserId}
                 />
-              </Stack>
-            </div>}
+              )}
+
+              <div className="d-flex justify-content-end m-2 mb-2">
+                <Stack spacing={2}>
+                  <Pagination
+                    count={meta.totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                  />
+                </Stack>
+              </div>
             </>
           ) : (
             <h3 className="text-center fw-light fs-5">User Not found</h3>

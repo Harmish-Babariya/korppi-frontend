@@ -28,7 +28,7 @@ export const AuthSlice = createSlice({
       }
     },
     updateUserData: (state, action) => {
-      state.userDatails = { ...state.userDatails, ...action.payload };
+      state.userDatails = action.payload ;
     },
   },
 });

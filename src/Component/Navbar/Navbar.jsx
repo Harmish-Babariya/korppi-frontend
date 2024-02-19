@@ -22,11 +22,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Dashboard from "../../Pages/Dashboard";
 import Settings from "../CompanySettings/Settings";
 import { theme } from "../../Theme/Theme";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -78,7 +78,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
+
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -90,14 +90,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = (props) => {
   const [admin, setAdmin] = useState(false);
-  const userData = useSelector((state) => state.login.userDatails);
 
-
-
-  // Function to get the first letter of a string
-  const getFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase();
-  };
+  const navigate = useNavigate();
+  const [path, setPath] = useState([]);
+  const [show, setShow] = useState(false);
+  const userDatails = useSelector((state) => state.login.userDatails);
   const settings = [
     {
       name: "Profile",
@@ -116,21 +113,17 @@ const Navbar = (props) => {
       icon: <ExitToAppRoundedIcon />,
     },
   ];
-  const [path, setPath] = useState([]);
-  const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const { open, setOpen } = props;
   const [anchorElUser, setAnchorElUser] = useState(null);
   useEffect(() => {
-    setPath(location.pathname.split("/").slice(2));
-    location.pathname.includes("admin")
-    ? setAdmin(true)
-    : null;
-  }, [location.pathname]);
+    userDatails && userDatails.isAdmin
+      ? setAdmin(true)
+      : navigate("/dashboard") & setAdmin(false);
+  }, [userDatails]);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -202,26 +195,14 @@ const Navbar = (props) => {
               />
             </Search>
             <Box sx={{ marginLeft: "auto" }}>
-            <Link onClick={handleShow}>
-                <SettingsIcon className="me-2 fs-3 text-secondary" />
-              </Link>
-           {/* { !admin ? <Link onClick={handleShow}>
-                <SettingsIcon className="me-2 fs-3 text-secondary" />
-              </Link> : null} */}
+              {!admin ? (
+                <Link onClick={handleShow}>
+                  <SettingsIcon className="me-2 fs-3 text-secondary" />
+                </Link>
+              ) : null}
               <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Korppi" src="/static/images/avatar/2.jpg" />
-                  {/* {userData.firstName && (
-          <>
-            {userData.profileImage ? (
-              <img src={userData.profileImage} alt="Profile" className="profile-image" />
-            ) : (
-              <div className="profile-letter">
-                <p>{getFirstLetter(userData.firstName)}</p>
-              </div>
-            )}
-          </>
-        )} */}
                 </IconButton>
               </Tooltip>
               <Menu

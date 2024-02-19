@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
 import CssBaseline from "@mui/material/CssBaseline";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -14,11 +15,12 @@ import api from "../../../service/api";
 
 import { theme } from "../../../Theme/Theme";
 
-const UserForgotPassword = ({ show, setShow,forgotUserId }) => {
+const UserForgotPassword = ({ show, setShow, forgotUserId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,11 +29,18 @@ const UserForgotPassword = ({ show, setShow,forgotUserId }) => {
       return;
     }
     try {
-      const response = await api.post("/user/getById");
-      console.log("Password updated successfully:", response.data);
-      setShow(false); 
+      const response = await api.post("/user/update", {
+        id: forgotUserId,
+        password: password,
+      });
+      if (response.isSuccess) {
+        toast.success("Password updated successfully");
+        setShow(false);
+      } else {
+        setError(response.response.data.message);
+      }
     } catch (error) {
-      setError(error.message);
+      setError("An error occurred while updating the password");
     }
   };
 
@@ -116,6 +125,7 @@ const UserForgotPassword = ({ show, setShow,forgotUserId }) => {
                 />
               </FormControl>
               {error && <p style={{ color: "red" }}>{error}</p>}
+    
               <Button
                 type="submit"
                 variant="outlined"

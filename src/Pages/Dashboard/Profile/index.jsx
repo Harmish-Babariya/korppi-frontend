@@ -13,15 +13,16 @@ import {
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Input from "../../../Component/Input";
+import { toast } from "react-toastify";
 import { theme } from "../../../Theme/Theme";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { updateUserData } from "../../../Redux/AuthSlice";
+import api from "../../../service/api";
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.login.userDatails);
   const [editedUserData, setEditedUserData] = useState(userData);
 
-  // Function to handle changes in input fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedUserData((prevData) => ({
@@ -30,10 +31,29 @@ const Profile = () => {
     }));
   };
 
-
-  const handleSubmit = () => {
-    
-    dispatch(updateUserData(editedUserData)); 
+  const handleSubmit = async () => {
+    const { firstName, lastName, email, role, linkedinUrl } = editedUserData;
+    const userUpdate = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      role: role,
+      linkedinUrl: linkedinUrl,
+      id: userData._id,
+    };
+    try {
+      const updateUser = await api.post("/user/update", userUpdate);
+      if (updateUser.isSuccess) {
+        dispatch(updateUserData(updateUser.data));
+        setEditedUserData(updateUser.data);
+        toast.success("User Update Successful");
+      } else {
+        toast.error(resData.message || "User Update Failed");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      toast.error("Error updating user");
+    }
   };
   return (
     <div>
@@ -209,64 +229,38 @@ const Profile = () => {
                 <Row className="mt-3 ">
                   <Col className="pr-1 d-flex flex-column" md="6">
                     <Input
-                      id={"first name"}
+                      id={"firstname"}
+                      name={"firstName"}
                       lebel={"First Name"}
-                      className={""}
                       type={"text"}
                       value={editedUserData.firstName}
                       onChange={handleInputChange}
                       size={"small"}
-                      classnamelebal={"mt-2"}
                     />
                   </Col>
                   <Col className="pl-1 d-flex flex-column" md="6">
                     <Input
                       id={"last name"}
                       lebel={"Last Name"}
+                      name={"lastName"}
                       className={""}
                       type={"text"}
                       value={editedUserData.lastName}
                       onChange={handleInputChange}
                       size={"small"}
-                      classnamelebal={"mt-2"}
                     />
                   </Col>
                 </Row>
                 <Row>
-                  {/* <Col className="pr-1 d-flex flex-column" md="5">
-                    <Input
-                      id={"Company"}
-                      lebel={"Company"}
-                      className={""}
-                      type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col>
-                  <Col className="" md="3">
-                    <Input
-                      id={"Username"}
-                      lebel={"Username"}
-                      className={""}
-                      type={"text"}
-                      // value={user}
-                      // onchange={(e) => setUser(e.target.value)}
-                      size={"small"}
-                      classnamelebal={"mt-2"}
-                    />
-                  </Col> */}
                   <Col className="d-flex flex-column mt-2" md="12">
                     <Input
                       id={"email"}
                       lebel={"Email"}
-                      className={""}
+                      name={"email"}
                       type={"email"}
                       value={editedUserData.email}
                       onChange={handleInputChange}
                       size={"small"}
-                      classnamelebal={"mt-2"}
                     />{" "}
                   </Col>
                 </Row>
@@ -275,12 +269,11 @@ const Profile = () => {
                     <Input
                       id={"role"}
                       lebel={"Role"}
-                      className={""}
+                      name={"role"}
                       type={"text"}
                       value={editedUserData.role}
                       onChange={handleInputChange}
                       size={"small"}
-                      classnamelebal={"mt-2"}
                     />
                   </Col>
                 </Row>
@@ -289,12 +282,12 @@ const Profile = () => {
                     <Input
                       id={"linkedinUrl"}
                       lebel={"LinkedinUrl"}
+                      name={"linkedinUrl"}
                       className={""}
                       type={"text"}
                       value={editedUserData.linkedinUrl}
                       onChange={handleInputChange}
                       size={"small"}
-                      classnamelebal={"mt-2"}
                     />
                   </Col>
                 </Row>
@@ -306,7 +299,7 @@ const Profile = () => {
                       style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
-                      onClick={() => handleSubmit()}
+                      onClick={handleSubmit}
                     >
                       Update Profile
                     </Button>

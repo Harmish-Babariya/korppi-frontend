@@ -5,15 +5,18 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import {  useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import { Button } from "@mui/material";
 import Checkbox from '@mui/material/Checkbox';
 import Input from "../../../Component/Input";
+import api from "../../../service/api";
 import "./send.css";
 
 const Send = () => {
   const [emailToSend, setEmailToSend] = useState("");
+  const navigate = useNavigate();
   const [isSchedule, setIsSchedule] = useState(false);
   const userDatails = useSelector((state) => state.login.userDatails); 
   const [schedule, setSchedule] = useState({
@@ -54,10 +57,20 @@ const Send = () => {
     }
   };
 
-  const handleSend = () => {
-    // Handle sending email with the provided data
-    console.log("Email to send:", emailToSend);
-    console.log("Days checked:", schedule.daysChecked);
+  const handleSend = async() => {
+    try {
+      const resData = await api.post("email/send", {
+        "isScheduled": isSchedule
+    });
+      if (resData.isSuccess) {
+        navigate("/dashboard/contacts")
+        toast.success("email Send Successful!");
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
   };
 
   const daysOfWeek = [
@@ -83,7 +96,7 @@ const Send = () => {
                 <span>
                   <span className="fw-bold">Email</span> being generated as:
                 </span>
-                <span>{`${userDatails?.emailConfig.email}`}</span>
+                <span>{`${userDatails?.emailConfig?.email}`}</span>
               </Card>
               <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
                 Email <span className="text-secondary">Available</span> to send
@@ -129,7 +142,7 @@ const Send = () => {
                 <span>
                   <span className="fw-bold">Email</span> being generated as:
                 </span>
-                <span>{`${userDatails?.emailConfig.email}`}</span>
+                <span>{`${userDatails?.emailConfig?.email}`}</span>
               </Card>
               <div className="d-flex flex-column">
                 <Input

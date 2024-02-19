@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
-import Modal from "react-bootstrap/Modal";
+import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { CgDanger } from "react-icons/cg";
 import api from "../../../service/api";
 const CompanyDeleteModal = ({
   deleteModalShow,
@@ -39,28 +37,22 @@ const CompanyDeleteModal = ({
         style={{ marginTop: "200px" }}
         onHide={handleDeleteModalClose}
       >
-        <Modal.Body>
-          <h3 className="p-2 pt-3 text-danger">
-            <CgDanger />
-            Are you sure you want to delete?{" "}
-          </h3>
-          <div className="d-flex justify-content-center mt-3 mb-2">
-            <Button
-              variant="outlined"
-              className=" px-5"
-              onClick={handleDeleteModalClose}
-            >
-              NO
-            </Button>
-            <Button
-              variant="contained"
-              className="ms-2 px-5"
-              onClick={handleDelete}
-            >
-              YES
-            </Button>
-          </div>
-        </Modal.Body>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleDeleteModalClose}>
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            className="bg-bg-danger"
+            onClick={handleDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

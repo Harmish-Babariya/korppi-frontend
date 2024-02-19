@@ -32,7 +32,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
   const [title, setTitle] = useState("Company Service Update ");
   const [firstEditService] = editService;
   const handleClose = () => setShow(false);
-  console.log(firstEditService)
+  console.log(firstEditService);
   const prepareServiceData = (values) => {
     const {
       title,
@@ -44,7 +44,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       location,
       employee_count,
       industry,
-      job_title
+      job_title,
     } = values;
     return {
       title,
@@ -52,8 +52,8 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       currency: values.currency,
       under_offer: false,
       offer,
-      features: features.map(feature => feature.description), 
-      benefits: benefits.map(benefit => benefit.description), 
+      features: features.map((feature) => feature.description),
+      benefits: benefits.map((benefit) => benefit.description),
       target_name,
       location: location.split(",").map((loc) => loc.trim()),
       employee_count: employee_count.split(",").map((count) => count.trim()),
@@ -62,15 +62,17 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       serviceId: firstEditService._id,
     };
   };
-  
+
   const formik = useFormik({
     initialValues: {
       title: firstEditService.title || "",
       price: firstEditService.price || "",
       offer: firstEditService.offer || "",
       currency: firstEditService.currency || "",
-      features: [...firstEditService.features.map(ele => ele.description)] || [],
-      benefits: [...firstEditService.benefits.map(ele => ele.description)] || [],
+      features:
+        [...firstEditService.features.map((ele) => ele.description)] || [],
+      benefits:
+        [...firstEditService.benefits.map((ele) => ele.description)] || [],
       target_name: firstEditService.target_market?.targetName || "",
       location: firstEditService.target_market?.location?.join(",") || "",
       employee_count:
@@ -80,7 +82,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
+      console.log(values);
       try {
         const resData = await api.post("/service/update", {
           serviceId: firstEditService._id,
@@ -116,7 +118,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
     { key: "benefits", label: "Benefits", icon: <DiCoda /> },
     { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
   ];
- 
+
   const handleTabChange = (tabKey) => {
     setActiveTab(tabKey);
     tabKey === "targetmarket"
