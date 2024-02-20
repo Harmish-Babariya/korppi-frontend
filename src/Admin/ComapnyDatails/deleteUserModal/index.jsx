@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 
 const ConfirmationModal = ({ show, handleClose, handleDeleteUser }) => {
   return (
-    <Modal show={show} onHide={handleClose} style={{marginTop:"50px"}}>
+    <Modal show={show} onHide={handleClose} style={{marginTop:"200px"}}>
       <Modal.Header closeButton>
         <Modal.Title>Confirm Deletion</Modal.Title>
       </Modal.Header>

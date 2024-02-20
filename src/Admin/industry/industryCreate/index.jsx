@@ -42,14 +42,14 @@ const Createindustry = ({ show, setShow,fetchData }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-      
+    onSubmit: async (values,{ resetForm }) => { 
       try {
         const resData = await api.post("/industry/add", values);
         if (resData.isSuccess) {
-          toast.success("Industry Create Successful");
           fetchData();
           setShow(false);
+          resetForm();
+          toast.success("Industry Create Successful");
         } else toast.error(resData.message);
       } catch (error) {
         toast.error("Idustry Data Not Add", error);

@@ -40,7 +40,7 @@ const CompanyDeleteModal = ({
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+        <Modal.Body>Are you sure you want to delete this Company?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeleteModalClose}>
             Cancel

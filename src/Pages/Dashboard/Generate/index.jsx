@@ -34,9 +34,6 @@ const Generate = () => {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-  const handleGetStarted = () => {
-    console.log("Get Started button clicked");
-  };
   const handleGenerate = async () => {
     const emails = companyData.map((ele) => {
       return { companyId: ele.company._id, prospectId: ele._id };

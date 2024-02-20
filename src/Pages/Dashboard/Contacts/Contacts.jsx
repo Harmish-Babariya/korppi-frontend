@@ -60,61 +60,64 @@ const Contacts = () => {
 
   return (
     <div className="contacts-container">
-      <table className="contacts-table text-center">
-        <thead>
-          <tr className="mx-auto">
-            <th>Name</th>
-            <th>Company</th>
-            <th>Email</th>
-            <th>View Email</th>
-            <th>Email Sent</th>
-            <th>Email Opened</th>
-            <th>Times Opened</th>
-            <th>Date Opened</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item._id}>
-              <td>{item.companyId.name}</td>
-              <td>{item.companyId.name}</td>
-              <td>
-                <a href={`mailto:${item.prospectId.email}`}>
-                  {item.prospectId.email}
-                </a>
-              </td>
-              <td>
-                {" "}
-                <button
-                  className="edit-button"
-                  // onClick={() => handleEdit(item.id)}
-                >
-                  View
-                </button>
-              </td>
-              <td>{item.isSent ? "TRUE" : "FALSE"}</td>
-              
-              <td>{item.isOpen ? "TRUE" : "FALSE"}</td>
-              <td>{item.counts}</td>
-              <td>{item.openAt}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {
-        <div className="d-flex justify-content-end m-2 mb-3 ">
-          <Stack spacing={2}>
-            <Pagination
-              count={meta?.totalPages}
-              page={pageNumber}
-              onChange={handlePageChange}
-              color="primary"
-            />
-          </Stack>
-        </div>
-      }
+      {data.length > 0 ? (
+        <>
+          <table className="contacts-table text-center">
+            <thead>
+              <tr className="mx-auto">
+                <th>Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>View Email</th>
+                <th>Email Sent</th>
+                <th>Email Opened</th>
+                <th>Times Opened</th>
+                <th>Date Opened</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.companyId.name}</td>
+                  <td>{item.companyId.name}</td>
+                  <td>
+                    <a href={`mailto:${item.prospectId.email}`}>
+                      {item.prospectId.email}
+                    </a>
+                  </td>
+                  <td>
+                    {" "}
+                    <button
+                      className="edit-button"
+                      // onClick={() => handleEdit(item.id)}
+                    >
+                      View
+                    </button>
+                  </td>
+                  <td>{item.isSent ? "TRUE" : "FALSE"}</td>
+                  <td>{item.isOpen ? "TRUE" : "FALSE"}</td>
+                  <td>{item.counts}</td>
+                  <td>{item.openAt}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="d-flex justify-content-end m-2 mb-3 ">
+            <Stack spacing={2}>
+              <Pagination
+                count={meta?.totalPages}
+                page={pageNumber}
+                onChange={handlePageChange}
+                color="primary"
+              />
+            </Stack>
+          </div>
+        </>
+      ) : (
+        <h5>Loading....</h5>
+      )}
     </div>
-  );
+  );  
 };
 
 export default Contacts;
