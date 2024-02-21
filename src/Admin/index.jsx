@@ -5,8 +5,7 @@ import Company from "./company";
 import CompanyDatails from "./ComapnyDatails";
 const Admin = () => {
   const dynamicRoutes = [
-    { path: "/", element: <Navigate to={'/dashboard'} /> },
-
+    { path: "/", element: <Navigate to={"/dashboard"} /> },
     { path: "/industry", element: <Industry /> },
     { path: "/client", element: <Company /> },
     { path: "/client/:id", element: <CompanyDatails /> },

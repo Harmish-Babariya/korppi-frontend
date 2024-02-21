@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import Input from "../../../Component/Input";
 import api from "../../../service/api";
@@ -138,12 +138,12 @@ const Send = () => {
               <CardTitle tag="h5">Send</CardTitle>
             </CardHeader>
             <CardBody>
-              <Card className="mt-2 p-3 bg-body-secondary">
+              {/* <Card className="mt-2 p-3 bg-body-secondary">
                 <span>
                   <span className="fw-bold">Email</span> being generated as:
                 </span>
                 <span>{`${userDatails?.emailConfig?.email}`}</span>
-              </Card>
+              </Card> */}
               <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
                 Email <span className="text-secondary">Available</span> to send
               </h4>
@@ -172,7 +172,7 @@ const Send = () => {
                 </LocalizationProvider>
               </div>
               <Button
-                sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+                style={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
                 className="w-100"
                 onClick={() => handleSend()}
@@ -188,12 +188,12 @@ const Send = () => {
               <CardTitle tag="h5">Daily Scheduler</CardTitle>
             </CardHeader>
             <CardBody>
-              <Card className="mt-2 p-3 bg-body-secondary">
+              {/* <Card className="mt-2 p-3 bg-body-secondary">
                 <span>
                   <span className="fw-bold">Email</span> being generated as:
                 </span>
                 <span>{`${userDatails?.emailConfig?.email}`}</span>
-              </Card>
+              </Card> */}
               <div className="d-flex flex-column">
                 <Input
                   id={"email to send"}
@@ -259,12 +259,11 @@ const Send = () => {
                 <Modal.Body className="m-2">
                   {" "}
                   <div>
-                    
                     <Select
                       name="services"
                       id="services"
                       className="w-100"
-                      value={ selectedService ? selectedService : "Default"}
+                      value={selectedService ? selectedService : "Default"}
                       onChange={(e) => handleServiceChange(e)}
                     >
                       <MenuItem value="Default" disabled>
@@ -284,11 +283,11 @@ const Send = () => {
                       name="industry"
                       id="industry"
                       className="w-100 mt-2"
-                      value={ selectedIndustry ? selectedIndustry : "Default"}
+                      value={selectedIndustry ? selectedIndustry : "Default"}
                       onChange={(e) => handleIndustryChange(e)}
                     >
                       <MenuItem value="Default" disabled>
-                      Select an industry
+                        Select an industry
                       </MenuItem>
                       {industryOptions ? (
                         industryOptions.map((industry) => (
@@ -318,21 +317,21 @@ const Send = () => {
               </Modal>
               <div className="d-flex flex-row justify-content-between">
                 <Button
-                  sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
                   variant="contained"
                   onClick={() => handleCreateSchedule()}
                 >
                   Create
                 </Button>
                 <Button
-                  sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
                   variant="contained"
                   onClick={() => handleUpdateSchedule()}
                 >
                   Update
                 </Button>
                 <Button
-                  sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
                   variant="contained"
                   onClick={() => handleCancel()}
                 >

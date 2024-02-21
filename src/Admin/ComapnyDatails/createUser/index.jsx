@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import Input from "../../../Component/Input";
 import api from "../../../service/api";
 import { Row, Col } from "reactstrap";
@@ -72,7 +72,7 @@ const CreateUser = ({ showUser, setShowUser, fetchUsers, companyId }) => {
           <Row>
             {fieldConfigurations.map((field) => (
               <Col
-                key={field.zid}
+                key={field.id}
                 className="pr-1 d-flex flex-column mx-auto"
                 md="10"
               >

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import { toast } from "react-toastify";
 import api from "../../../service/api";
 
@@ -60,7 +60,7 @@ const CompanyEditModal = ({
         handleEditModalClose();
         fetchCompany();
       } else {
-        toast.error(resData.message);
+        toast.error(resData.response.data.message);
       }
     } catch (error) {
       toast.error("Company Data Not Updated", error);

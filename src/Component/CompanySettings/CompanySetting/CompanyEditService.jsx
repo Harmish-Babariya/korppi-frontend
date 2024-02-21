@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import Button from "../../Button";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
@@ -32,7 +32,6 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
   const [title, setTitle] = useState("Company Service Update ");
   const [firstEditService] = editService;
   const handleClose = () => setShow(false);
-  console.log(firstEditService);
   const prepareServiceData = (values) => {
     const {
       title,
@@ -82,7 +81,6 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       try {
         const resData = await api.post("/service/update", {
           serviceId: firstEditService._id,
@@ -318,7 +316,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     </div>
                     <Button
                       variant="contained"
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -349,7 +347,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                             <Button
                               variant="contained"
                               onClick={() => removeFeature(index)}
-                              sx={{
+                              style={{
                                 backgroundColor: `${theme.palette.primary.main}`,
                               }}
                               className="ms-2 mt-2"
@@ -372,7 +370,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={addFeature}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -382,7 +380,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -391,7 +389,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -422,7 +420,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                             <Button
                               variant="contained"
                               onClick={() => removeBenefit(index)}
-                              sx={{
+                              style={{
                                 backgroundColor: `${theme.palette.primary.main}`,
                               }}
                               className="ms-2 mt-2"
@@ -445,7 +443,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={addBenefit}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -455,7 +453,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -464,7 +462,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -556,7 +554,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -566,7 +564,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     <Button
                       variant="contained"
                       type="submit"
-                      sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
                       className="ms-2 mt-2"
                       onClick={formik.handleSubmit}
                     >

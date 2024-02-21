@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import Button from "../../Component/Button";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { FaRegEye } from "react-icons/fa";
-
 import { MdCreate } from "react-icons/md";
 import CreateCompany from "../companyCreate";
 import { useNavigate } from "react-router-dom";

@@ -8,7 +8,7 @@ import { MdCreate } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button } from "@mui/material";
+import Button from "../../Component/Button";
 import api from "../../service/api";
 import Stack from "@mui/material/Stack";
 import EditIndustry from "./industryEdit";
@@ -193,12 +193,12 @@ const Industry = () => {
           <p>Are you sure you want to delete this industry?</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setDeleteModalOpen(false)}>
+          <Button variant="outlined" onClick={() => setDeleteModalOpen(false)}>
             Cancel
           </Button>
           <Button
-            variant="danger"
-            className="bg-danger text-white ms-2"
+            variant="contained"
+            className="text-white ms-2"
             onClick={handleDelete}
           >
             Delete

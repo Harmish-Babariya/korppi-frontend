@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import Button from "../../Button";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
@@ -285,7 +285,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     </div>
                     <Button
                       variant="contained"
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -339,7 +339,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={addFeature}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -349,7 +349,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -358,7 +358,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -389,7 +389,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                             <Button
                               variant="contained"
                               onClick={() => removeBenefit(index)}
-                              sx={{
+                              style={{
                                 backgroundColor: `${theme.palette.primary.main}`,
                               }}
                               className="ms-2 mt-2"
@@ -412,7 +412,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={addBenefit}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -422,7 +422,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -431,7 +431,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -523,7 +523,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       onClick={handlePrevious}
-                      sx={{
+                      style={{
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
@@ -533,7 +533,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       type="submit"
-                      sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
                       className="ms-2 mt-2"
                       onClick={formik.handleSubmit}
                     >

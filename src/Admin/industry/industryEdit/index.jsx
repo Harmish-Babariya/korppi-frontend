@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Modal from "react-bootstrap/Modal";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import Input from "../../../Component/Input";
 import { theme } from "../../../Theme/Theme";
 import { Row } from "reactstrap";
@@ -80,7 +80,7 @@ const EditIndustry = ({ editshow, setEditShow, fetchData, editData }) => {
             type="submit"
             variant="contained"
             className="ms-1 text-white"
-            sx={{
+            style={{
               color: `${theme.palette.primary.main}`,
             }}
           >

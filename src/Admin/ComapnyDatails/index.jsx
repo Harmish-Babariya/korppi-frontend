@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "@mui/material";
+import Button from "../../Component/Button";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { BiSolidEdit } from "react-icons/bi";
@@ -72,16 +72,12 @@ const CompanyDatails = () => {
       : navigate("/dashboard");
   }, [id, currentPage, userDatails]);
   const handleEditUser = async (userId) => {
-    console.log(userId)
-    // setEditedUserId(userId);
     try {
       const resData = await api.post("user/getById", { userId: userId });
       if (resData.isSuccess) {
-        console.log(resData)
         setEditedUser(resData.data);
         setEditModalOpen(true);
       } else {
-        console.log(resData);
         toast.error(response.response.data.message);
       }
     } catch (error) {

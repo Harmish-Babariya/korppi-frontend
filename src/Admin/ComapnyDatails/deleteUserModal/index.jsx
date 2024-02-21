@@ -1,6 +1,6 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
-
+import { Modal} from "react-bootstrap";
+import Button from "../../../Component/Button";
 const ConfirmationModal = ({ show, handleClose, handleDeleteUser }) => {
   return (
     <Modal show={show} onHide={handleClose} style={{marginTop:"200px"}}>
@@ -9,10 +9,10 @@ const ConfirmationModal = ({ show, handleClose, handleDeleteUser }) => {
       </Modal.Header>
       <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="outlined" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="danger" onClick={handleDeleteUser}>
+        <Button variant="contained" className="ms-2" onClick={handleDeleteUser}>
           Delete
         </Button>
       </Modal.Footer>

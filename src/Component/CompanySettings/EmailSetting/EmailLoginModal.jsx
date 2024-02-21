@@ -52,7 +52,6 @@ const EmailLoginModal = ({ show, setShow }) => {
         console.error(error);
       }
     } catch (error) {
-      console.log(error)
       toast.error("User Data Not Updated", error);
     }
   };
