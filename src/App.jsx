@@ -28,18 +28,18 @@ function App() {
       <ToastContainer position="top-center" autoClose={2000} />
       <ThemeProvider theme={theme}>
         {window.location.pathname !== "/login" && (
-          <Navbar open={open} setOpen={setOpen} />
+          <Navbar open={open} setOpen={setOpen} show={show} setShow={setShow}/>
         )}
         <Box sx={{ display: "flex", flexDirection: "row", p: 0, mr: 0 }}>
           {window.location.pathname !== "/login" && (
-            <Sidebar open={open} setOpen={setOpen} />
+            <Sidebar open={open} setOpen={setOpen}/>
           )}
           <div
             className={`w-100 ${
               window.location.pathname !== "/login" && "m-3 mt-5"
             }`}
           >
-            {window.location.pathname !== "/login" && (
+            {/* {window.location.pathname !== "/login" && (
               <div
                 style={{ marginTop: "2.2%" }}
                 className="w-100 card rounded-2 shadow"
@@ -66,7 +66,7 @@ function App() {
                   </ol>
                 </nav>
               </div>
-            )}
+            )} */}
 
             <Routes>
               <Route path="/" element={<Navigate to={'/login'} />} />

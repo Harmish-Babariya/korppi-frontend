@@ -93,16 +93,12 @@ const Navbar = (props) => {
 
   const navigate = useNavigate();
   const [path, setPath] = useState([]);
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const userDatails = useSelector((state) => state.login.userDatails);
   const settings = [
     {
       name: "Profile",
       icon: <PersonIcon />,
-    },
-    {
-      name: "Settings",
-      icon: <SettingsIcon />,
     },
     {
       name: "Dashboard",
@@ -113,10 +109,16 @@ const Navbar = (props) => {
       icon: <ExitToAppRoundedIcon />,
     },
   ];
+  const { open, setOpen, show, setShow } = props;
+const handleDashboad = () => {
+  navigate("/dashboard")
+}
+  const handleShow = () => {
+    setShow(!show);
+    setOpen(false)
+  }
 
-  const handleShow = () => setShow(true);
 
-  const { open, setOpen } = props;
   const [anchorElUser, setAnchorElUser] = useState(null);
   useEffect(() => {
     userDatails && userDatails.isAdmin
@@ -126,6 +128,7 @@ const Navbar = (props) => {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    setShow(false);
   };
 
   const handleOpenUserMenu = (event) => {
@@ -168,12 +171,14 @@ const Navbar = (props) => {
               variant="h6"
               noWrap
               component="div"
+              onClick={handleDashboad}
               sx={{
                 display: {
                   xs: "none",
                   sm: "block",
                   fontSize: "25px",
                   fontWeight: "bold",
+                  cursor:"pointer",
                   marginLeft: "-22px",
                   letterSpacing: "2px",
                   color: `${theme.palette.primary.main}`,

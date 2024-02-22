@@ -60,8 +60,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
+})(({ theme, open ,settingsOpen }) => ({
+  width: settingsOpen ? `calc(100% - ${drawerWidth}px)` : drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
@@ -74,11 +74,12 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-const Sidebar = ({ open, setOpen }) => {
+const Sidebar = ({ open, setOpen, show, setShow}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const userDatails = useSelector((state) => state.login.userDatails); 
   const [admin, setAdmin] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [routes, setRoutes] = useState([]);
   useEffect(() => {
     userDatails && userDatails.isAdmin
@@ -136,6 +137,9 @@ const Sidebar = ({ open, setOpen }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleDashboad = () => {
+    navigate("/dashboard")
+  }
   const isRouteActive = (path) => {
     return location.pathname === path;
   };
@@ -144,11 +148,13 @@ const Sidebar = ({ open, setOpen }) => {
     navigate("/login");
   };
   return (
-    <Drawer className="h-100" variant="permanent" open={open}>
+    <Drawer className="h-100" variant="permanent" open={open} settingsOpen={settingsOpen}>
       <DrawerHeader sx={{ color: "#083d38" }}>
         <Typography
+         onClick={handleDashboad}
           sx={{
             marginRight: "65px",
+            cursor:"pointer",
             fontSize: "25px",
             fontWeight: "bold",
             color: `${theme.palette.primary.main}`,
@@ -226,7 +232,7 @@ const Sidebar = ({ open, setOpen }) => {
             justifyContent: open ? "initial" : "center",
             px: 2.5,
             display: "",
-            marginTop: admin ? "370px" : "310px",
+            marginTop: admin ? "370px" : "290px",
           }}
         >
           <ListItemIcon

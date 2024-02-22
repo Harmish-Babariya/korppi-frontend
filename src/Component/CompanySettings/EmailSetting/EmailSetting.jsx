@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -13,6 +13,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [data, setData] = useState(userDatails);
+  const [domainHealthCheck, setDomainHealthCheck] = useState(false);
   const [signature, setSignature] = useState(
     data?.firstName +
       " " +
@@ -81,6 +82,29 @@ const EmailSetting = ({ userDatails, handleClose}) => {
       toast.error("User Data Not Updated", error);
     }
   }
+  useEffect(() => {
+    // Fetch domain health status when component mounts
+    fetchDomainHealth();
+  }, []);
+  // const redirectToSettingsPage = () => {
+  //   history.push("/settings"); // Redirect to the Settings Page
+  // };
+  const fetchDomainHealth = async () => {
+    try {
+      // Make an API call to fetch domain health status
+      // Replace the placeholder with an actual API endpoint
+      const response = await api.get("/domain/health");
+      if (response.isSuccess) {
+        // Set domain health check status based on API response
+        setDomainHealthCheck(response.data.healthCheck);
+      } else {
+        // Handle error scenario
+        toast.error("Failed to fetch domain health status");
+      }
+    } catch (error) {
+      console.error("Error fetching domain health status:", error);
+    }
+  };
   return (
     <>
       <div className="d-flex">
@@ -191,6 +215,19 @@ const EmailSetting = ({ userDatails, handleClose}) => {
             Refresh
           </span>
         </Typography>
+        <div className="bg-body-secondary rounded">
+          {/* Conditional rendering based on domain health check */}
+          {domainHealthCheck ? (
+            <span className="text-success ms-2">&#10004; Health Check Passed</span>
+          ) : (
+            <span className="text-danger ms-2">Health Check Failed</span>
+          )}
+        </div>
+        {/* <div className="d-flex justify-content-end mt-2">
+        <Button variant="contained" onClick={redirectToSettingsPage}>
+          Profile
+        </Button>
+      </div> */}
         <div className="bg-body-secondary rounded">
           <form className="m-2">
             <input

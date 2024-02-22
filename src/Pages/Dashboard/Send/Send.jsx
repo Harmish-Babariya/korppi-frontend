@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import Modal from "react-bootstrap/Modal";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -18,9 +19,12 @@ import api from "../../../service/api";
 import "./send.css";
 
 const Send = () => {
+  dayjs.extend(utc)
+  const [selectedDate, setSelectedDate] = React.useState(null);
   const [emailToSend, setEmailToSend] = useState("");
   const navigate = useNavigate();
   const [isSchedule, setIsSchedule] = useState(false);
+  const [isChecked,setIsChecked] = useState(false)
   const userDatails = useSelector((state) => state.login.userDatails);
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [selectedService, setSelectedService] = useState("");
@@ -40,7 +44,8 @@ const Send = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const handleAutoGenerate = () => {
-    setShowModal(true);
+    setShowModal(!isChecked);
+    setIsChecked(!isChecked);
   };
   function handleServiceChange(e) {
     e.preventDefault();
@@ -89,7 +94,7 @@ const Send = () => {
   const fetchDataService = async () => {
     try {
       const resData = await api.post("service/get");
-      if (resData.isSuccess) {
+      if (resData.isSuccess) { 
         setServiceOptions(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -128,26 +133,53 @@ const Send = () => {
     "Saturday",
     "Sunday",
   ];
+  const handleDateChange = (date) => {  
+    setSelectedDate(dayjs.utc(date));
+    console.log(selectedDate)
+  };
+
+  // Function to delete the schedule
+  const handleCancel = async () => {
+    try {
+      // Make an API call to delete the schedule
+      // Example:
+      // const resData = await api.delete("schedule/delete");
+      // Handle success or failure accordingly
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+
+  // Function to update the schedule
+  const handleUpdateSchedule = async () => {
+    try {
+      // Make an API call to update the schedule
+      // Example:
+      // const resData = await api.put("schedule/update", updatedScheduleData);
+      // Handle success or failure accordingly
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
 
   return (
     <div style={{ letterSpacing: "1px" }}>
-      <Row className="w-100 ">
+      <Row className="w-100  d-flex justify-content-center ">
         <Col md="4">
           <Card className="m-3 shadow">
             <CardHeader>
               <CardTitle tag="h5">Send</CardTitle>
             </CardHeader>
             <CardBody>
-              {/* <Card className="mt-2 p-3 bg-body-secondary">
-                <span>
-                  <span className="fw-bold">Email</span> being generated as:
-                </span>
-                <span>{`${userDatails?.emailConfig?.email}`}</span>
-              </Card> */}
+              <Card className="mt-2 p-3 bg-body-secondary">
+                <span>Emails being sent as: {`${userDatails?.firstName} ${userDatails?.lastName}`}</span>
+              </Card>
               <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
                 Email <span className="text-secondary">Available</span> to send
               </h4>
+              {/* Display number of emails available to send */}
               <div className="d-flex flex-column">
+                <span>{/* Display number of emails available to send */}</span>
                 <Input
                   id={"email to send"}
                   lebel={"Email To Send"}
@@ -163,13 +195,17 @@ const Send = () => {
                     inputProps={{ "aria-label": "controlled" }}
                   />
                 </div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Day"
-                    className="mb-2"
-                    disabled={!isSchedule}
-                  />
-                </LocalizationProvider>
+                {/* Conditional rendering for the calendar */}
+                {isSchedule && (
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Day"
+                      className="mb-2"
+                      onChange={handleDateChange}
+                      renderInput={(params) => <input {...params} />}
+                    />
+                  </LocalizationProvider>
+                )}
               </div>
               <Button
                 style={{ backgroundColor: `${theme.palette.primary.main}` }}
@@ -188,12 +224,6 @@ const Send = () => {
               <CardTitle tag="h5">Daily Scheduler</CardTitle>
             </CardHeader>
             <CardBody>
-              {/* <Card className="mt-2 p-3 bg-body-secondary">
-                <span>
-                  <span className="fw-bold">Email</span> being generated as:
-                </span>
-                <span>{`${userDatails?.emailConfig?.email}`}</span>
-              </Card> */}
               <div className="d-flex flex-column">
                 <Input
                   id={"email to send"}
@@ -236,9 +266,8 @@ const Send = () => {
                 </LocalizationProvider>
                 <div className="mt-2">
                   <Checkbox
-                    checked={isSchedule}
+                    checked={isChecked}
                     onClick={() => {
-                      setIsSchedule(!isSchedule);
                       handleAutoGenerate();
                     }}
                     inputProps={{ "aria-label": "controlled" }}
@@ -315,28 +344,34 @@ const Send = () => {
                   </Button>
                 </Modal.Footer>
               </Modal>
+              {/* Dynamic rendering of buttons */}
               <div className="d-flex flex-row justify-content-between">
-                <Button
-                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
-                  variant="contained"
-                  onClick={() => handleCreateSchedule()}
-                >
-                  Create
-                </Button>
-                <Button
-                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
-                  variant="contained"
-                  onClick={() => handleUpdateSchedule()}
-                >
-                  Update
-                </Button>
-                <Button
-                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
-                  variant="contained"
-                  onClick={() => handleCancel()}
-                >
-                  Cancel
-                </Button>
+                {!isSchedule ? ( // If scheduler is not set, render Create button
+                  <Button
+                    style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                    variant="contained"
+                    onClick={() => handleCreateSchedule()}
+                  >
+                    Create
+                  </Button>
+                ) : ( // If scheduler is set, render Update and Cancel buttons
+                  <>
+                    <Button
+                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      variant="contained"
+                      onClick={() => handleUpdateSchedule()}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      variant="contained"
+                      onClick={() => handleCancel()}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                )}
               </div>
             </CardBody>
           </Card>

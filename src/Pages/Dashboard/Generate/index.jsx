@@ -15,6 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ServiceSelected } from "../../../Redux/SelectedServiceSlice";
 import Button from "../../../Component/Button";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
@@ -36,6 +37,10 @@ const Generate = () => {
     setExpanded(newExpanded ? panel : false);
   };
   const handleGenerate = async () => {
+    if (generate === 0) {
+      toast.error("Set the value for emails to be generated");
+      return;
+    }
     const emails = companyData.map((ele) => {
       return { companyId: ele.company._id, prospectId: ele._id };
     });
@@ -58,6 +63,10 @@ const Generate = () => {
     }
   };
   const handleSelect = async () => {
+    if (generate === 0) {
+      toast.error("Set the value for emails to be generated");
+      return;
+    }
     let data = selectedTargetMarket;
     const payload = {
       employeeCount: data?.employeeCount,
@@ -122,6 +131,7 @@ const Generate = () => {
     e.preventDefault();
     const newValue = e.target.value;
     setSelectedService(service.find((item) => item._id === newValue));
+    dispatch(ServiceSelected({service, newValue}))
   }
 
   function handleMarketChange(e) {
@@ -191,25 +201,22 @@ const Generate = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardBody>
+                        <h3 className=" mt-3">
+                          {" "}
+                          {selectedService?.offer
+                            ? selectedService?.offer + "Off"
+                            : "No Offer"}
+                        </h3>
+
+                        <span className="m-2 fw-bold fs-3 bg-transparent ">
+                          {selectedService?.currency === "USD"
+                            ? "$"
+                            : selectedService?.currency === "EUR"
+                            ? "£"
+                            : selectedService?.currency}
+                          {selectedService?.price}
+                        </span>
                         <div className="d-flex flex-column mb-3">
-                          {/* <label htmlFor="" className="fw-bold text-capitalize">
-                            Plan {selectedService?.offer}
-                          </label>
-                          <Input
-                            id={"freepaln"}
-                            className={"mb-2"}
-                            type={"text"}
-                            value={
-                              "Price - " +
-                              (selectedService?.price
-                                ? selectedService?.price
-                                : "")
-                            }
-                            // onchange={(e) => setPassword(e.target.value)}
-                            size={"small"}
-                            classnamelebal={"mb-1.5 fs-6 fw-medium"}
-                            disabled={true}
-                          /> */}
                           <Card className="w-100">
                             <Accordion
                               className="w-auto"
@@ -222,7 +229,7 @@ const Generate = () => {
                                 id="panel1a-header"
                                 className="bg-body-secondary"
                               >
-                                <Typography className="fs-5 fw-lighter">
+                                <Typography className="fs-5 fw-light">
                                   Features
                                 </Typography>
                               </AccordionSummary>
@@ -265,27 +272,7 @@ const Generate = () => {
                             </Accordion>
                           </Card>
 
-                          <Button
-                            variant="contained"
-                            className=" mt-3 fw-bold text-white w-50"
-                            style={{
-                              backgroundColor: `${theme.palette.primary.main}`,
-                              letterSpacing: "2px",
-                            }}
-                          >
-                            {selectedService?.offer
-                              ? selectedService?.offer + "Off"
-                              : "No Offer"}
-                          </Button>
-                          <span className="m-2 fw-bold fs-3 bg-transparent ">
-                            {selectedService?.currency === "USD"
-                              ? "$"
-                              : selectedService?.currency === "EUR"
-                              ? "£"
-                              : selectedService?.currency}
-                            {selectedService?.price}
-                          </span>
-                          <div className="mt-3 p-1">
+                          {/* <div className="mt-3 p-1">
                             <span>
                               <b>Target Market Label: </b>
                               {selectedService?.target_market?.targetName}
@@ -319,7 +306,7 @@ const Generate = () => {
                               {selectedService?.target_market?.jobTitle}
                             </span>
                             <br />
-                          </div>
+                          </div> */}
                         </div>
                       </CardBody>
                     </Card>
@@ -329,7 +316,9 @@ const Generate = () => {
                   <Paper elevation={3}>
                     <Card className="shadow">
                       <CardHeader>
-                        <CardTitle tag="h5">Odin's Eye Analytics</CardTitle>
+                        <CardTitle tag="h5">
+                          {userDatails?.companyId?.name} Analytics
+                        </CardTitle>
                       </CardHeader>
                       <CardBody>
                         <Box
@@ -349,7 +338,7 @@ const Generate = () => {
                               </p>
                               <p>
                                 <strong>Companies You Work With :</strong>
-                                {selectedService?.company?.partnerCompanies}
+                                {userDatails?.companyId?.partnerCompanies}
                               </p>
                             </div>
 
@@ -421,6 +410,15 @@ const Generate = () => {
                         <CardTitle tag="h5">Generate</CardTitle>
                       </CardHeader>
                       <CardBody>
+                        <Card className="mb-1 p-3 bg-body-secondary">
+                          <span>
+                            <span className="fw-bold">Email</span> being
+                            generated as:
+                          </span>
+                          <span>{`${
+                            userDatails?.firstName + " " + userDatails?.lastName
+                          }`}</span>
+                        </Card>
                         <div>
                           <label htmlFor="" className="fw-bold w-100 mb-1">
                             Emails to generate
@@ -505,13 +503,6 @@ const Generate = () => {
                       </CardBody>
                     </Card>
                   </Paper>
-
-                  {/* <Card className="mt-2 p-3 bg-body-secondary">
-                    <span>
-                      <span className="fw-bold">Email</span> being generated as:
-                    </span>
-                    <span>{`${userDatails?.emailConfig?.email}`}</span>
-                  </Card> */}
                 </Col>
               </Row>
             </CardBody>

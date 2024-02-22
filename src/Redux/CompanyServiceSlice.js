@@ -14,6 +14,7 @@ export const CompanyServiceSlice = createSlice({
       state.service = action.payload
       state.status = "idle";
     },
+    
   },
 });
 
