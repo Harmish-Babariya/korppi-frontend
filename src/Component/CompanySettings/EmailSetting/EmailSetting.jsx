@@ -138,7 +138,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
           </Typography>
           <Button
             variant="contained"
-            sx={{
+            style={{
               backgroundColor: `${theme.palette.primary.main}`,
               color: "white",
               letterSpacing: "1px",
@@ -230,7 +230,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
         <Button
           variant="outlined"
           className="ms-1"
-          sx={{
+          style={{
             color: `${theme.palette.primary.main}`,
           }}
           onClick={handleSubmit}

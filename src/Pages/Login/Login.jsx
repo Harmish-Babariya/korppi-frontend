@@ -10,7 +10,6 @@ import {
   Box,
   Grid,
   TextField,
-  Button,
   Typography,
   FormControl,
   OutlinedInput,
@@ -18,6 +17,7 @@ import {
   InputLabel,
   IconButton,
 } from "@mui/material";
+import Button from "../../Component/Button";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import login from "../../assets/img/login.png";
 import { loginhandle } from "../../Redux/AuthSlice";
+import { theme } from "../../Theme/Theme";
 import api from "../../service/api";
 
 function Copyright(props) {
@@ -52,11 +53,10 @@ const Login = () => {
   let token = localStorage.getItem("user_token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const fetchUser = async() => {
+  const fetchUser = async () => {
     try {
       let response = await api.post("/user/getById");
       if (response.isSuccess) {
-        console.log(response.data);
         dispatch(loginhandle(response.data));
       } else {
         toast.error(response.response.data.message);
@@ -64,7 +64,7 @@ const Login = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -87,7 +87,7 @@ const Login = () => {
           localStorage.setItem("user_token", token);
           toast.success(response.message);
           navigate("/dashboard");
-          fetchUser()
+          fetchUser();
         } else {
           toast.error(response.response.data.message);
         }
@@ -104,8 +104,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    token && navigate('/dashboard')
-  },[])
+    token && navigate("/dashboard");
+  }, []);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -234,18 +234,10 @@ const Login = () => {
                 </Link>
               </span>
               <Button
+                style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                variant="contained"
+                className="w-100"
                 type="submit"
-                fullWidth
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: "#bb4c4c",
-                  fontSize: "20px",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#083d38",
-                  },
-                }}
               >
                 Login
               </Button>

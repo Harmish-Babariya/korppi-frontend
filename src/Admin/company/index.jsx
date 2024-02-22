@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import Button from "../../Component/Button";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { FaRegEye } from "react-icons/fa";
-
 import { MdCreate } from "react-icons/md";
 import CreateCompany from "../companyCreate";
 import { useNavigate } from "react-router-dom";
@@ -32,8 +31,10 @@ const Company = () => {
     pageSize: 7,
   };
   useEffect(() => {
-    userDatails && userDatails.isAdmin ? fetchCompany(): navigate("/dashboard");
-  }, [pageNumber,userDatails]);
+    userDatails && userDatails.isAdmin
+      ? fetchCompany()
+      : navigate("/dashboard");
+  }, [pageNumber, userDatails]);
   async function fetchCompany() {
     const resData = await api.post("client/get", header);
     if (resData.isSuccess) {
@@ -115,11 +116,11 @@ const Company = () => {
                     return (
                       <tr key={index}>
                         <td>{value.name}</td>
-                        <td>{value.email || 'N/A'}</td>
-                        <td>{value.websiteUrl || 'N/A'}</td>
-                        <td>{value.country || 'N/A'}</td>
-                        <td>{value.postalCode || 'N/A'}</td>
-                        <td>{value.region || 'N/A'}</td>
+                        <td>{value.email || "N/A"}</td>
+                        <td>{value.websiteUrl || "N/A"}</td>
+                        <td>{value.country || "N/A"}</td>
+                        <td>{value.postalCode || "N/A"}</td>
+                        <td>{value.region || "N/A"}</td>
                         {/* <td>
                       <a href="">{value.linkedinurl}</a>
                     </td>
@@ -143,13 +144,7 @@ const Company = () => {
                           >
                             <BiSolidEdit className="fs-4" />{" "}
                           </Button>
-                          <CompanyEditModal
-                          companyid={companyid}
-                            editModalOpen={editModalOpen}
-                            setEditModalOpen={setEditModalOpen}
-                            fetchCompany={fetchCompany}
-                            
-                          />
+
                           <Button
                             variant="outlined"
                             size="small"
@@ -158,13 +153,6 @@ const Company = () => {
                           >
                             <MdDelete className="fs-4" />
                           </Button>
-                          <CompanyDeleteModal
-                            deleteModalShow={deleteModalShow}
-                            setDeleteModalShow={setDeleteModalShow}
-                            deletedCompany={deletedCompany}
-                            fetchCompany={fetchCompany}
-                            setDeletedCompanyy={setDeletedCompany}
-                          />
                         </td>
                       </tr>
                     );
@@ -172,6 +160,19 @@ const Company = () => {
                 </tbody>
               </table>
             </div>
+            <CompanyEditModal
+              companyid={companyid}
+              editModalOpen={editModalOpen}
+              setEditModalOpen={setEditModalOpen}
+              fetchCompany={fetchCompany}
+            />
+            <CompanyDeleteModal
+              deleteModalShow={deleteModalShow}
+              setDeleteModalShow={setDeleteModalShow}
+              deletedCompany={deletedCompany}
+              fetchCompany={fetchCompany}
+              setDeletedCompanyy={setDeletedCompany}
+            />
             {meta.totalPages && (
               <div className="ms-auto m-2 mb-3">
                 <Stack spacing={2}>

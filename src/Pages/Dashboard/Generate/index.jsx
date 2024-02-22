@@ -6,7 +6,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import Paper from "@mui/material/Paper";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
-import { Button, MenuItem, Select } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -14,13 +14,14 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from "../../../Component/Button";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
 
 const Generate = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   let { service } = useSelector((state) => state.Service);
   const userDatails = useSelector((state) => state.login.userDatails);
   const [selectedService, setSelectedService] = useState();
@@ -34,9 +35,6 @@ const Generate = () => {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-  const handleGetStarted = () => {
-    console.log("Get Started button clicked");
-  };
   const handleGenerate = async () => {
     const emails = companyData.map((ele) => {
       return { companyId: ele.company._id, prospectId: ele._id };
@@ -47,10 +45,10 @@ const Generate = () => {
         emails: emails,
         userId: userDatails._id,
         sentBy: `${userDatails.firstName} ${userDatails.lastName}`,
-        serviceId: selectedService._id
+        serviceId: selectedService._id,
       });
       if (resData.isSuccess) {
-        navigate("/dashboard/send")
+        navigate("/dashboard/send");
         toast.success("email Genrate Successful!");
       } else {
         toast.error(resData.response.data.message);
@@ -68,11 +66,10 @@ const Generate = () => {
       role: data?.jobTitle,
       pageSize: parseInt(generate),
     };
-   
+
     try {
       const resData = await api.post("/prospects/get", payload);
       if (resData.isSuccess) {
-      
         setCount(resData.meta.totalCount);
         setCompanyData(resData.data);
       } else {
@@ -99,7 +96,6 @@ const Generate = () => {
     try {
       const resData = await api.post("target-market/get");
       if (resData.isSuccess) {
-       
         setTargetMarket(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -133,7 +129,6 @@ const Generate = () => {
     const newValue = e.target.value;
     let data = targetMarket.find((item) => item._id === newValue);
     setSelectedTargetMarket(data);
-    console.log(data);
     const payload = {
       employeeCount: data?.employeeCount,
       location: data?.location,
@@ -271,8 +266,8 @@ const Generate = () => {
                           </Card>
 
                           <Button
-                            variant="text"
-                            className="btn mt-3 fw-bold text-white w-50"
+                            variant="contained"
+                            className=" mt-3 fw-bold text-white w-50"
                             style={{
                               backgroundColor: `${theme.palette.primary.main}`,
                               letterSpacing: "2px",
@@ -443,7 +438,7 @@ const Generate = () => {
                             />
 
                             <Button
-                              sx={{
+                              style={{
                                 backgroundColor: `${theme.palette.primary.main}`,
                               }}
                               variant="contained"
@@ -497,7 +492,7 @@ const Generate = () => {
                           </div>
 
                           <Button
-                            sx={{
+                            style={{
                               backgroundColor: `${theme.palette.primary.main}`,
                             }}
                             variant="contained"
@@ -511,12 +506,12 @@ const Generate = () => {
                     </Card>
                   </Paper>
 
-                  <Card className="mt-2 p-3 bg-body-secondary">
+                  {/* <Card className="mt-2 p-3 bg-body-secondary">
                     <span>
                       <span className="fw-bold">Email</span> being generated as:
                     </span>
                     <span>{`${userDatails?.emailConfig?.email}`}</span>
-                  </Card>
+                  </Card> */}
                 </Col>
               </Row>
             </CardBody>

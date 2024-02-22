@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import Modal from "react-bootstrap/Modal";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import Modal from "react-bootstrap/Modal";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
@@ -20,7 +20,6 @@ const UserForgotPassword = ({ show, setShow, forgotUserId }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,7 +124,7 @@ const UserForgotPassword = ({ show, setShow, forgotUserId }) => {
                 />
               </FormControl>
               {error && <p style={{ color: "red" }}>{error}</p>}
-    
+
               <Button
                 type="submit"
                 variant="outlined"

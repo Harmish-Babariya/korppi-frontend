@@ -2,7 +2,7 @@ import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Modal from "react-bootstrap/Modal";
-import { Button } from "@mui/material";
+import Button from "../../../Component/Button";
 import Input from "../../../Component/Input";
 import { theme } from "../../../Theme/Theme";
 import { Row, Col } from "reactstrap";
@@ -42,14 +42,14 @@ const Createindustry = ({ show, setShow,fetchData }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-      
+    onSubmit: async (values,{ resetForm }) => { 
       try {
         const resData = await api.post("/industry/add", values);
         if (resData.isSuccess) {
-          toast.success("Industry Create Successful");
           fetchData();
           setShow(false);
+          resetForm();
+          toast.success("Industry Create Successful");
         } else toast.error(resData.message);
       } catch (error) {
         toast.error("Idustry Data Not Add", error);
@@ -107,7 +107,7 @@ const Createindustry = ({ show, setShow,fetchData }) => {
             type="submit"
             variant="contained"
             className="ms-1 text-white"
-            sx={{
+            style={{
               color: `${theme.palette.primary.main}`,
             }}
           >

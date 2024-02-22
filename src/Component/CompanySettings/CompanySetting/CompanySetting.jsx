@@ -236,7 +236,7 @@ const CompanySetting = ({ handleClose }) => {
           </div>
           <div className="d-flex flex-column">
           <Button
-            sx={{ color: `${theme.palette.primary.main}` }}
+            style={{ color: `${theme.palette.primary.main}` }}
             variant="outlined"
             size="small"
             className="mt-2 fw-medium"
@@ -396,7 +396,7 @@ const CompanySetting = ({ handleClose }) => {
           </div>
 
           <Button
-            sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+            style={{ backgroundColor: `${theme.palette.primary.main}` }}
             variant="contained"
             className="fw-medium text-white mt-2"
             onClick={() => handleSubmit()}

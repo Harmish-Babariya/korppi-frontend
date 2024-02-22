@@ -108,7 +108,7 @@ function Settings({ show, setShow }) {
             <Button
               variant="outlined"
               className="ms-1"
-              sx={{
+              style={{
                 color: `${theme.palette.primary.main}`,
               }}
               onClick={handleClose}

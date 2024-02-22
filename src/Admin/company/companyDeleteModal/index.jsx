@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import Button from "../../../Component/Button";
 import { toast } from "react-toastify";
 import api from "../../../service/api";
 const CompanyDeleteModal = ({
@@ -40,18 +41,14 @@ const CompanyDeleteModal = ({
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+        <Modal.Body>Are you sure you want to delete this Company?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleDeleteModalClose}>
-            Cancel
-          </Button>
-          <Button
-            variant="danger"
-            className="bg-bg-danger"
-            onClick={handleDelete}
-          >
-            Delete
-          </Button>
+        <Button variant="outlined" onClick={handleDeleteModalClose}>
+          Cancel
+        </Button>
+        <Button variant="contained" className="ms-2" onClick={handleDelete}>
+          Delete
+        </Button>
         </Modal.Footer>
       </Modal>
     </div>
