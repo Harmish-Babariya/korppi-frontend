@@ -60,7 +60,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open ,settingsOpen }) => ({
+})(({ theme, open, settingsOpen }) => ({
   width: settingsOpen ? `calc(100% - ${drawerWidth}px)` : drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
@@ -74,10 +74,10 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-const Sidebar = ({ open, setOpen, show, setShow}) => {
+const Sidebar = ({ open, setOpen, show, setShow }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const userDatails = useSelector((state) => state.login.userDatails); 
+  const userDatails = useSelector((state) => state.login.userDatails);
   const [admin, setAdmin] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [routes, setRoutes] = useState([]);
@@ -111,7 +111,7 @@ const Sidebar = ({ open, setOpen, show, setShow}) => {
       path: "/dashboard/contacts",
       element: <Contacts />,
     },
-  ]
+  ];
   const adminRoutes = [
     {
       name: "Dashboard",
@@ -138,30 +138,35 @@ const Sidebar = ({ open, setOpen, show, setShow}) => {
     setOpen(false);
   };
   const handleDashboad = () => {
-    navigate("/dashboard")
-  }
+    navigate("/dashboard");
+  };
   const isRouteActive = (path) => {
     return location.pathname === path;
   };
   const handleLogOut = () => {
-    localStorage.clear() 
+    localStorage.clear();
     navigate("/login");
   };
   return (
-    <Drawer className="h-100" variant="permanent" open={open} settingsOpen={settingsOpen}>
+    <Drawer
+      className="h-100"
+      variant="permanent"
+      open={open}
+      settingsOpen={settingsOpen}
+    >
       <DrawerHeader sx={{ color: "#083d38" }}>
         <Typography
-         onClick={handleDashboad}
+          onClick={handleDashboad}
           sx={{
             marginRight: "65px",
-            cursor:"pointer",
+            cursor: "pointer",
             fontSize: "25px",
             fontWeight: "bold",
             color: `${theme.palette.primary.main}`,
             letterSpacing: "2px",
           }}
         >
-          KORPPI
+          Korppi
         </Typography>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
@@ -176,19 +181,24 @@ const Sidebar = ({ open, setOpen, show, setShow}) => {
       </DrawerHeader>
       <Divider />
       <List>
+      {open && <span className="ms-4 fw-bold"> Main Menu</span> }
+     
         {routes?.map((text, index) => (
           <ListItem
             key={index}
             disablePadding
-            sx={{ display: "block" }}
-            className={isRouteActive(text.path) ? "bg-dark-subtle " : ""}
+            sx={{
+              display: "block",
+              backgroundColor: `${
+                isRouteActive(text.path) ? theme.palette.primary.main : ""
+              }`,
+            }}
           >
             <NavLink
-              className={({ isActive }) =>
-                `text-decoration-none ${
-                  isActive ? "text-black fw-bold" : "text-black "
-                } `
-              }
+              style={{
+                textDecoration: "none",
+                color: `${isRouteActive(text.path) ? "#ffff" : "#000000"}`,
+              }}
               to={text.path}
             >
               <ListItemButton
@@ -206,7 +216,11 @@ const Sidebar = ({ open, setOpen, show, setShow}) => {
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
                     marginLeft: "8px",
-                    color: `${theme.palette.primary.main}`,
+                    color: `${
+                      isRouteActive(text.path)
+                        ? "#ffff"
+                        : theme.palette.primary.main
+                    }`,
                   }}
                 >
                   {text.icon}
@@ -259,6 +273,30 @@ const Sidebar = ({ open, setOpen, show, setShow}) => {
         </ListItemButton>
       </List>
       <Divider />
+      {/* <List>
+        <ListItemButton>
+          <NavLink
+            to="/contact"
+            className="text-decoration-none"
+          >
+            <ListItemText
+              primary="Contact Us"
+              sx={{ fontWeight: "bold", color: theme.palette.primary.main }}
+            />
+          </NavLink>
+        </ListItemButton> 
+        <ListItemButton>
+          <NavLink
+            to="/faq"
+            className="text-decoration-none"
+          >
+            <ListItemText
+              primary="FAQ"
+              sx={{ fontWeight: "bold", color: theme.palette.primary.main }}
+            />
+          </NavLink>
+        </ListItemButton>
+      </List> */}
     </Drawer>
   );
 };

@@ -19,12 +19,13 @@ import api from "../../../service/api";
 import "./send.css";
 
 const Send = () => {
-  dayjs.extend(utc)
+  dayjs.extend(utc);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [emailToSend, setEmailToSend] = useState("");
   const navigate = useNavigate();
   const [isSchedule, setIsSchedule] = useState(false);
-  const [isChecked,setIsChecked] = useState(false)
+  const [selectedTime, setSelectedTime] = useState(dayjs("2022-04-17T15:30"));
+  const [isChecked, setIsChecked] = useState(false);
   const userDatails = useSelector((state) => state.login.userDatails);
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [selectedService, setSelectedService] = useState("");
@@ -94,7 +95,7 @@ const Send = () => {
   const fetchDataService = async () => {
     try {
       const resData = await api.post("service/get");
-      if (resData.isSuccess) { 
+      if (resData.isSuccess) {
         setServiceOptions(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -133,9 +134,9 @@ const Send = () => {
     "Saturday",
     "Sunday",
   ];
-  const handleDateChange = (date) => {  
+  const handleDateChange = (date) => {
     setSelectedDate(dayjs.utc(date));
-    console.log(selectedDate)
+    console.log(selectedDate);
   };
 
   // Function to delete the schedule
@@ -161,18 +162,25 @@ const Send = () => {
       console.error("API Error:", error);
     }
   };
+  const handleTimeChange = (newTime) => {
+    setSelectedTime(newTime);
+    console.log(newTime);
+  };
 
   return (
-    <div style={{ letterSpacing: "1px" }}>
+    <div style={{ letterSpacing: "1px", marginTop: "20px" }}>
       <Row className="w-100  d-flex justify-content-center ">
         <Col md="4">
-          <Card className="m-3 shadow">
+          <Card className="m-3 shadow rounded-3" style={{ height: "450px" }}>
             <CardHeader>
               <CardTitle tag="h5">Send</CardTitle>
             </CardHeader>
             <CardBody>
               <Card className="mt-2 p-3 bg-body-secondary">
-                <span>Emails being sent as: {`${userDatails?.firstName} ${userDatails?.lastName}`}</span>
+                <span>
+                  Emails being sent as:{" "}
+                  {`${userDatails?.firstName} ${userDatails?.lastName}`}
+                </span>
               </Card>
               <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
                 Email <span className="text-secondary">Available</span> to send
@@ -219,7 +227,7 @@ const Send = () => {
           </Card>
         </Col>
         <Col md="4">
-          <Card className="m-3 shadow">
+          <Card className="m-3 shadow rounded-3" style={{ height: "450px" }}>
             <CardHeader>
               <CardTitle tag="h5">Daily Scheduler</CardTitle>
             </CardHeader>
@@ -235,7 +243,10 @@ const Send = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <TimePicker
                     label="Time To Send"
-                    defaultValue={dayjs("2022-04-17T15:30")}
+                    ampm={false}
+                    onChange={handleTimeChange}
+                    renderInput={(params) => <input {...params} />}
+                    value={selectedTime}
                     className="mt-2"
                   />
                 </LocalizationProvider>
@@ -354,17 +365,22 @@ const Send = () => {
                   >
                     Create
                   </Button>
-                ) : ( // If scheduler is set, render Update and Cancel buttons
+                ) : (
+                  // If scheduler is set, render Update and Cancel buttons
                   <>
                     <Button
-                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      style={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
                       variant="contained"
                       onClick={() => handleUpdateSchedule()}
                     >
                       Update
                     </Button>
                     <Button
-                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      style={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
                       variant="contained"
                       onClick={() => handleCancel()}
                     >

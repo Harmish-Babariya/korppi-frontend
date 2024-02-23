@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import api from "../../../service/api";
 import EmailView from "./EmailViewModal";
 import "./index.css";
@@ -48,12 +49,17 @@ const Contacts = () => {
   };
 
   return (
-    <div className="contacts-container">
+    <div className="contacts-container" style={{ letterSpacing: "1px", marginTop: "30px" }}>
+     <Box
+              className={`p-1   rounded-3  mt-2 card border-0`}
+              style={{height:"600px"}}
+            >
+           
       {data.length > 0 ? (
         <>
-          <table className="contacts-table text-center">
+          <table className="contacts-table text-center ">
             <thead>
-              <tr className="mx-auto">
+              <tr className="rounded-5">
                 <th>Name</th>
                 <th>Company</th>
                 <th>Email</th>
@@ -106,6 +112,7 @@ const Contacts = () => {
       ) : (
         <h5>Loading....</h5>
       )}
+      </Box>
     </div>
   );
 };

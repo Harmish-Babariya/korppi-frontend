@@ -90,20 +90,18 @@ const EmailSetting = ({ userDatails, handleClose}) => {
   //   history.push("/settings"); // Redirect to the Settings Page
   // };
   const fetchDomainHealth = async () => {
-    try {
-      // Make an API call to fetch domain health status
-      // Replace the placeholder with an actual API endpoint
-      const response = await api.get("/domain/health");
-      if (response.isSuccess) {
-        // Set domain health check status based on API response
-        setDomainHealthCheck(response.data.healthCheck);
-      } else {
-        // Handle error scenario
-        toast.error("Failed to fetch domain health status");
-      }
-    } catch (error) {
-      console.error("Error fetching domain health status:", error);
-    }
+    // try {
+     
+    //   const response = await api.post("/domain/health");
+    //   if (response.isSuccess) {
+        
+    //     setDomainHealthCheck(response.data.healthCheck);
+    //   } else {
+    //     toast.error("Failed to fetch domain health status");
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching domain health status:", error);
+    // }
   };
   return (
     <>

@@ -8,7 +8,7 @@ const EmailAnalyticsChart = ({ months, years }) => {
     datasets: [
       {
         label: "Emails Sent",
-        data: [120, 190, 30, 80, 20, 30, 190],
+        data: [120, 190, 30, 80, 20, 30, 190, 70, 40, 80, 60, 90],
         backgroundColor: "#9EAFFF",
         borderColor: "#9EAFFF",
         borderWidth: 1,
@@ -16,7 +16,7 @@ const EmailAnalyticsChart = ({ months, years }) => {
       },
       {
         label: "Emails Opened",
-        data: [80, 70, 110, 50, 100, 90, 40], 
+        data: [80, 70, 110, 50, 100, 90, 40, 110, 50, 100, 90, 40], 
         backgroundColor: "#567B65",
         borderColor: "#567B65",
         borderWidth: 1,
@@ -24,7 +24,7 @@ const EmailAnalyticsChart = ({ months, years }) => {
       },
       {
         label: "Leads Generated",
-        data: [50, 30, 70, 40, 80, 60, 90], 
+        data: [50, 30, 70, 40, 80, 60, 90, 70, 40, 80, 60, 90], 
         backgroundColor: "#D7D6C6",
         borderColor: "#D7D6C6",
         borderWidth: 1,

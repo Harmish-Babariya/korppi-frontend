@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "../../../Component/Button";
 import {
   Card,
@@ -55,7 +55,7 @@ const Profile = () => {
     }
   };
   return (
-    <div>
+    <div  style={{ letterSpacing: "1px", marginTop: "20px" }}>
       <Row>
         <Col md="7">
           <Card className="card-user m-2 w-100 shadow ">

@@ -21,11 +21,11 @@ const validationSchema = Yup.object().shape({
   offer: Yup.string().required("Offer is required"),
   features: Yup.array().of(Yup.string().required("Feature is required")),
   benefits: Yup.array().of(Yup.string().required("Benefit is required")),
-  target_name: Yup.string().required("Target Name is required"),
-  location: Yup.string().required("Location is required"),
-  employee_count: Yup.string().required("Employee Count is required"),
-  industry: Yup.string().required("Industry is required"),
-  job_title: Yup.string().required("Job Title is required"),
+  // target_name: Yup.string().required("Target Name is required"),
+  // location: Yup.string().required("Location is required"),
+  // employee_count: Yup.string().required("Employee Count is required"),
+  // industry: Yup.string().required("Industry is required"),
+  // job_title: Yup.string().required("Job Title is required"),
 });
 const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
   const [activeTab, setActiveTab] = useState("service");

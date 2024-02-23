@@ -12,6 +12,7 @@ import api from "../../../service/api";
 import { toast } from "react-toastify";
 import CompanyEditService from "./CompanyEditService";
 import CompanyCreateService from "./CompanyCreateService";
+import CreateTargetMarket from "./CreateTargetMarket";
 import { useSelector, useDispatch } from "react-redux";
 import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { theme } from "../../../Theme/Theme";
@@ -24,8 +25,11 @@ const CompanySetting = ({ handleClose }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [targetShow, setTargetShow] = useState(false);
   let { service, status } = useSelector((state) => state.Service);
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedTargetMarket, setSelectedTargetMarket] = useState(null); 
+
   const [companyDatails, setCompanyDatails] = useState(null);
   const [editService, setEditService] = useState(null);
   const [serviceid, setServiceId] = useState();
@@ -50,11 +54,23 @@ const CompanySetting = ({ handleClose }) => {
   };
   const handleShow = () => setShow(true);
   const handleShow2 = () => setShow2(true);
+  const handleShow3 = () => setTargetShow(true);
+
+  // const fetchTargetData = async () => {
+  //   try {
+  //     const response = await api.getTargetById(targetId);
+  //     setTargetData(response.data); // Assuming response contains target details
+  //   } catch (error) {
+  //     console.error("Error fetching target data:", error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchTargetData();
+  // }, [targetId]);
   const fetchService = async () => {
     try {
       const resData = await api.post("service/get");
       if (resData.isSuccess) {
-       
         dispatch(servicehandle(resData.data));
         service = useSelector((state) => state.Service);
       } else {
@@ -73,7 +89,7 @@ const CompanySetting = ({ handleClose }) => {
       setFormData({
         companyName: service[0]?.company?.name,
         industry: service[0]?.company?.industryId?.name,
-        companiesYouWorkWith: service[0]?.company?.partnerCompanies
+        companiesYouWorkWith: service[0]?.company?.partnerCompanies,
       });
       setComapnyID(service[0]?.company._id);
       handleServiceClick(0);
@@ -98,23 +114,42 @@ const CompanySetting = ({ handleClose }) => {
       console.error("API Error:", error);
     }
   };
+  const handleTargetEdit = async () => {
+    try {
+      if (!selectedTargetMarket) {
+        toast.error("Please select a Target Market");
+        return;
+      }
+      const resData = await api.post("service/getById", {
+        serviceId: serviceid,
+      });
+      if (resData.isSuccess) {
+        setEditService(resData.data);
+        handleShow();
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  }
   const handleSubmit = async () => {
     try {
       const resData = await api.post("/client/update", {
         id: companyId,
         name: formData.companyName,
-        partnerCompanies: formData.companiesYouWorkWith
+        partnerCompanies: formData.companiesYouWorkWith,
       });
       if (resData.isSuccess) {
         toast.success("Company Update Successful");
-        handleClose()
+        handleClose();
       } else {
         toast.error(resData.message);
-        handleClose()
+        handleClose();
       }
     } catch (error) {
       toast.error("Company Data Not Updated", error);
-      handleClose()
+      handleClose();
     }
   };
   const handleServiceClick = (id) => {
@@ -124,7 +159,11 @@ const CompanySetting = ({ handleClose }) => {
     setSelectedBenefits(fuature?.benefits);
     setServiceId(fuature?._id);
   };
-
+  const handleTargetClick = (id) =>{
+    const targetMarket = service[selectedService].target_market.find((value,index)=>index === id)
+    console.log(targetMarket)
+    setSelectedTargetMarket(targetMarket)
+  } 
   return (
     <>
       <div className="d-flex">
@@ -159,7 +198,7 @@ const CompanySetting = ({ handleClose }) => {
               size={"small"}
               classnamelebal={"mt-1"}
               readonly
-              disabled={'true'}
+              disabled={"true"}
             />
           </div>
           <div>
@@ -235,25 +274,25 @@ const CompanySetting = ({ handleClose }) => {
             </div>
           </div>
           <div className="d-flex flex-column">
-          <Button
-            style={{ color: `${theme.palette.primary.main}` }}
-            variant="outlined"
-            size="small"
-            className="mt-2 fw-medium"
-            onClick={() => handleEdit()}
-          >
-            Edit
-          </Button>
+            <Button
+              style={{ color: `${theme.palette.primary.main}` }}
+              variant="outlined"
+              size="small"
+              className="mt-2 fw-medium"
+              onClick={() => handleEdit()}
+            >
+              Edit
+            </Button>
 
-          <Button
-            style={{ backgroundColor: `${theme.palette.primary.main}` }}
-            variant="contained"
-            size="small"
-            className="fw-medium text-white mt-2"
-            onClick={handleShow2}
-          >
-            Add Service
-          </Button>
+            <Button
+              style={{ backgroundColor: `${theme.palette.primary.main}` }}
+              variant="contained"
+              size="small"
+              className="fw-medium text-white mt-2"
+              onClick={handleShow2}
+            >
+              Add Service
+            </Button>
           </div>
         </div>
         <div className="col-4">
@@ -291,43 +330,55 @@ const CompanySetting = ({ handleClose }) => {
             >
               <table className="table" style={{ minWidth: "100%" }}>
                 <tbody>
-                    <tr>
-                      <td>
-                        <button
-                          style={{ letterSpacing: "1px", textAlign: "left" }}
-                          className={`w-100 border-0  ${
-                            service[selectedService] && service[selectedService].target_market?.targetName ? "selected-button" : "non-selected-button"
-                          }`}
-                        >
-                          {service[selectedService] && service[selectedService].target_market?.targetName ? service[selectedService].target_market?.targetName : 'No Data Available'}
-                        </button>
-                      </td>
-                    </tr>
+                  {service[selectedService] &&
+                  service[selectedService].target_market?.length > 0
+                    ? service[selectedService].target_market.map(
+                        (value, index) => (
+                          <tr key={index}>
+                            <td>
+                              <button
+                                style={{
+                                  letterSpacing: "1px",
+                                  textAlign: "left",
+                                }}
+                                className={`w-100 border-0  ${
+                                  selectedTargetMarket === index
+                                    ? "selected-button"
+                                    : "non-selected-button"
+                                }`}
+                                onClick={() => handleTargetClick(index)}
+                              >
+                                {value.targetName}
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      )
+                    : "No Data Available"}
                 </tbody>
               </table>
             </div>
           </div>
-          {/* <div className="d-flex flex-column">
-          <Button
-            sx={{ color: `${theme.palette.primary.main}` }}
-            variant="outlined"
-            size="small"
-            className="mt-2 fw-medium"
-            onClick={() => handleEdit()}
-          >
-            Edit
-          </Button>
-
-          <Button
-            style={{ backgroundColor: `${theme.palette.primary.main}` }}
-            variant="contained"
-            size="small" 
-            className="fw-medium text-white mt-2"
-            onClick={handleShow2}
-          >
-            Create Market
-          </Button>
-          </div> */}
+          <div className="d-flex flex-column">
+            <Button
+              sx={{ color: `${theme.palette.primary.main}` }}
+              variant="outlined"
+              size="small"
+              className="mt-2 fw-medium"
+              onClick={() => handleTargetEdit()}
+            >
+              Edit
+            </Button>
+            <Button
+              style={{ backgroundColor: `${theme.palette.primary.main}` }}
+              variant="contained"
+              size="small"
+              className="fw-medium text-white mt-2"
+              onClick={handleShow3}
+            >
+              Create Market
+            </Button>
+          </div>
         </div>
 
         {show && (
@@ -343,6 +394,15 @@ const CompanySetting = ({ handleClose }) => {
             show2={show2}
             setShow2={setShow2}
             fetchService={fetchService}
+          />
+        )}
+        {targetShow && (
+          <CreateTargetMarket
+            targetShow={targetShow}
+            serviceid={serviceid}
+            setTargetShow={setTargetShow}
+            fetchService={fetchService}
+            selectedTargetMarket={selectedTargetMarket}
           />
         )}
         <div className="col-4 mt-2">
@@ -365,7 +425,7 @@ const CompanySetting = ({ handleClose }) => {
                 <Typography className="fw-bold">Features</Typography>
               </AccordionSummary>
               <AccordionDetails>
-              {selectedfeatures
+                {selectedfeatures
                   ? selectedfeatures.map((ele, index) => (
                       <Typography key={index}>
                         <FaCheckCircle /> &nbsp; {ele.description}

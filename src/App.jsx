@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,13 +6,11 @@ import Navbar from "./Component/Navbar/Navbar";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./Theme/Theme";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Login from "./Pages/Login/Login";
-import HomeIcon from "@mui/icons-material/Home";
+const Dashboard = lazy(() => import("./Pages/Dashboard"));
+const Admin = lazy(() => import("./Admin"));
+const Login = lazy(() => import("./Pages/Login/Login"));
 import Box from "@mui/material/Box";
-import Dashboard from "./Pages/Dashboard";
-import Sidebar from "./Component/Sidebar/Sidebar";
-import Admin from "./Admin";
-import { NavLink } from "reactstrap";
+const Sidebar = lazy(() => import("./Component/Sidebar/Sidebar"));
 import PrivateRoutes from "./Pages/Login/PrivateRoutes";
 function App() {
   const [path, setPath] = useState([]);
@@ -28,11 +26,11 @@ function App() {
       <ToastContainer position="top-center" autoClose={2000} />
       <ThemeProvider theme={theme}>
         {window.location.pathname !== "/login" && (
-          <Navbar open={open} setOpen={setOpen} show={show} setShow={setShow}/>
+          <Navbar open={open} setOpen={setOpen} show={show} setShow={setShow} />
         )}
         <Box sx={{ display: "flex", flexDirection: "row", p: 0, mr: 0 }}>
           {window.location.pathname !== "/login" && (
-            <Sidebar open={open} setOpen={setOpen}/>
+            <Sidebar open={open} setOpen={setOpen} />
           )}
           <div
             className={`w-100 ${
@@ -67,18 +65,19 @@ function App() {
                 </nav>
               </div>
             )} */}
-
-            <Routes>
-              <Route path="/" element={<Navigate to={'/login'} />} />
-              <Route path="/login" element={<Login />} />
-              <Route element={<PrivateRoutes />}>
-              <Route path="/dashboard/*" element={<Dashboard />} />
-              </Route>
-              <Route element={<PrivateRoutes />}>
-              <Route path="/admin/*" element={<Admin />} />
-              <Route path="*" element={<Navigate to={'/login'} />} />
-              </Route>
-            </Routes>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<Navigate to={"/login"} />} />
+                <Route path="/login" element={<Login />} />
+                <Route element={<PrivateRoutes />}>
+                  <Route path="/dashboard/*" element={<Dashboard />} />
+                </Route>
+                <Route element={<PrivateRoutes />}>
+                  <Route path="/admin/*" element={<Admin />} />
+                  <Route path="*" element={<Navigate to={"/login"} />} />
+                </Route>
+              </Routes>
+            </Suspense>
           </div>
         </Box>
       </ThemeProvider>

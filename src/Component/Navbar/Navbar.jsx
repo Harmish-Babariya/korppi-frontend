@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,lazy } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import {
@@ -20,10 +20,9 @@ import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { ListItemIcon } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
-import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
-import Dashboard from "../../Pages/Dashboard";
+const Dashboard = lazy(()=>import("../../Pages/Dashboard"));
 import Settings from "../CompanySettings/Settings";
 import { theme } from "../../Theme/Theme";
 import { useSelector } from "react-redux";
@@ -185,7 +184,7 @@ const handleDashboad = () => {
                 },
               }}
             >
-              {open ? "" : "KORPPI"}
+              {open ? "" : "Korppi"}
             </Typography>
             <Search
               style={{ color: `${theme.palette.primary.main}` }}
