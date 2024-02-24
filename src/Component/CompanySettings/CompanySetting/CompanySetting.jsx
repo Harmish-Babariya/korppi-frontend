@@ -24,12 +24,13 @@ const CompanySetting = ({ handleClose }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [show2, setShow2] = useState(false);
   const [targetShow, setTargetShow] = useState(false);
-  let { service, status } = useSelector((state) => state.Service);
+  let { service} = useSelector((state) => state.Service);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedTargetMarket, setSelectedTargetMarket] = useState(null); 
-
+  const [editTargetMarket, setEditTargetMarket] = useState(null); 
   const [companyDatails, setCompanyDatails] = useState(null);
   const [editService, setEditService] = useState(null);
   const [serviceid, setServiceId] = useState();
@@ -55,18 +56,6 @@ const CompanySetting = ({ handleClose }) => {
   const handleShow = () => setShow(true);
   const handleShow2 = () => setShow2(true);
   const handleShow3 = () => setTargetShow(true);
-
-  // const fetchTargetData = async () => {
-  //   try {
-  //     const response = await api.getTargetById(targetId);
-  //     setTargetData(response.data); // Assuming response contains target details
-  //   } catch (error) {
-  //     console.error("Error fetching target data:", error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchTargetData();
-  // }, [targetId]);
   const fetchService = async () => {
     try {
       const resData = await api.post("service/get");
@@ -95,6 +84,8 @@ const CompanySetting = ({ handleClose }) => {
       handleServiceClick(0);
     }
   }, [service]);
+
+
   const handleEdit = async () => {
     try {
       if (!serviceid) {
@@ -116,16 +107,17 @@ const CompanySetting = ({ handleClose }) => {
   };
   const handleTargetEdit = async () => {
     try {
+      setEdit(true)
       if (!selectedTargetMarket) {
         toast.error("Please select a Target Market");
         return;
       }
-      const resData = await api.post("service/getById", {
-        serviceId: serviceid,
+      const resData = await api.post("target-market/get", {
+        targetMarketId: selectedTargetMarket._id,
       });
       if (resData.isSuccess) {
-        setEditService(resData.data);
-        handleShow();
+        setEditTargetMarket(resData.data);
+        handleShow3();
       } else {
         toast.error(resData.response.data.message);
       }
@@ -161,7 +153,6 @@ const CompanySetting = ({ handleClose }) => {
   };
   const handleTargetClick = (id) =>{
     const targetMarket = service[selectedService].target_market.find((value,index)=>index === id)
-    console.log(targetMarket)
     setSelectedTargetMarket(targetMarket)
   } 
   return (
@@ -374,7 +365,7 @@ const CompanySetting = ({ handleClose }) => {
               variant="contained"
               size="small"
               className="fw-medium text-white mt-2"
-              onClick={handleShow3}
+              onClick={() => {handleShow3(),setEdit(false)}}
             >
               Create Market
             </Button>
@@ -399,10 +390,11 @@ const CompanySetting = ({ handleClose }) => {
         {targetShow && (
           <CreateTargetMarket
             targetShow={targetShow}
-            serviceid={serviceid}
             setTargetShow={setTargetShow}
             fetchService={fetchService}
-            selectedTargetMarket={selectedTargetMarket}
+            editTargetMarket={editTargetMarket}
+            serviceId={serviceid}
+            edit={edit}
           />
         )}
         <div className="col-4 mt-2">

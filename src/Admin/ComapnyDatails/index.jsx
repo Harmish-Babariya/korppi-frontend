@@ -26,10 +26,8 @@ const CompanyDatails = () => {
   const [forgotUserId, setForgotUserId] = useState();
   const [userData, setUserData] = useState([]);
   const navigate = useNavigate();
-
   const [currentPage, setCurrentPage] = useState(1);
   const userDatails = useSelector((state) => state.login.userDatails);
-
   const [meta, setMeta] = useState();
   let { id } = useParams();
   const [show, setShow] = useState(false);
@@ -114,7 +112,10 @@ const CompanyDatails = () => {
 
   return (
     <>
-      <div style={{ letterSpacing: "1px" }} className="card shadow w-100 mt-2">
+      <div
+        style={{ letterSpacing: "1px", marginTop: "30px" }}
+        className="card shadow w-100 "
+      >
         <div>
           <h3 className="ms-2 mt-2">Client Details</h3>
         </div>
@@ -169,7 +170,7 @@ const CompanyDatails = () => {
         </div>
       </div>
       <div
-        style={{ letterSpacing: "0.8px" }}
+        style={{ letterSpacing: "0.8px", height: "430px" }}
         className="card shadow w-100 mt-2"
       >
         <div className="">
@@ -214,7 +215,7 @@ const CompanyDatails = () => {
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="overflow-scroll">
                     {userData.map((user) => (
                       <tr key={user._id}>
                         <td>{user.firstName}</td>

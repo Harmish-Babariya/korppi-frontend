@@ -24,7 +24,7 @@ const EmailAnalyticsChart = ({ months, years }) => {
       },
       {
         label: "Leads Generated",
-        data: [50, 30, 70, 40, 80, 60, 90, 70, 40, 80, 60, 90], 
+        data: [50, 30, 70, 40, 55, 60, 90, 70, 40, 80, 60, 90], 
         backgroundColor: "#D7D6C6",
         borderColor: "#D7D6C6",
         borderWidth: 1,

@@ -30,7 +30,7 @@ const Industry = () => {
   const header = {
     search: "",
     pageNumber: pageNumber,
-    pageSize: 7,
+    pageSize: 8,
   };
 
   const fetchData = async () => {
@@ -89,7 +89,10 @@ const Industry = () => {
 
   return (
     <>
-      <div className="card shadow w-100 mt-3">
+      <div
+        className="card shadow w-100"
+        style={{ letterSpacing: "1px", marginTop: "30px", height: "630px" }}
+      >
         <div className="d-flex">
           <div>
             <h3 className="ms-2 mt-3">Industry</h3>

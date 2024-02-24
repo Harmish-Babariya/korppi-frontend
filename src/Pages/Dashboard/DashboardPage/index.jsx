@@ -38,7 +38,7 @@ const Dashboardpage = () => {
               <span style={{ color: "#3a9432" }}>+78%</span> from the last month
             </CardTitle>
             <CardText>
-              <h2>100</h2>
+              <h2 className="fw-bold">100</h2>
             </CardText>
             <CardText>
               {" "}
@@ -56,7 +56,7 @@ const Dashboardpage = () => {
               <span style={{ color: "#3a9432" }}>+28%</span> from the last month
             </CardTitle>
             <CardText>
-              <h2>76</h2>
+              <h2 className="fw-bold">76</h2>
             </CardText>
             <CardText>
               {" "}
@@ -75,7 +75,7 @@ const Dashboardpage = () => {
               month
             </CardTitle>
             <CardText>
-              <h2>175</h2>
+              <h2 className="fw-bold">175</h2>
             </CardText>
             <CardText>
               {" "}
@@ -94,7 +94,7 @@ const Dashboardpage = () => {
               <span style={{ color: "#ed0520" }}>-42%</span> from the last month
             </CardTitle>
             <CardText>
-              <h2>5</h2>
+              <h2 className="fw-bold">5</h2>
             </CardText>
             <CardText>
               {" "}
@@ -171,8 +171,8 @@ const Dashboardpage = () => {
           </Col>
           <Col md="8" className="m-3 p-0">
             <Box
-              className={`p-2  bg-body-secondary rounded-3  mt-2 card border-0`}
-              style={{ width: "100%", height: "100%" }}
+              className={`p-2  bg-body-secondary rounded-4 border-0`}
+              style={{ width: "106%", height: "100%" }}
             >
               <EmailAnalyticsChart
                 months={[

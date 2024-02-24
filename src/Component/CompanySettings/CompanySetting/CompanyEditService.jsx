@@ -39,11 +39,11 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       offer,
       features,
       benefits,
-      target_name,
-      location,
-      employee_count,
-      industry,
-      job_title,
+      // target_name,
+      // location,
+      // employee_count,
+      // industry,
+      // job_title,
     } = values;
     return {
       title,
@@ -53,11 +53,11 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
       offer,
       features: features.map((feature) => feature.description),
       benefits: benefits.map((benefit) => benefit.description),
-      target_name,
-      location: location.split(",").map((loc) => loc.trim()),
-      employee_count: employee_count.split(",").map((count) => count.trim()),
-      industry: [industry],
-      job_title,
+      // target_name,
+      // location: location.split(",").map((loc) => loc.trim()),
+      // employee_count: employee_count.split(",").map((count) => count.trim()),
+      // industry: [industry],
+      // job_title,
       serviceId: firstEditService._id,
     };
   };
@@ -72,12 +72,12 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
         [...firstEditService.features.map((ele) => ele.description)] || [],
       benefits:
         [...firstEditService.benefits.map((ele) => ele.description)] || [],
-      target_name: firstEditService.target_market?.targetName || "",
-      location: firstEditService.target_market?.location?.join(",") || "",
-      employee_count:
-        firstEditService.target_market?.employeeCount?.join(",") || "",
-      industry: firstEditService.target_market?.industry?.join(",") || "",
-      job_title: firstEditService.target_market?.jobTitle || "",
+      // target_name: firstEditService.target_market?.targetName || "",
+      // location: firstEditService.target_market?.location?.join(",") || "",
+      // employee_count:
+      //   firstEditService.target_market?.employeeCount?.join(",") || "",
+      // industry: firstEditService.target_market?.industry?.join(",") || "",
+      // job_title: firstEditService.target_market?.jobTitle || "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -91,11 +91,11 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
           offer: values.offer,
           features: values.features,
           benefits: values.benefits,
-          target_name: values.target_name,
-          location: values.location.split(","),
-          employee_count: values.employee_count.split(","),
-          industry: values.industry.split(","),
-          job_title: values.job_title,
+          // target_name: values.target_name,
+          // location: values.location.split(","),
+          // employee_count: values.employee_count.split(","),
+          // industry: values.industry.split(","),
+          // job_title: values.job_title,
         });
         if (resData.isSuccess) {
           toast.success("Service Update Successful");
@@ -114,7 +114,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
     { key: "service", label: "Service", icon: <RiCustomerServiceLine /> },
     { key: "feature", label: "Features", icon: <BiLogoPeriscope /> },
     { key: "benefits", label: "Benefits", icon: <DiCoda /> },
-    { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
+    // { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
   ];
 
   const handleTabChange = (tabKey) => {
@@ -466,12 +466,12 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                         backgroundColor: `${theme.palette.primary.main}`,
                       }}
                       className="ms-2 mt-2"
-                      onClick={() => handleNext()}
+                      onClick={formik.handleSubmit}
                     >
-                      Next
+                      Update
                     </Button>
                   </Tab.Pane>
-                  <Tab.Pane eventKey="targetmarket">
+                  {/* <Tab.Pane eventKey="targetmarket">
                     <div className="d-flex flex-column m-2">
                       <Input
                         id={"target_name"}
@@ -570,7 +570,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                     >
                       Update Service
                     </Button>
-                  </Tab.Pane>
+                  </Tab.Pane> */}
                 </Tab.Content>
               </Col>
             </Row>
