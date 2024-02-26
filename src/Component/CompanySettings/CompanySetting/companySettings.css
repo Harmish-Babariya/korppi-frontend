@@ -4,7 +4,12 @@
     border-radius: 5px;
     font-weight: bold;
 }
-
+.selected-target-market {
+  background-color: #e4e5fa;
+  color: #b65050;
+  border-radius: 5px;
+  font-weight: bold;
+}
 .non-selected-button {
     background-color: #f8f9fa;
     color: #000;

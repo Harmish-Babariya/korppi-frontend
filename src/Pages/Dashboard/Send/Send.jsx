@@ -171,7 +171,10 @@ const Send = () => {
     <div style={{ letterSpacing: "1px", marginTop: "20px" }}>
       <Row className="w-100  d-flex justify-content-center ">
         <Col md="4">
-          <Card className="m-3 shadow rounded-3" style={{ height: "450px" }}>
+          <Card
+            className="m-3 shadow rounded-3"
+            style={{ minHeight: "450px", maxWidth: "450px" }}
+          >
             <CardHeader>
               <CardTitle tag="h5">Send</CardTitle>
             </CardHeader>
@@ -227,7 +230,10 @@ const Send = () => {
           </Card>
         </Col>
         <Col md="4">
-          <Card className="m-3 shadow rounded-3" style={{ height: "450px" }}>
+          <Card
+            className="m-3 shadow rounded-3"
+            style={{ minHeight: "450px", maxWidth: "450px" }}
+          >
             <CardHeader>
               <CardTitle tag="h5">Daily Scheduler</CardTitle>
             </CardHeader>

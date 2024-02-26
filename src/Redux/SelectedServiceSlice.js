@@ -11,7 +11,6 @@ export const SelectedServiceSlice = createSlice({
   reducers: {
     ServiceSelected: (state, action) => {
       state.status = true;
-      console.log(action)
       state.selectedService = action.payload.service.find((item) => item._id === action.payload.newValue)
     },
   },

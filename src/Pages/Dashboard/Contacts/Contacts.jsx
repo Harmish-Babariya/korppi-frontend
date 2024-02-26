@@ -54,8 +54,8 @@ const Contacts = () => {
       style={{ letterSpacing: "1px", marginTop: "25px" }}
     >
       <Box
-        className={`p-1   rounded-3  mt-2 card border-0`}
-        style={{ height: "630px" }}
+        className={`p-1 rounded-3  mt-2 card border-0`}
+        style={{ height: "660px" }}
       >
         {data.length > 0 ? (
           <>

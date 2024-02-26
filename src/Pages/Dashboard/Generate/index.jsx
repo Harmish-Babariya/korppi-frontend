@@ -26,7 +26,7 @@ const Generate = () => {
   const [selectedService, setSelectedService] = useState();
   const [generate, setGenerate] = useState(0);
   const [targetMarket, setTargetMarket] = useState([]);
-  const [selectedTargetMarket, setSelectedTargetMarket] = useState();
+  const [selectedTargetMarket, setSelectedTargetMarket] = useState("Default");
   const [count, setCount] = useState(0);
   const [expanded, setExpanded] = React.useState("panel1");
   const [companyData, setCompanyData] = useState([]);
@@ -130,6 +130,16 @@ const Generate = () => {
     const newValue = e.target.value;
     setSelectedService(service.find((item) => item._id === newValue));
     dispatch(ServiceSelected({ service, newValue }));
+    const firstTargetMarketOfNewService = selectedService.target_market[0];
+    setSelectedTargetMarket(firstTargetMarketOfNewService);
+
+    const payload = {
+      employeeCount: firstTargetMarketOfNewService?.employeeCount,
+      location: firstTargetMarketOfNewService?.location,
+      industry: firstTargetMarketOfNewService?.industry,
+      role: firstTargetMarketOfNewService?.jobTitle,
+    };
+    fetchCompanyData(payload);
   }
 
   function handleMarketChange(e) {
@@ -173,7 +183,7 @@ const Generate = () => {
             <CardBody> */}
       <Row>
         <Col md="4">
-          <Card className="shadow rounded-3" style={{ height: "560px" }}>
+          <Card className="shadow rounded-3" style={{ minHeight: "560px" }}>
             <CardHeader>
               <CardTitle tag="h5">
                 <Select
@@ -306,7 +316,7 @@ const Generate = () => {
           </Card>
         </Col>
         <Col md="4">
-          <Card className="shadow rounded-3" style={{ height: "560px" }}>
+          <Card className="shadow rounded-3" style={{ minHeight: "560px" }}>
             <CardHeader>
               <CardTitle tag="h5">
                 {userDatails?.companyId?.name} Analytics
@@ -338,22 +348,33 @@ const Generate = () => {
                   <label htmlFor="" className="fw-bold">
                     Select Target Market
                   </label>
-                  <select
+                  {selectedService &&
+                    selectedService.target_market?.length > 0 && 
+                  <Select
                     id="selectTargetMarket"
-                    className="form-select mb-2 mt-1"
-                    value={selectedTargetMarket?._id}
+                    className=""
+                    sx={{ fontSize: "14px" }}
+                    value={
+                      selectedTargetMarket
+                        ? selectedTargetMarket._id
+                        : "Default"
+                    }
                     onChange={(e) => handleMarketChange(e)}
                   >
-                    {targetMarket ? (
-                      targetMarket.map((market, index) => (
-                        <option key={index} value={market._id}>
+                    <MenuItem value="Default" disabled>
+                      Select Target Market
+                    </MenuItem>
+                    {selectedService &&
+                    selectedService.target_market?.length > 0 ? (
+                      selectedService.target_market.map((market, index) => (
+                        <MenuItem key={index} value={market._id}>
                           {market?.targetName}
-                        </option>
+                        </MenuItem>
                       ))
                     ) : (
                       <option>Data Loading...</option>
                     )}
-                  </select>
+                    </Select>}
 
                   <p className="fw-light fs-6">{count} Emails to genereted</p>
                   <div className="mt-3 p-1">
@@ -364,26 +385,28 @@ const Generate = () => {
                     <br />
                     <span>
                       <b>Target location: </b>
-                      {selectedTargetMarket?.location.map((ele) => (
+                      {selectedTargetMarket?.location?.map((ele) => (
                         <>{ele}</>
                       ))}
                     </span>
                     <br />
                     <span>
                       <b>Employee Count: </b>
-                      {selectedTargetMarket?.employeeCount[0]}
+                      {selectedTargetMarket?.employeeCount}
                     </span>
                     <br />
                     <span>
                       <b>Industry: </b>
-                      {selectedTargetMarket?.industry.map((ele) => (
+                      {selectedTargetMarket?.industry?.map((ele) => (
                         <>{ele}</>
                       ))}
                     </span>
                     <br />
                     <span>
                       <b>Job Title: </b>
-                      {selectedTargetMarket?.jobTitle}
+                      {selectedTargetMarket?.jobTitle?.map((ele) => (
+                        <>{ele}</>
+                      ))}
                     </span>
                     <br />
                   </div>
@@ -393,7 +416,7 @@ const Generate = () => {
           </Card>
         </Col>
         <Col md="4">
-          <Card className="shadow rounded-3" style={{ height: "560px" }}>
+          <Card className="shadow rounded-3" style={{ minHeight: "560px" }}>
             <CardHeader>
               <CardTitle tag="h5">Generate</CardTitle>
             </CardHeader>
@@ -435,42 +458,48 @@ const Generate = () => {
                   </Button>
                 </div>
                 <div className="mt-2 mb-2" style={{ maxHeight: "300px" }}>
-                  <table
-                    className="table table-hover bg-body-secondary"
-                    style={{ minWidth: "100%" }}
-                  >
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>
-                          {" "}
-                          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                          Company
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                  <div
-                    style={{
-                      marginTop: "-15px",
-                      maxHeight: "250px",
-                      overflowY: "scroll",
-                    }}
-                  >
-                    <table
-                      className="table table-hover"
-                      style={{ minWidth: "100%" }}
-                    >
-                      <tbody>
-                        {companyData?.map((value, index) => (
-                          <tr key={index}>
-                            <td>{`${value.firstName} ${value.lastName}`}</td>
-                            <td>{value.company.name}</td>
+                  {companyData.length > 0 ? (
+                    <>
+                      <table
+                        className="table table-hover bg-body-secondary"
+                        style={{ minWidth: "100%" }}
+                      >
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>
+                              {" "}
+                              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                              Company
+                            </th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                      </table>
+                      <div
+                        style={{
+                          marginTop: "-15px",
+                          maxHeight: "250px",
+                          overflowY: "scroll",
+                        }}
+                      >
+                        <table
+                          className="table table-hover"
+                          style={{ minWidth: "100%" }}
+                        >
+                          <tbody>
+                            {companyData?.map((value, index) => (
+                              <tr key={index}>
+                                <td>{`${value.firstName} ${value.lastName}`}</td>
+                                <td>{value.company.name}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  ) : (
+                    <p>Email Not Genrated</p>
+                  )}
                 </div>
 
                 <Button

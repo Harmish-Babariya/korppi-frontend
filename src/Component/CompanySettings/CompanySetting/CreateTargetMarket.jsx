@@ -9,47 +9,16 @@ import Input from "../../Input";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import ListItemText from "@mui/material/ListItemText";
-import Select from "@mui/material/Select";
 import Multiselect from "multiselect-react-dropdown";
-
-import Checkbox from "@mui/material/Checkbox";
 import api from "../../../service/api";
 
 const validationSchema = Yup.object().shape({
   target_name: Yup.string().required("Target Name is required"),
   location: Yup.string().required("Location is required"),
   employee_count: Yup.number().required("Employee Count is required"),
-  industry: Yup.string().required("Industry is required"),
-  job_title: Yup.string().required("Job Title is required"),
+  industry: Yup.array().required("Industry is required"),
+  job_title: Yup.array().required("Job Title is required"),
 });
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-// const names = [
-//   "Oliver Hansen",
-//   "Van Henry",
-//   "April Tucker",
-//   "Ralph Hubbard",
-//   "Omar Alexander",
-//   "Carlos Abbott",
-//   "Miriam Wagner",
-//   "Bradley Wilkerson",
-//   "Virginia Andrews",
-//   "Kelly Snyder",
-// ];
 
 const CreateTargetMarket = ({
   targetShow,
@@ -63,13 +32,15 @@ const CreateTargetMarket = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [personName, setPersonName] = useState([]);
   const [industry, setIndustry] = useState([]);
+  const [role, setRole] = useState([]);
   const [editTarget, setEditTarget] = useState(edit ? editTargetMarket[0] : []);
+  const [editRole, setEditRole] = useState(edit ? editTargetMarket[0] : []);
   const [searchValue, setSearchValue] = useState("");
-  const [selectedIndustry, setSelectedIndustry] = useState([]);
+  const [searchRoleValue, setSearchRoleValue] = useState("");
 
-  const fetchData = async (searchValue) => {
+  const fetchIndustry = async (searchValue) => {
     try {
-      const response = await api.post("/industry/get",{search:searchValue});
+      const response = await api.post("/industry/get", { search: searchValue });
       if (response.isSuccess) {
         setIndustry(response.data);
       } else toast.error(response.message);
@@ -77,21 +48,23 @@ const CreateTargetMarket = ({
       console.error("Error fetching industry data:", error);
     }
   };
-  const handleSearch = () => {
-    setSearchValue(a);
-    let searchValue = industry.filter((value) =>
-      value.name.includes(e.target.value)
-    );
-    setIndustry(searchValue);
+  const fetchRolesData = async () => {
+    try {
+      const response = await api.post("/roles/get");
+      if (response.isSuccess) {
+        setRole(response.data);
+      } else toast.error(response.message);
+    } catch (error) {
+      console.error("Error fetching role data:", error);
+    }
   };
   useEffect(() => {
-    fetchData();
-  }, [searchValue]);
+    fetchIndustry();
+    fetchRolesData();
+  }, [searchValue, searchRoleValue]);
   useEffect(() => {
     if (editTargetMarket) {
-      console.log(editTargetMarket);
       setEditTarget(editTargetMarket[0]);
-      console.log(editTarget);
       setIsEditMode(true);
     }
   }, [editTargetMarket]);
@@ -100,28 +73,34 @@ const CreateTargetMarket = ({
       target_name: edit ? editTarget.targetName : "",
       location: edit ? editTarget.location?.join(",") : "",
       employee_count: edit ? editTarget.employeeCount : "",
-      industry: edit ? editTarget.industry.map(ele => { 
-        return { name: ele }
-      }) : "",
-      job_title: edit ? editTarget.jobTitle : "",
+      industry: edit
+        ? editTarget.industry.map((ele) => {
+            return { name: ele };
+          })
+        : [],
+      job_title: edit
+        ? editTarget.jobTitle.map((ele) => {
+            return { title: ele };
+          })
+        : [],
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       const employeeCountArray = [values.employee_count];
       const updatetargetMarketData = {
         targetName: values.target_name,
         location: values.location.split(","),
         employeeCount: values.employee_count,
-        industry: values.industry.map(ele => ele.name),
-        jobTitle: values.job_title,
+        industry: values.industry.map((ele) => ele.name),
+        jobTitle: values.job_title.map((ele) => ele.title),
       };
 
       const createtargetMarketData = {
         targetName: values.target_name,
         location: values.location.split(","),
         employeeCount: employeeCountArray,
-        industry: values.industry?.map(ele => ele.name),
-        jobTitle: values.job_title,
+        industry: values.industry?.map((ele) => ele.name),
+        jobTitle: values.job_title?.map((ele) => ele.title),
         serviceId: serviceId,
       };
       try {
@@ -168,7 +147,9 @@ const CreateTargetMarket = ({
   const handleChangeIndustry = (value) => {
     formik.setFieldValue("industry", value);
   };
-
+  const handleChangeRole = (value) => {
+    formik.setFieldValue("job_title", value);
+  };
   return (
     <div>
       <div className="modal-background"></div>{" "}
@@ -240,75 +221,23 @@ const CreateTargetMarket = ({
                     </div>
                   )}
                 <Multiselect
-                  options={industry} // Options to display in the dropdown
-                  selectedValues={formik.values.industry} // Preselected value to persist in dropdown
-                  onSelect={handleChangeIndustry} 
-                  onSearch={fetchData}// Function will trigger on select event
-                  displayValue={"name"} // Property name to display in the dropdown options
+                  options={industry}
+                  selectedValues={formik.values.industry}
+                  onSelect={handleChangeIndustry}
+                  onSearch={fetchIndustry}
+                  displayValue={"name"}
                   placeholder="Select Industry"
                   className="mt-2"
                 />
-                {/* <FormControl sx={{ width: 750, mt: 2 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                  {/* <input
-                    type="search"
-                    value={searchValue} 
-                    onChange={handleSearchChange} 
-                  /> */}
-                {/* <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    multiple
-                    value={personName}
-                    onChange={handleChange}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected.join(", ")}
-                    MenuProps={MenuProps}
-                  >
-                    {industry
-                      ?.filter((value) =>
-                        value.name.toLowerCase().includes(searchValue.toLowerCase())
-                      )
-                      .map((value, index) => (
-                        <MenuItem key={index} value={value.name}>
-                          <Checkbox
-                            checked={personName.indexOf(value.name) > -1}
-                          />
-                          <ListItemText primary={value.name} />
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl> */}
-                {/* <Input
-                  id={"industry"}
-                  lebel={"Industr(y)/(ies)"}
-                  className={"mt-2"}
-                  type={"text"}
-                  value={formik.values.industry}
-                  onChange={formik.handleChange}
-                  size={"small"}
-                  classnamelebal={"mt-2"}
+                <Multiselect
+                  options={role}
+                  selectedValues={formik.values.job_title}
+                  onSelect={handleChangeRole}
+                  onSearch={fetchRolesData}
+                  displayValue={"title"}
+                  placeholder="Select job_title"
+                  className="mt-2"
                 />
-                {formik.touched.industry && formik.errors.industry && (
-                  <div className="error ms-2 text-danger">
-                    {formik.errors.industry}
-                  </div>
-                )}  */}
-                <Input
-                  id={"job_title"}
-                  lebel={"Job Title(s)"}
-                  className={"mt-2"}
-                  type={"text"}
-                  value={formik.values.job_title}
-                  onChange={formik.handleChange}
-                  size={"small"}
-                  classnamelebal={"mt-2"}
-                />
-                {formik.touched.job_title && formik.errors.job_title && (
-                  <div className="error ms-2 text-danger">
-                    {formik.errors.job_title}
-                  </div>
-                )}
               </div>
 
               <Button

@@ -27,10 +27,12 @@ const CompanySetting = ({ handleClose }) => {
   const [edit, setEdit] = useState(false);
   const [show2, setShow2] = useState(false);
   const [targetShow, setTargetShow] = useState(false);
-  let { service} = useSelector((state) => state.Service);
+  let { service } = useSelector((state) => state.Service);
   const [selectedService, setSelectedService] = useState(null);
-  const [selectedTargetMarket, setSelectedTargetMarket] = useState(null); 
-  const [editTargetMarket, setEditTargetMarket] = useState(null); 
+  const [selectedTargetMarket, setSelectedTargetMarket] = useState(null);
+  const [selectedTargetMarketvalue, setSelectedTargetMarketValue] =
+    useState(null);
+  const [editTargetMarket, setEditTargetMarket] = useState(null);
   const [companyDatails, setCompanyDatails] = useState(null);
   const [editService, setEditService] = useState(null);
   const [serviceid, setServiceId] = useState();
@@ -85,7 +87,6 @@ const CompanySetting = ({ handleClose }) => {
     }
   }, [service]);
 
-
   const handleEdit = async () => {
     try {
       if (!serviceid) {
@@ -107,13 +108,13 @@ const CompanySetting = ({ handleClose }) => {
   };
   const handleTargetEdit = async () => {
     try {
-      setEdit(true)
-      if (!selectedTargetMarket) {
+      setEdit(true);
+      if (!selectedTargetMarketvalue) {
         toast.error("Please select a Target Market");
         return;
       }
       const resData = await api.post("target-market/get", {
-        targetMarketId: selectedTargetMarket._id,
+        targetMarketId: selectedTargetMarketvalue._id,
       });
       if (resData.isSuccess) {
         setEditTargetMarket(resData.data);
@@ -124,7 +125,7 @@ const CompanySetting = ({ handleClose }) => {
     } catch (error) {
       console.error("API Error:", error);
     }
-  }
+  };
   const handleSubmit = async () => {
     try {
       const resData = await api.post("/client/update", {
@@ -150,11 +151,31 @@ const CompanySetting = ({ handleClose }) => {
     setSelectedFeatures(fuature?.features);
     setSelectedBenefits(fuature?.benefits);
     setServiceId(fuature?._id);
+    setSelectedTargetMarket(0);
+    const buttons = document.querySelectorAll(".target-market-button");
+    buttons.forEach((button, index) => {
+      if (index === 0) {
+        button.classList.add("selected-target-market");
+      } else {
+        button.classList.remove("selected-target-market");
+      }
+    });
   };
-  const handleTargetClick = (id) =>{
-    const targetMarket = service[selectedService].target_market.find((value,index)=>index === id)
-    setSelectedTargetMarket(targetMarket)
-  } 
+  const handleTargetClick = (id) => {
+    setSelectedTargetMarket(id);
+    const targetMarket = service[selectedService].target_market.find(
+      (value, index) => index === id
+    );
+    setSelectedTargetMarketValue(targetMarket);
+    const buttons = document.querySelectorAll(".target-market-button");
+    buttons.forEach((button, index) => {
+      if (index === id) {
+        button.classList.add("selected-target-market");
+      } else {
+        button.classList.remove("selected-target-market");
+      }
+    });
+  };
   return (
     <>
       <div className="d-flex">
@@ -212,7 +233,7 @@ const CompanySetting = ({ handleClose }) => {
           <div
             className="mt-2 mb-2"
             style={{
-              maxHeight: "300px",
+              minHeight: "250px",
               borderRadius: "10px",
               overflow: "hidden",
               border: "1px solid #ced4da",
@@ -290,7 +311,7 @@ const CompanySetting = ({ handleClose }) => {
           <div
             className="mt-2 mb-2"
             style={{
-              maxHeight: "300px",
+              minHeight: "250px",
               borderRadius: "10px",
               overflow: "hidden",
               border: "1px solid #ced4da",
@@ -332,9 +353,9 @@ const CompanySetting = ({ handleClose }) => {
                                   letterSpacing: "1px",
                                   textAlign: "left",
                                 }}
-                                className={`w-100 border-0  ${
+                                className={`target-market-button w-100 border-0  ${
                                   selectedTargetMarket === index
-                                    ? "selected-button"
+                                    ? "selected-target-market"
                                     : "non-selected-button"
                                 }`}
                                 onClick={() => handleTargetClick(index)}
@@ -365,7 +386,9 @@ const CompanySetting = ({ handleClose }) => {
               variant="contained"
               size="small"
               className="fw-medium text-white mt-2"
-              onClick={() => {handleShow3(),setEdit(false)}}
+              onClick={() => {
+                handleShow3(), setEdit(false);
+              }}
             >
               Create Market
             </Button>
@@ -402,8 +425,8 @@ const CompanySetting = ({ handleClose }) => {
             style={{
               border: "1px solid #ced4da",
               borderRadius: "8px",
+              minHeight: "250px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-              padding: "10px",
               width: "100%",
             }}
           >
@@ -426,7 +449,7 @@ const CompanySetting = ({ handleClose }) => {
                   : "Data Loading..."}
               </AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion defaultExpanded>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"

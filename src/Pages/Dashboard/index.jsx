@@ -1,6 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Card, CardBody, CardTitle, Row, Col, CardText } from "reactstrap";
+import { Row, } from "reactstrap";
 import { useSelector } from "react-redux";
 import Button from "../../Component/Button";
 const Dashboardpage = lazy(() => import("./DashboardPage"));
@@ -8,15 +8,27 @@ const Send = lazy(() => import("../../Pages/Dashboard/Send/Send"));
 const Contacts = lazy(() => import("../../Pages/Dashboard/Contacts/Contacts"));
 const Generate = lazy(() => import("./Generate"));
 const Profile = lazy(() => import("./Profile"));
-import Box from "@mui/material/Box";
 import { theme } from "../../Theme/Theme";
-import Container from "@mui/material/Container";
 const Dashboard = () => {
   const location = useLocation();
   const userData = useSelector((state) => state.login.userDatails);
   const [userTitle, setUserTitle] = useState(false);
+  const currantMonth = [
+    "Jan",
+    "Feb",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ][new Date().getMonth() ];
   useEffect(() => {
-    location.pathname == "/dashboard"
+    location.pathname === "/dashboard"
       ? setUserTitle(true)
       : setUserTitle(false);
   });
@@ -43,7 +55,7 @@ const Dashboard = () => {
                 }}
                 variant="contained"
               >
-                April
+              {currantMonth}
               </Button>
             </div>
           </div>

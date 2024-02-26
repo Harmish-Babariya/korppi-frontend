@@ -3,7 +3,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+// import DashboardIcon from "@mui/icons-material/Dashboard";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import {
   Divider,
@@ -26,6 +26,7 @@ import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { theme } from "../../Theme/Theme";
 import Industry from "../../Admin/industry";
+import DashboardIcon from "../../../src/assets/img/dashboard.png"
 import Company from "../../Admin/company";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -89,7 +90,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
   const clientRoute = [
     {
       name: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <img src={DashboardIcon} alt="Dashboard" />,
       path: "/dashboard",
       element: <Dashboardpage />,
     },
@@ -212,6 +213,11 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
               >
                 <ListItemIcon
                   sx={{
+                    filter: `${
+                      isRouteActive(text.path)
+                        ? "invert(1)"
+                        : ''
+                    }`,
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
