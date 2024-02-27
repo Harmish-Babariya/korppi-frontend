@@ -76,6 +76,7 @@ const CompanySetting = ({ handleClose }) => {
   }, []);
 
   useEffect(() => {
+    console.log("clicked")
     if (service.length > 0) {
       setFormData({
         companyName: service[0]?.company?.name,
@@ -83,9 +84,14 @@ const CompanySetting = ({ handleClose }) => {
         companiesYouWorkWith: service[0]?.company?.partnerCompanies,
       });
       setComapnyID(service[0]?.company._id);
-      handleServiceClick(0);
+      handleServiceClick(selectedService || 0);
+      console.log(selectedService)
+      const targetMarket = service[selectedService || 0].target_market.find(
+        (value, index) => index === 0
+      );
+      setSelectedTargetMarketValue(targetMarket);
     }
-  }, [service]);
+  }, [selectedService]);
 
   const handleEdit = async () => {
     try {
@@ -233,7 +239,7 @@ const CompanySetting = ({ handleClose }) => {
           <div
             className="mt-2 mb-2"
             style={{
-              minHeight: "250px",
+              minHeight: "230px",
               borderRadius: "10px",
               overflow: "hidden",
               border: "1px solid #ced4da",
@@ -311,7 +317,7 @@ const CompanySetting = ({ handleClose }) => {
           <div
             className="mt-2 mb-2"
             style={{
-              minHeight: "250px",
+              minHeight: "230px",
               borderRadius: "10px",
               overflow: "hidden",
               border: "1px solid #ced4da",
@@ -425,7 +431,7 @@ const CompanySetting = ({ handleClose }) => {
             style={{
               border: "1px solid #ced4da",
               borderRadius: "8px",
-              minHeight: "250px",
+              minHeight: "230px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
               width: "100%",
             }}

@@ -39,3 +39,47 @@
 .delete-button:hover {
   background-color: #8d194f;
 }
+.blur-container {
+  width: 700px;
+  padding: 5px;
+  height: 500px;
+  background: rgba(206, 202, 226, 0.5) !important;
+  filter: blur(10px); 
+  border-radius: 10px; 
+  display: flex;
+  justify-content: center;
+
+}
+
+.blur-class {
+  filter: blur(3px);
+}
+.inercontainer {
+  width: 700px;
+  padding: 5px;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 10px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.blur-container h4 {
+  margin-bottom: 10px;
+}
+
+.blur-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  
+}
+
+.blur-container button:hover {
+  background-color: #0056b3;
+}

@@ -5,18 +5,16 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Tab from "react-bootstrap/Tab";
-import MailIcon from "@mui/icons-material/Mail";
-import BusinessIcon from "@mui/icons-material/Business";
+import MailIcon from "../../../src/assets/img/sms.png";
+import BusinessIcon from "../../../src/assets/img/company.png";
 import EmailSetting from "./EmailSetting/EmailSetting";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import CompanySetting from "./CompanySetting/CompanySetting";
-import api from "../../service/api";
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
   const [email, setEmail] = useState(true);
   const [company, setCompany] = useState(false);
   const userDatails = useSelector((state) => state.login.userDatails);
-  const [companyDatails, setCompanyDatails] = useState();
   const handleClose = () => setShow(false);
   const handleEmail = () => {
     setValue("User Profile Email Setting");
@@ -63,7 +61,15 @@ function Settings({ show, setShow }) {
                       } `}
                       eventKey="email"
                     >
-                      <MailIcon /> Email
+                      <img
+                        src={MailIcon}
+                        alt="MailIcon"
+                        style={{
+                          filter:
+                            "brightness(0) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg) brightness(104%) contrast(100%)",
+                        }}
+                      />{" "}
+                      Email
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item
@@ -81,7 +87,15 @@ function Settings({ show, setShow }) {
                       } `}
                       eventKey="company"
                     >
-                      <BusinessIcon /> Company
+                      <img
+                        src={BusinessIcon}
+                        alt="BusinessIcon"
+                        style={{
+                          filter:
+                            "brightness(0) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg) brightness(104%) contrast(100%)",
+                        }}
+                      />{" "}
+                      Company
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
@@ -90,11 +104,14 @@ function Settings({ show, setShow }) {
                 <Tab.Content>
                   <Tab.Pane eventKey="email">
                     <h4 className="ms-2">Personal</h4>
-                    <EmailSetting userDatails={userDatails} handleClose={handleClose}/>
+                    <EmailSetting
+                      userDatails={userDatails}
+                      handleClose={handleClose}
+                    />
                   </Tab.Pane>
                   <Tab.Pane eventKey="company">
                     <h2 className="ms-2">Company</h2>
-                    <CompanySetting  handleClose={handleClose}/>
+                    <CompanySetting handleClose={handleClose} />
                   </Tab.Pane>
                 </Tab.Content>
               </Col>

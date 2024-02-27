@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
-// import DashboardIcon from "@mui/icons-material/Dashboard";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import {
   Divider,
@@ -26,7 +24,10 @@ import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { theme } from "../../Theme/Theme";
 import Industry from "../../Admin/industry";
-import DashboardIcon from "../../../src/assets/img/dashboard.png"
+import DashboardIcon from "../../../src/assets/img/dashboard.png";
+import Categray from "../../../src/assets/img/category.png";
+import SendIcon from "../../../src/assets/img/send.png";
+import UserPlas from "../../../src/assets/img/profile-add.png";
 import Company from "../../Admin/company";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -90,25 +91,25 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
   const clientRoute = [
     {
       name: "Dashboard",
-      icon: <img src={DashboardIcon} alt="Dashboard" />,
+      icon: <img src={DashboardIcon} alt="DashboardIcon" />,
       path: "/dashboard",
       element: <Dashboardpage />,
     },
     {
       name: "Generate",
-      icon: <MailIcon />,
+      icon: <img src={Categray} alt="CategrayIcon" />,
       path: "/dashboard/generate",
       element: <Genrate />,
     },
     {
       name: "Send",
-      icon: <OutboxIcon />,
+      icon: <img src={SendIcon} alt="SendIcon" />,
       path: "/dashboard/send",
       element: <Send />,
     },
     {
       name: "Contacts",
-      icon: <ContactPageIcon />,
+      icon: <img src={UserPlas} alt="UserPlasIcon" />,
       path: "/dashboard/contacts",
       element: <Contacts />,
     },
@@ -116,7 +117,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
   const adminRoutes = [
     {
       name: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <img src={DashboardIcon} alt="DashboardIcon" />,
       path: "/dashboard",
       element: <Dashboardpage />,
     },
@@ -182,8 +183,8 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
       </DrawerHeader>
       <Divider />
       <List>
-      {open && <span className="ms-4 fw-bold"> Main Menu</span> }
-     
+        {open && <span className="ms-4 fw-bold"> Main Menu</span>}
+
         {routes?.map((text, index) => (
           <ListItem
             key={index}
@@ -213,11 +214,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
               >
                 <ListItemIcon
                   sx={{
-                    filter: `${
-                      isRouteActive(text.path)
-                        ? "invert(1)"
-                        : ''
-                    }`,
+                    filter: `${isRouteActive(text.path) ? "invert(1)" : ""}`,
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
@@ -261,7 +258,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
               mr: open ? 3 : "auto",
               marginLeft: "8px",
               justifyContent: "center",
-              color: `${theme.palette.primary.main}`,
+              // color: `${theme.palette.primary.main}`,
             }}
           >
             <ExitToAppRoundedIcon className="fs-3" />

@@ -18,7 +18,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { ListItemIcon } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import DashboardIcon from "../../../src/assets/img/dashboard.png";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
@@ -101,7 +101,7 @@ const Navbar = (props) => {
     },
     {
       name: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <img src={DashboardIcon} alt="DashboardIcon" />,
     },
     {
       name: "Logout",
@@ -230,7 +230,7 @@ const handleDashboad = () => {
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
-                        color: "#083d38",
+                        // color: "#083d38",
                       }}
                       onClick={() => handleUser(setting.name)}
                     >

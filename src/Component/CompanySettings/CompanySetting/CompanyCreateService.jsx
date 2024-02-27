@@ -5,8 +5,10 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Tab from "react-bootstrap/Tab";
-import { RiCustomerServiceLine } from "react-icons/ri";
-import { BiLogoPeriscope } from "react-icons/bi";
+import ServiceIcon from "../../../assets/img/sms.png";
+import FeaturesIcon from "../../../assets/img/features.png";
+import BenefitsIcon from "../../../assets/img/Frame.png";
+import TargetIcon from "../../../assets/img/target-user.png";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { DiCoda } from "react-icons/di";
 import { theme } from "../../../Theme/Theme";
@@ -79,10 +81,10 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
   });
 
   const tabs = [
-    { key: "service", label: "Service", icon: <RiCustomerServiceLine /> },
-    { key: "feature", label: "Features", icon: <BiLogoPeriscope /> },
-    { key: "benefits", label: "Benefits", icon: <DiCoda /> },
-    { key: "targetmarket", label: "Target Market", icon: <AcUnitIcon /> },
+    { key: "service", label: "Service", icon: ServiceIcon },
+    { key: "feature", label: "Features", icon: FeaturesIcon },
+    { key: "benefits", label: "Benefits", icon: BenefitsIcon },
+    { key: "targetmarket", label: "Target Market", icon: TargetIcon },
   ];
 
   const handleTabChange = (tabKey) => {
@@ -206,12 +208,20 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                         // onClick={() => handleTabChange(tab.key)}
                         className={`${
                           activeTab === tab.key
-                            ? "bg-body-secondary text-black fw-medium ms-2 rounded-3"
-                            : "text-black fw-medium ms-2 "
+                            ? "bg-body-secondary text-black fw-medium  rounded-3"
+                            : "text-black fw-medium  "
                         } `}
                         eventKey={tab.key}
                       >
-                        {tab.icon} {tab.label}
+                        <img
+                          src={tab.icon}
+                          alt={tab.label}
+                          style={{
+                            filter:
+                              "brightness(0) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg) brightness(104%) contrast(100%)",
+                          }}
+                        />{" "}
+                        {tab.label}
                       </Nav.Link>
                     </Nav.Item>
                   ))}
@@ -533,7 +543,9 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                     <Button
                       variant="contained"
                       type="submit"
-                      style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                      style={{
+                        backgroundColor: `${theme.palette.primary.main}`,
+                      }}
                       className="ms-2 mt-2"
                       onClick={formik.handleSubmit}
                     >
