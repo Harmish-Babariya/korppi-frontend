@@ -113,6 +113,7 @@ const Generate = () => {
     }
   };
   const fetchCompanyData = async (companyData) => {
+    console.log(companyData);
     try {
       const resData = await api.post("/prospects/get", companyData);
       if (resData.isSuccess) {
@@ -131,7 +132,9 @@ const Generate = () => {
     const newValue = e.target.value;
     setSelectedService(service.find((item) => item._id === newValue));
     dispatch(ServiceSelected({ service, newValue }));
-    const firstTargetMarketOfNewService = selectedService?.target_market[0];
+    const firstTargetMarketOfNewService = service.find(
+      (item) => item._id === newValue
+    )?.target_market[0];
     setSelectedTargetMarket(firstTargetMarketOfNewService);
 
     const payload = {
@@ -336,7 +339,7 @@ const Generate = () => {
                         <MenuItem value="Default" disabled>
                           Select Target Market
                         </MenuItem>
-                        {console.log(selectedTargetMarket)}
+
                         {selectedService &&
                         selectedService.target_market?.length > 0 ? (
                           selectedService.target_market.map((market, index) => (
