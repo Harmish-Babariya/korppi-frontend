@@ -24,7 +24,7 @@ const Send = () => {
   const [emailToSend, setEmailToSend] = useState("");
   const navigate = useNavigate();
   const [isSchedule, setIsSchedule] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(dayjs("2022-04-17T15:30"));
+  const [selectedTime, setSelectedTime] = useState(dayjs().utc());
   const [isChecked, setIsChecked] = useState(false);
   const userDatails = useSelector((state) => state.login.userDatails);
   const [selectedIndustry, setSelectedIndustry] = useState("");
@@ -143,9 +143,7 @@ const Send = () => {
   const handleCancel = async () => {
     try {
       // Make an API call to delete the schedule
-      // Example:
       // const resData = await api.delete("schedule/delete");
-      // Handle success or failure accordingly
     } catch (error) {
       console.error("API Error:", error);
     }
@@ -155,16 +153,17 @@ const Send = () => {
   const handleUpdateSchedule = async () => {
     try {
       // Make an API call to update the schedule
-      // Example:
       // const resData = await api.put("schedule/update", updatedScheduleData);
-      // Handle success or failure accordingly
     } catch (error) {
       console.error("API Error:", error);
     }
   };
   const handleTimeChange = (newTime) => {
-    setSelectedTime(newTime);
-    console.log(newTime);
+    // Convert the selected time to UTC
+    const utcTime = dayjs.utc(newTime);
+    const utcDate = dayjs(utcTime.$d).utc().format()
+    setSelectedTime(utcTime);
+    console.log(utcDate);
   };
 
   return (

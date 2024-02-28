@@ -103,9 +103,6 @@ const CreateTargetMarket = ({
       console.error("Error fetching location data:", error);
     }
   };
-  const handleChangeEmployeeCount = (value) => {
-    formik.setFieldValue("employeeCount", value);
-  };
   const fetchCompanySize = async () => {
     try {
       const response = await api.post("/company-size/get");
@@ -159,7 +156,8 @@ const CreateTargetMarket = ({
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const updatetargetMarketData = {
+      console.log(values.location?.map((ele) => ele.country));
+      const updateTargetMarketData = {
         targetName: values.target_name,
         location: values.location.map((ele) => ele.country),
         employeeCount: values.employeeCount.map((ele) => parseInt(ele.size)),
@@ -167,7 +165,7 @@ const CreateTargetMarket = ({
         jobTitle: values.job_title.map((ele) => ele.title),
       };
 
-      const createtargetMarketData = {
+      const createTargetMarketData = {
         targetName: values.target_name,
         location: values.location?.map((ele) => ele.country),
         employeeCount: values.employeeCount.map((ele) => parseInt(ele.size)),
@@ -180,12 +178,12 @@ const CreateTargetMarket = ({
         if (edit) {
           resData = await api.post("/target-market/update", {
             id: editTarget._id,
-            ...updatetargetMarketData,
+            ...updateTargetMarketData,
           });
         } else {
           resData = await api.post(
             "/target-market/add",
-            createtargetMarketData
+            createTargetMarketData
           );
         }
 
@@ -210,6 +208,9 @@ const CreateTargetMarket = ({
       }
     },
   });
+  const handleChangeEmployeeCount = (value) => {
+    formik.setFieldValue("employeeCount", value);
+  };
   const handleChangeLocation = (value) => {
     formik.setFieldValue("location", value);
   };
@@ -218,6 +219,33 @@ const CreateTargetMarket = ({
   };
   const handleChangeRole = (value) => {
     formik.setFieldValue("job_title", value);
+  };
+  const handleRemoveLocation = (selectedList, removedItem) => {
+    const updatedLocations = formik.values.location.filter(
+      (item) => item.country !== removedItem.country
+    );
+    formik.setFieldValue("location", updatedLocations);
+  };
+
+  const handleRemoveEmployeeCount = (selectedList, removedItem) => {
+    const updatedEmployeeCounts = formik.values.employeeCount.filter(
+      (item) => item.size !== removedItem.size
+    );
+    formik.setFieldValue("employeeCount", updatedEmployeeCounts);
+  };
+
+  const handleRemoveIndustry = (selectedList, removedItem) => {
+    const updatedIndustries = formik.values.industry.filter(
+      (item) => item.name !== removedItem.name
+    );
+    formik.setFieldValue("industry", updatedIndustries);
+  };
+
+  const handleRemoveRole = (selectedList, removedItem) => {
+    const updatedRoles = formik.values.job_title.filter(
+      (item) => item.title !== removedItem.title
+    );
+    formik.setFieldValue("job_title", updatedRoles);
   };
   return (
     <div>
@@ -263,6 +291,7 @@ const CreateTargetMarket = ({
                   selectedValues={formik.values.location}
                   onSearch={fetchLocation}
                   onSelect={handleChangeLocation}
+                  onRemove={handleRemoveLocation}
                   displayValue={"country"}
                   placeholder="Select Location"
                   className="mt-2"
@@ -278,6 +307,7 @@ const CreateTargetMarket = ({
                   selectedValues={formik.values.employeeCount}
                   onSelect={handleChangeEmployeeCount}
                   onSearch={fetchCompanySize}
+                  onRemove={handleRemoveEmployeeCount}
                   displayValue={"size"}
                   placeholder="Select EmployeeCount"
                   className="mt-2"
@@ -294,6 +324,7 @@ const CreateTargetMarket = ({
                   selectedValues={formik.values.industry}
                   onSelect={handleChangeIndustry}
                   onSearch={fetchIndustry}
+                  onRemove={handleRemoveIndustry}
                   displayValue={"name"}
                   placeholder="Select Industry"
                   className="mt-2"
@@ -308,6 +339,7 @@ const CreateTargetMarket = ({
                   selectedValues={formik.values.job_title}
                   onSelect={handleChangeRole}
                   onSearch={fetchRolesData}
+                  onRemove={handleRemoveRole}
                   displayValue={"title"}
                   placeholder="Select job_title"
                   className="mt-2"

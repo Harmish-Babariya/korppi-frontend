@@ -17,6 +17,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { theme } from "../../../Theme/Theme";
 import Input from "../../Input";
+import { FaTrash } from "react-icons/fa";
+
 import "./companySettings.css";
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -76,7 +78,6 @@ const CompanySetting = ({ handleClose }) => {
   }, []);
 
   useEffect(() => {
-    console.log("clicked")
     if (service.length > 0) {
       setFormData({
         companyName: service[0]?.company?.name,
@@ -85,13 +86,12 @@ const CompanySetting = ({ handleClose }) => {
       });
       setComapnyID(service[0]?.company._id);
       handleServiceClick(selectedService || 0);
-      console.log(selectedService)
       const targetMarket = service[selectedService || 0].target_market.find(
         (value, index) => index === 0
       );
       setSelectedTargetMarketValue(targetMarket);
     }
-  }, [selectedService]);
+  }, [service, selectedService]);
 
   const handleEdit = async () => {
     try {
@@ -125,6 +125,26 @@ const CompanySetting = ({ handleClose }) => {
       if (resData.isSuccess) {
         setEditTargetMarket(resData.data);
         handleShow3();
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+  const handleDeleteTargetMarket = async (id) => {
+    try {
+      if (!selectedTargetMarketvalue) {
+        toast.error("Please select a Target Market");
+        return;
+      }
+      const resData = await api.post("target-market/delete", {
+        serviceId: service[selectedService]._id,
+        targetMarketId: id,
+      });
+      if (resData.isSuccess) {
+        toast.success("Target Market deleted successfully");
+        fetchService();
       } else {
         toast.error(resData.response.data.message);
       }
@@ -353,7 +373,7 @@ const CompanySetting = ({ handleClose }) => {
                     ? service[selectedService].target_market.map(
                         (value, index) => (
                           <tr key={index}>
-                            <td>
+                            <td className="d-flex">
                               <button
                                 style={{
                                   letterSpacing: "1px",
@@ -368,6 +388,17 @@ const CompanySetting = ({ handleClose }) => {
                               >
                                 {value.targetName}
                               </button>
+                              <Button
+                                onClick={() =>
+                                  handleDeleteTargetMarket(value._id)
+                                } // Handle delete action
+                                variant="outlined"
+                                size="small"
+                                color="error"
+                                className="ms-2"
+                              >
+                                <FaTrash />
+                              </Button>
                             </td>
                           </tr>
                         )

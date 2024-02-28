@@ -86,12 +86,13 @@ const Generate = () => {
       console.error("API Error:", error);
     }
   };
+
   const fetchService = async () => {
     try {
       const resData = await api.post("/service/get");
       if (resData.isSuccess) {
         dispatch(servicehandle(resData.data));
-        service = useSelector((state) => state.Service);
+        //service = useSelector((state) => state.Service);
       } else {
         toast.error(resData.response.data.message);
       }
@@ -130,7 +131,7 @@ const Generate = () => {
     const newValue = e.target.value;
     setSelectedService(service.find((item) => item._id === newValue));
     dispatch(ServiceSelected({ service, newValue }));
-    const firstTargetMarketOfNewService = selectedService.target_market[0];
+    const firstTargetMarketOfNewService = selectedService?.target_market[0];
     setSelectedTargetMarket(firstTargetMarketOfNewService);
 
     const payload = {
@@ -162,16 +163,23 @@ const Generate = () => {
   }, []);
 
   useEffect(() => {
-    setSelectedService(service[0]);
-    setSelectedTargetMarket(targetMarket[0]);
-    const payload = {
-      employeeCount: targetMarket[0]?.employeeCount,
-      location: targetMarket[0]?.location,
-      industry: targetMarket[0]?.industry,
-      role: targetMarket[0]?.jobTitle,
-    };
-    targetMarket[0] && fetchCompanyData(payload);
-  }, [service, targetMarket]);
+    if (service.length > 0) {
+      const initialService = selectedService || service[0];
+      setSelectedService(initialService);
+      const initialTargetMarket =
+        initialService.target_market.find((value, index) => index === 0) ||
+        targetMarket[0];
+      setSelectedTargetMarket(initialTargetMarket);
+      const payload = {
+        employeeCount: initialTargetMarket?.employeeCount,
+        location: initialTargetMarket?.location,
+        industry: initialTargetMarket?.industry,
+        role: initialTargetMarket?.jobTitle,
+      };
+
+      fetchCompanyData(payload);
+    }
+  }, [service, selectedService]);
   return (
     <div
       style={{ letterSpacing: "1px", marginTop: "30px" }}
@@ -275,42 +283,6 @@ const Generate = () => {
                     </AccordionDetails>
                   </Accordion>
                 </Card>
-
-                {/* <div className="mt-3 p-1">
-                            <span>
-                              <b>Target Market Label: </b>
-                              {selectedService?.target_market?.targetName}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Target location: </b>
-                              {selectedService?.target_market?.location.map(
-                                (ele) => (
-                                  <>{ele}</>
-                                )
-                              )}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Employee Count: </b>
-                              {selectedService?.target_market?.employeeCount[0]}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Industry: </b>
-                              {selectedService?.target_market?.industry.map(
-                                (ele) => (
-                                  <>{ele}</>
-                                )
-                              )}
-                            </span>
-                            <br />
-                            <span>
-                              <b>Job Title: </b>
-                              {selectedService?.target_market?.jobTitle}
-                            </span>
-                            <br />
-                          </div> */}
               </div>
             </CardBody>
           </Card>
@@ -349,32 +321,34 @@ const Generate = () => {
                     Select Target Market
                   </label>
                   {selectedService &&
-                    selectedService.target_market?.length > 0 && 
-                  <Select
-                    id="selectTargetMarket"
-                    className=""
-                    sx={{ fontSize: "14px" }}
-                    value={
-                      selectedTargetMarket
-                        ? selectedTargetMarket._id
-                        : "Default"
-                    }
-                    onChange={(e) => handleMarketChange(e)}
-                  >
-                    <MenuItem value="Default" disabled>
-                      Select Target Market
-                    </MenuItem>
-                    {selectedService &&
-                    selectedService.target_market?.length > 0 ? (
-                      selectedService.target_market.map((market, index) => (
-                        <MenuItem key={index} value={market._id}>
-                          {market?.targetName}
+                    selectedService.target_market?.length > 0 && (
+                      <Select
+                        id="selectTargetMarket"
+                        className=""
+                        sx={{ fontSize: "14px" }}
+                        value={
+                          selectedTargetMarket
+                            ? selectedTargetMarket._id
+                            : "Default"
+                        }
+                        onChange={(e) => handleMarketChange(e)}
+                      >
+                        <MenuItem value="Default" disabled>
+                          Select Target Market
                         </MenuItem>
-                      ))
-                    ) : (
-                      <option>Data Loading...</option>
+                        {console.log(selectedTargetMarket)}
+                        {selectedService &&
+                        selectedService.target_market?.length > 0 ? (
+                          selectedService.target_market.map((market, index) => (
+                            <MenuItem key={index} value={market._id}>
+                              {market?.targetName}
+                            </MenuItem>
+                          ))
+                        ) : (
+                          <option>Data Loading...</option>
+                        )}
+                      </Select>
                     )}
-                    </Select>}
 
                   <p className="fw-light fs-6">{count} Emails to genereted</p>
                   <div className="mt-3 p-1">

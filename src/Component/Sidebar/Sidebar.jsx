@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MailIcon from "@mui/icons-material/Mail";
-import OutboxIcon from "@mui/icons-material/Outbox";
 import {
   Divider,
   List,
@@ -21,7 +19,7 @@ import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Generate";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import { theme } from "../../Theme/Theme";
 import Industry from "../../Admin/industry";
 import DashboardIcon from "../../../src/assets/img/dashboard.png";
@@ -123,13 +121,13 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
     },
     {
       name: "Industry",
-      icon: <OutboxIcon />,
+      icon: <img src={Categray} alt="CategrayIcon" />,
       path: "/admin/industry",
       element: <Industry />,
     },
     {
       name: "Client",
-      icon: <MailIcon />,
+      icon: <img src={UserPlas} alt="UserPlasIcon" />,
       path: "/admin/client",
       element: <Company />,
     },
