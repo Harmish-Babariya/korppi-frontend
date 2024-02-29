@@ -258,6 +258,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
               justifyContent: "center",
               // color: `${theme.palette.primary.main}`,
             }}
+            onClick={() => handleLogOut()}
           >
             <ExitToAppRoundedIcon className="fs-3" />
           </ListItemIcon>

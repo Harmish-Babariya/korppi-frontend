@@ -188,10 +188,6 @@ const Generate = () => {
       style={{ letterSpacing: "1px", marginTop: "30px" }}
       className="content"
     >
-      {/* <Row>
-        <Col md="12">
-          <Card className="mb-2 border-0">
-            <CardBody> */}
       <Row>
         <Col md="4">
           <Card className="shadow rounded-3" style={{ minHeight: "560px" }}>
@@ -494,10 +490,6 @@ const Generate = () => {
           </Card>
         </Col>
       </Row>
-      {/* </CardBody>
-           </Card> 
-        </Col>
-      </Row> */}
     </div>
   );
 };

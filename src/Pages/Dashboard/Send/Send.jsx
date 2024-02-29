@@ -16,31 +16,36 @@ import Button from "../../../Component/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import Input from "../../../Component/Input";
 import api from "../../../service/api";
+import { toast } from "react-toastify";
+import Multiselect from "multiselect-react-dropdown";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import "./send.css";
 
 const Send = () => {
   dayjs.extend(utc);
   const [selectedDate, setSelectedDate] = React.useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [emailToSend, setEmailToSend] = useState("");
   const navigate = useNavigate();
   const [isSchedule, setIsSchedule] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(dayjs().utc());
+  const [selectedTime, setSelectedTime] = useState();
   const [isChecked, setIsChecked] = useState(false);
   const userDatails = useSelector((state) => state.login.userDatails);
-  const [selectedIndustry, setSelectedIndustry] = useState("");
+  const [selectedIndustry, setSelectedIndustry] = useState([]);
   const [selectedService, setSelectedService] = useState("");
   const [industryOptions, setIndustryOptions] = useState([]);
   const [serviceOptions, setServiceOptions] = useState([]);
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
     daysChecked: {
-      monday: false,
-      tuesday: false,
-      wednesday: false,
-      thursday: false,
-      friday: false,
-      saturday: false,
-      sunday: false,
+      0: false,
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false,
     },
   });
   const [showModal, setShowModal] = useState(false);
@@ -53,25 +58,54 @@ const Send = () => {
     const newValue = e.target.value;
     setSelectedService(newValue);
   }
-  function handleIndustryChange(e) {
-    e.preventDefault();
-    const newValue = e.target.value;
-    setSelectedIndustry(newValue);
+  function handleIndustryChange(selectedList) {
+    setSelectedIndustry(selectedList.map((item) => item.name));
   }
+  const handleCreateSchedule = async () => {
+    const payload = {
+      daysOfWeek: { ...schedule.daysChecked },
+      time: dayjs.utc(selectedTime).format("HH:mm"),
+      endDate: new Date(selectedEndDate).toISOString(),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
+
+    try {
+      const resData = await api.post("/email/dailyschedule", payload);
+      if (resData.isSuccess) {
+        navigate("/dashboard/contacts");
+        toast.success("Email schedule created successfully!");
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+  const daysOfWeekInNo = {
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+    sunday: 0,
+  };
+
   const handleCheckboxChange = (event) => {
-    const { id, checked } = event.target;
+    let { id, checked } = event.target;
+    id = daysOfWeekInNo[id];
     if (id === "allDays") {
       setSchedule({
         ...schedule,
         allDaysChecked: checked,
         daysChecked: {
-          monday: checked,
-          tuesday: checked,
-          wednesday: checked,
-          thursday: checked,
-          friday: checked,
-          saturday: checked,
-          sunday: checked,
+          0: checked,
+          1: checked,
+          2: checked,
+          3: checked,
+          4: checked,
+          5: checked,
+          6: checked,
         },
       });
     } else {
@@ -110,10 +144,15 @@ const Send = () => {
   }, []);
 
   const handleSend = async () => {
+    const payload = {
+      isScheduled: isSchedule,
+    };
+    if (isSchedule) {
+      console.log(selectedDate);
+      payload.scheduledTime = selectedDate;
+    }
     try {
-      const resData = await api.post("email/send", {
-        isScheduled: isSchedule,
-      });
+      const resData = await api.post("email/send", payload);
       if (resData.isSuccess) {
         navigate("/dashboard/contacts");
         toast.success("email Send Successful!");
@@ -126,19 +165,22 @@ const Send = () => {
   };
 
   const daysOfWeek = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
   ];
-  const handleDateChange = (date) => {
-    setSelectedDate(dayjs.utc(date));
-    console.log(selectedDate);
-  };
 
+  const handleDateChange = (date) => {
+    const utcDate = date.toISOString();
+    setSelectedDate(utcDate);
+  };
+  const handleEndDateChange = (date) => {
+    setSelectedEndDate(date);
+  };
   // Function to delete the schedule
   const handleCancel = async () => {
     try {
@@ -158,12 +200,17 @@ const Send = () => {
       console.error("API Error:", error);
     }
   };
+  const handleSelect = () => {
+    setShowModal(false);
+    console.log("Selected Service:", selectedService);
+    console.log("Selected Industry:", selectedIndustry);
+  };
   const handleTimeChange = (newTime) => {
-    // Convert the selected time to UTC
-    const utcTime = dayjs.utc(newTime);
-    const utcDate = dayjs(utcTime.$d).utc().format()
-    setSelectedTime(utcTime);
-    console.log(utcDate);
+    // const utcTime = dayjs.utc(newTime.$d);
+    // // Format the UTC time in the desired format
+    // const formattedDateTime = utcTime.format("YYYY-MM-DDTHH:mm:ss");
+    setSelectedTime(newTime);
+    console.log(newTime.$d);
   };
 
   return (
@@ -184,12 +231,10 @@ const Send = () => {
                   {`${userDatails?.firstName} ${userDatails?.lastName}`}
                 </span>
               </Card>
-              <h4 style={{ letterSpacing: "1.5px" }} className="mt-3">
-                Email <span className="text-secondary">Available</span> to send
-              </h4>
-              {/* Display number of emails available to send */}
+              <h6 style={{ letterSpacing: "1.5px" }} className="mt-3 fw-bold">
+                Email Available to send
+              </h6>
               <div className="d-flex flex-column">
-                <span>{/* Display number of emails available to send */}</span>
                 <Input
                   id={"email to send"}
                   lebel={"Email To Send"}
@@ -205,15 +250,17 @@ const Send = () => {
                     inputProps={{ "aria-label": "controlled" }}
                   />
                 </div>
-                {/* Conditional rendering for the calendar */}
+
                 {isSchedule && (
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Day"
-                      className="mb-2"
-                      onChange={handleDateChange}
-                      renderInput={(params) => <input {...params} />}
-                    />
+                    <DemoContainer components={["DateTimePicker"]}>
+                      <DateTimePicker
+                        className="mb-2"
+                        label="Basic date time picker"
+                        onChange={handleDateChange}
+                        renderInput={(params) => <input {...params} />}
+                      />
+                    </DemoContainer>
                   </LocalizationProvider>
                 )}
               </div>
@@ -221,7 +268,7 @@ const Send = () => {
                 style={{ backgroundColor: `${theme.palette.primary.main}` }}
                 variant="contained"
                 className="w-100"
-                onClick={() => handleSend()}
+                onClick={handleSend}
               >
                 Send
               </Button>
@@ -245,6 +292,7 @@ const Send = () => {
                   type={"text"}
                   classnamelebal={"mb-1.5 fs-6 fw-medium"}
                 />
+
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <TimePicker
                     label="Time To Send"
@@ -255,7 +303,10 @@ const Send = () => {
                     className="mt-2"
                   />
                 </LocalizationProvider>
-                <div className="mt-2">
+                <label htmlFor="Days to send" className="mt-2">
+                  Days to send
+                </label>
+                <div className="">
                   <input
                     type="checkbox"
                     id="allDays"
@@ -278,14 +329,17 @@ const Send = () => {
                   ))}
                 </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker label="End Date" className="mb-2 mt-2" />
+                  <DatePicker
+                    label="End Date"
+                    className="mb-2 mt-2"
+                    value={selectedEndDate}
+                    onChange={handleEndDateChange}
+                  />
                 </LocalizationProvider>
                 <div className="mt-2">
                   <Checkbox
                     checked={isChecked}
-                    onClick={() => {
-                      handleAutoGenerate();
-                    }}
+                    onClick={handleAutoGenerate}
                     inputProps={{ "aria-label": "controlled" }}
                   />
                   <label htmlFor="autoGenerate">Auto-generate</label>
@@ -302,14 +356,13 @@ const Send = () => {
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="m-2">
-                  {" "}
                   <div>
                     <Select
                       name="services"
                       id="services"
                       className="w-100"
                       value={selectedService ? selectedService : "Default"}
-                      onChange={(e) => handleServiceChange(e)}
+                      onChange={handleServiceChange}
                     >
                       <MenuItem value="Default" disabled>
                         Select service
@@ -324,26 +377,27 @@ const Send = () => {
                         <option value="">Data Loading...</option>
                       )}
                     </Select>
-                    <Select
-                      name="industry"
-                      id="industry"
-                      className="w-100 mt-2"
-                      value={selectedIndustry ? selectedIndustry : "Default"}
-                      onChange={(e) => handleIndustryChange(e)}
-                    >
-                      <MenuItem value="Default" disabled>
-                        Select an industry
-                      </MenuItem>
-                      {industryOptions ? (
-                        industryOptions.map((industry) => (
-                          <MenuItem key={industry._id} value={industry._id}>
-                            {industry.name}
-                          </MenuItem>
-                        ))
-                      ) : (
-                        <option value="">Data Loading...</option>
-                      )}
-                    </Select>
+                    <Multiselect
+                      options={industryOptions}
+                      selectedValues={selectedIndustry}
+                      onSelect={(selectedList) =>
+                        setSelectedIndustry(
+                          selectedList.map((item) => {
+                            return { name: item.name };
+                          })
+                        )
+                      }
+                      onRemove={(selectedList) =>
+                        setSelectedIndustry(
+                          selectedList.map((item) => {
+                            return { name: item.name };
+                          })
+                        )
+                      }
+                      displayValue={"name"}
+                      placeholder="Select Target Market"
+                      className="mt-2"
+                    />
                   </div>
                 </Modal.Body>
                 <Modal.Footer className="m-2">
@@ -352,47 +406,41 @@ const Send = () => {
                     color="primary"
                     fullWidth
                     size="large"
-                    onClick={() => {
-                      setShowModal(false);
-                    }}
+                    onClick={handleSelect}
                   >
                     Select
                   </Button>
                 </Modal.Footer>
               </Modal>
-              {/* Dynamic rendering of buttons */}
               <div className="d-flex flex-row justify-content-between">
-                {!isSchedule ? ( // If scheduler is not set, render Create button
+                <Button
+                  style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                  variant="contained"
+                  onClick={handleCreateSchedule}
+                >
+                  Create
+                </Button>
+
+                <>
                   <Button
-                    style={{ backgroundColor: `${theme.palette.primary.main}` }}
+                    style={{
+                      backgroundColor: `${theme.palette.primary.main}`,
+                    }}
                     variant="contained"
-                    onClick={() => handleCreateSchedule()}
+                    onClick={handleUpdateSchedule}
                   >
-                    Create
+                    Update
                   </Button>
-                ) : (
-                  // If scheduler is set, render Update and Cancel buttons
-                  <>
-                    <Button
-                      style={{
-                        backgroundColor: `${theme.palette.primary.main}`,
-                      }}
-                      variant="contained"
-                      onClick={() => handleUpdateSchedule()}
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      style={{
-                        backgroundColor: `${theme.palette.primary.main}`,
-                      }}
-                      variant="contained"
-                      onClick={() => handleCancel()}
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                )}
+                  <Button
+                    style={{
+                      backgroundColor: `${theme.palette.primary.main}`,
+                    }}
+                    variant="contained"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </>
               </div>
             </CardBody>
           </Card>

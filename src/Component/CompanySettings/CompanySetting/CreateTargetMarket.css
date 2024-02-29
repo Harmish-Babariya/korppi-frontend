@@ -1,0 +1,9 @@
+.chip {
+    background: 
+    #eceded !important;
+    color: black !important;
+  }
+  .closeIcon{
+    color: black !important;
+    filter: invert(0.5);
+  }

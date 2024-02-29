@@ -31,6 +31,7 @@ const Contacts = () => {
         pageSize: 7,
       });
       if (resData.isSuccess) {
+        console.log(resData.data);
         return { data: resData.data, meta: resData.meta };
       } else {
         throw new Error(resData.response.data.message);
@@ -51,7 +52,8 @@ const Contacts = () => {
     let isMounted = true;
     const fetchData = async () => {
       try {
-        const { data: fetchedData, meta: fetchedMeta } = await memoizedFetchEmailData(pageNumber);
+        const { data: fetchedData, meta: fetchedMeta } =
+          await memoizedFetchEmailData(pageNumber);
         if (isMounted) {
           setData(fetchedData);
           setMeta(fetchedMeta);
@@ -100,7 +102,11 @@ const Contacts = () => {
                 <TableBody>
                   {data.map((item) => (
                     <TableRow key={item._id}>
-                      <TableCell>{item.companyId.name}</TableCell>
+                      <TableCell>
+                        {item.prospectId.firstName +
+                          " " +
+                          item.prospectId.lastName}
+                      </TableCell>
                       <TableCell>{item.companyId.name}</TableCell>
                       <TableCell>
                         <a href={`mailto:${item.prospectId.email}`}>
@@ -130,7 +136,14 @@ const Contacts = () => {
               </Table>
             </TableContainer>
             {show && <EmailView show={show} setShow={setShow} />}
-            <div style={{ position: "fixed", bottom: "20px", left: "50%", transform: "translateX(100%)" }}>
+            <div
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                left: "50%",
+                transform: "translateX(100%)",
+              }}
+            >
               <Stack spacing={2}>
                 <Pagination
                   count={meta?.totalPages}
@@ -148,10 +161,10 @@ const Contacts = () => {
       <div
         className="blur-container  p-5 bg-body-secondary"
         style={{
-          width: "41.5%",
+          width: "39%",
           position: "absolute",
           bottom: "180px",
-          left: "77%",
+          left: "78%",
           transform: "translateX(-50%)",
         }}
       ></div>
@@ -159,10 +172,10 @@ const Contacts = () => {
         style={{
           position: "absolute",
           border: "1px solid black",
-          width: "41.5%",
+          width: "39%",
           position: "absolute",
           bottom: "180px",
-          left: "77%",
+          left: "78%",
           transform: "translateX(-50%)",
         }}
         className="inercontainer "

@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import Multiselect from "multiselect-react-dropdown";
 import api from "../../../service/api";
-
+import "./CreateTargetMarket.css";
 const validationSchema = Yup.object().shape({
   target_name: Yup.string().required("Target Name is required"),
   location: Yup.array()
