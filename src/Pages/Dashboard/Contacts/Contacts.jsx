@@ -31,7 +31,6 @@ const Contacts = () => {
         pageSize: 7,
       });
       if (resData.isSuccess) {
-        console.log(resData.data);
         return { data: resData.data, meta: resData.meta };
       } else {
         throw new Error(resData.response.data.message);

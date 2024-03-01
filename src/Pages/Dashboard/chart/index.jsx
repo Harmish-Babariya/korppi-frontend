@@ -2,7 +2,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const EmailAnalyticsChart = ({ months, years }) => {
+const EmailAnalyticsChart = ({ months, years,width, height }) => {
   const data = {
     labels: months.map((month) => `${month} ${years[0]}`),
     datasets: [
@@ -41,7 +41,7 @@ const EmailAnalyticsChart = ({ months, years }) => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return <Bar data={data} options={options} width={width} height={height}/>;
 };
 
 export default EmailAnalyticsChart;

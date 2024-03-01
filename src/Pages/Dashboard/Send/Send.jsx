@@ -120,7 +120,7 @@ const Send = () => {
     try {
       const response = await api.post("/industry/get");
       if (response.isSuccess) {
-        setIndustryOptions(response.data);
+        setIndustryOptions(response.data);a
       } else toast.error(response.message);
     } catch (error) {
       console.error("Error fetching industry data:", error);
@@ -148,7 +148,6 @@ const Send = () => {
       isScheduled: isSchedule,
     };
     if (isSchedule) {
-      console.log(selectedDate);
       payload.scheduledTime = selectedDate;
     }
     try {
@@ -202,15 +201,9 @@ const Send = () => {
   };
   const handleSelect = () => {
     setShowModal(false);
-    console.log("Selected Service:", selectedService);
-    console.log("Selected Industry:", selectedIndustry);
   };
   const handleTimeChange = (newTime) => {
-    // const utcTime = dayjs.utc(newTime.$d);
-    // // Format the UTC time in the desired format
-    // const formattedDateTime = utcTime.format("YYYY-MM-DDTHH:mm:ss");
     setSelectedTime(newTime);
-    console.log(newTime.$d);
   };
 
   return (

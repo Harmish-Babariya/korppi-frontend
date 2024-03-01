@@ -113,7 +113,6 @@ const Generate = () => {
     }
   };
   const fetchCompanyData = async (companyData) => {
-    console.log(companyData);
     try {
       const resData = await api.post("/prospects/get", companyData);
       if (resData.isSuccess) {

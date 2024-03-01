@@ -156,7 +156,6 @@ const CreateTargetMarket = ({
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values.location?.map((ele) => ele.country));
       const updateTargetMarketData = {
         targetName: values.target_name,
         location: values.location.map((ele) => ele.country),

@@ -19,11 +19,6 @@ const Dashboardpage = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     const newDate = new Date(date);
-    console.log(
-      "Selected date:",
-      newDate.getFullYear(),
-      newDate.getMonth() + 1
-    );
   };
   return (
     <>
@@ -104,10 +99,10 @@ const Dashboardpage = () => {
         </Col>
       </Row>
       <Box
-        className={`w-100 rounded-4  h-100 card shadow `}
-        sx={{ marginTop: "12px", height: "500px" }}
+        className={`w-100 rounded-4  card shadow `}
+        sx={{ marginTop: "12px", height: "435px", boxSizing: "border-box" }}
       >
-        <Row className="">
+        <Row className="d-flex">
           <Col md="3" className="d-flex flex-column ms-3 mt-2">
             <h2 className="fs-2 mt-2">Email Analytics</h2>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -171,8 +166,8 @@ const Dashboardpage = () => {
           </Col>
           <Col md="8" className="m-3 p-0">
             <Box
-              className={`p-2  bg-body-secondary rounded-4 border-0`}
-              style={{ width: "106%", height: "100%" }}
+              className={`p-2 bg-body-secondary rounded-4 border-0`}
+              style={{ minWidth: "100%", height: "410px", width: "900px"  }}
             >
               <EmailAnalyticsChart
                 months={[
@@ -190,6 +185,8 @@ const Dashboardpage = () => {
                   "Dec",
                 ]}
                 years={[2024]}
+                width={"900px"} 
+                height={"410px"}
               />
             </Box>
           </Col>
