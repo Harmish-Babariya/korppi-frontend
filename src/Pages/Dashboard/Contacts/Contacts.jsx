@@ -120,13 +120,19 @@ const Contacts = () => {
                         </IconButton>
                       </TableCell>
                       <TableCell>{item.isSent ? "TRUE" : "FALSE"}</TableCell>
-                      <TableCell className="blur-class">
+                      <TableCell
+                       //className="blur-class"
+                       >
                         {item.isOpen ? "TRUE" : "FALSE"}
                       </TableCell>
-                      <TableCell className="blur-class">
+                      <TableCell 
+                      //className="blur-class"
+                      >
                         {item.counts}
                       </TableCell>
-                      <TableCell className="blur-class">
+                      <TableCell 
+                      //className="blur-class"
+                      >
                         {item.openAt}
                       </TableCell>
                     </TableRow>
@@ -157,7 +163,7 @@ const Contacts = () => {
           <h5>Loading....</h5>
         )}
       </Box>
-      <div
+      {/* <div
         className="blur-container  p-5 bg-body-secondary"
         style={{
           width: "39%",
@@ -186,7 +192,7 @@ const Contacts = () => {
         <Button variant="contained" size="" className="mx-5 mt-3">
           Request a Call
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
