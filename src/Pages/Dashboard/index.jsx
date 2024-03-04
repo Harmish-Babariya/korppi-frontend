@@ -1,6 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Row, } from "reactstrap";
+import { Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import Button from "../../Component/Button";
 const Dashboardpage = lazy(() => import("./DashboardPage"));
@@ -8,6 +8,8 @@ const Send = lazy(() => import("../../Pages/Dashboard/Send/Send"));
 const Contacts = lazy(() => import("../../Pages/Dashboard/Contacts/Contacts"));
 const Generate = lazy(() => import("./Generate"));
 const Profile = lazy(() => import("./Profile"));
+const FAQPage = lazy(() => import("./FAQ-Page"));
+const ContactUsPage = lazy(() => import("./ContactUsPage"));
 import { theme } from "../../Theme/Theme";
 const Dashboard = () => {
   const location = useLocation();
@@ -26,7 +28,7 @@ const Dashboard = () => {
     "Oct",
     "Nov",
     "Dec",
-  ][new Date().getMonth() ];
+  ][new Date().getMonth()];
   useEffect(() => {
     location.pathname === "/dashboard"
       ? setUserTitle(true)
@@ -38,6 +40,8 @@ const Dashboard = () => {
     { path: "/send", element: <Send /> },
     { path: "/contacts", element: <Contacts /> },
     { path: "/profile", element: <Profile /> },
+    { path: "/FAQ-Page", element: <FAQPage /> },
+    { path: "/ContactUsPage", element: <ContactUsPage /> },
   ];
   return (
     <div>
@@ -55,7 +59,7 @@ const Dashboard = () => {
                 }}
                 variant="contained"
               >
-              {currantMonth}
+                {currantMonth}
               </Button>
             </div>
           </div>

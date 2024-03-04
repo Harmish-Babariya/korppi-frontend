@@ -10,14 +10,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, loginhandle } from "../../../Redux/AuthSlice";
 import { FcGoogle } from "react-icons/fc";
 import { TfiMicrosoftAlt } from "react-icons/tfi";
+import GoogleLoginModal from "./GoogleLoginModal";
 
-
-const EmailLoginModal = ({ show, setShow }) => {
+const EmailLoginModal = ({ show, setShow,setShowGoogleModal }) => {
   let userDatails = useSelector((state) => state.login.userDatails);
-  const [email, setEmail] = useState(userDatails.emailConfig.email);
-  const [password, setPassword] = useState(userDatails.emailConfig.password);
-  const [SMPTServer, setSMPTServer] = useState(userDatails.emailConfig.smtpServer);
-  const [SMPTPort, setSMPTPort] = useState(userDatails.emailConfig.smtpPort);
+  const [email, setEmail] = useState(userDatails?.emailConfig[0]?.email);
+  const [password, setPassword] = useState(userDatails?.emailConfig[0]?.password);
+  const [SMPTServer, setSMPTServer] = useState(userDatails?.emailConfig[0]?.smtpServer);
+  const [SMPTPort, setSMPTPort] = useState(userDatails?.emailConfig[0]?.smtpPort);
+
   const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
@@ -56,7 +57,10 @@ const EmailLoginModal = ({ show, setShow }) => {
     }
   };
   const handleClose = () => setShow(false);
-
+const handleGoogleModalOpen = () => {
+  setShowGoogleModal(true)
+  handleClose()
+}
   return (
     <>      
       <Modal show={show} onHide={handleClose} style={{ marginTop: "70px" }}>
@@ -143,6 +147,7 @@ const EmailLoginModal = ({ show, setShow }) => {
                   backgroundColor: `white`,
                   letterSpacing: "2px",
                 }}
+                onClick={handleGoogleModalOpen}
               >
                 <FcGoogle fontSize={"2.5rem"} /> &nbsp; Login With Google
               </Button>

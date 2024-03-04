@@ -19,13 +19,15 @@ import Contacts from "../../Pages/Dashboard/Contacts/Contacts";
 import Genrate from "../../Pages/Dashboard/Generate";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { theme } from "../../Theme/Theme";
 import Industry from "../../Admin/industry";
 import DashboardIcon from "../../../src/assets/img/dashboard.png";
 import Categray from "../../../src/assets/img/category.png";
 import SendIcon from "../../../src/assets/img/send.png";
 import UserPlas from "../../../src/assets/img/profile-add.png";
+import FaqIcon from "../../../src/assets/img/FAQ.png";
+import PROFILRUSER from "../../../src/assets/img/profileuser.png";
 import Company from "../../Admin/company";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -243,11 +245,77 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
       <List>
         <ListItemButton
           sx={{
+            marginTop: "170px",
+          }}
+        >
+          <NavLink
+            to="/dashboard/ContactUsPage"
+            className="text-decoration-none d-flex"
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : "",
+                marginLeft: open ? "12px" : "",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={PROFILRUSER}
+                alt="Contact Icon"
+                style={{ width: "24px", height: "24px" }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="Contact Us"
+              sx={{
+                fontWeight: "bold",
+                color: theme.palette.primary.main,
+                opacity: open ? 1 : 0,
+                fontSize: "20px",
+              }}
+            />
+          </NavLink>
+        </ListItemButton>
+        <ListItemButton>
+          <NavLink
+            to="/dashboard/FAQ-Page"
+            className="text-decoration-none d-flex"
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : "auto",
+                marginLeft: open ? "12px" : "",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={FaqIcon}
+                alt="FAQ Icon"
+                style={{ width: "24px", height: "24px",filter:"opacity(0.7)" }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="FAQ"
+              sx={{
+                fontWeight: "bold",
+                color: theme.palette.primary.main,
+                opacity: open ? 1 : 0,
+                fontSize: "20px",
+              }}
+            />
+          </NavLink>
+        </ListItemButton>
+      </List>
+      <List>
+        <ListItemButton
+          sx={{
             minHeight: 48,
             justifyContent: open ? "initial" : "center",
             px: 2.5,
             display: "",
-            marginTop: admin ? "350px" : "290px",
+            marginTop: admin ? "350px" : "",
           }}
         >
           <ListItemIcon
@@ -275,30 +343,6 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
         </ListItemButton>
       </List>
       <Divider />
-      {/* <List>
-        <ListItemButton>
-          <NavLink
-            to="/contact"
-            className="text-decoration-none"
-          >
-            <ListItemText
-              primary="Contact Us"
-              sx={{ fontWeight: "bold", color: theme.palette.primary.main }}
-            />
-          </NavLink>
-        </ListItemButton> 
-        <ListItemButton>
-          <NavLink
-            to="/faq"
-            className="text-decoration-none"
-          >
-            <ListItemText
-              primary="FAQ"
-              sx={{ fontWeight: "bold", color: theme.palette.primary.main }}
-            />
-          </NavLink>
-        </ListItemButton>
-      </List> */}
     </Drawer>
   );
 };

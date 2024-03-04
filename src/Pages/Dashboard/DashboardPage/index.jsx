@@ -167,7 +167,7 @@ const Dashboardpage = () => {
           <Col md="8" className="m-3 p-0">
             <Box
               className={`p-2 bg-body-secondary rounded-4 border-0`}
-              style={{ minWidth: "100%", height: "410px", width: "900px"  }}
+              style={{ minWidth: "100%", height: "410px", width: "900px" }}
             >
               <EmailAnalyticsChart
                 months={[
@@ -185,7 +185,7 @@ const Dashboardpage = () => {
                   "Dec",
                 ]}
                 years={[2024]}
-                width={"900px"} 
+                width={"900px"}
                 height={"410px"}
               />
             </Box>

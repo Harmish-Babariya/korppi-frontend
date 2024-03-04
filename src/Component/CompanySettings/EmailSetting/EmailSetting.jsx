@@ -7,6 +7,7 @@ import EmailLoginModal from "./EmailLoginModal";
 import { theme } from "../../../Theme/Theme";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
+import GoogleLoginModal from "./GoogleLoginModal";
 import { loginhandle } from "../../../Redux/AuthSlice";
 import { useDispatch } from "react-redux";
 const EmailSetting = ({ userDatails, handleClose}) => {
@@ -14,6 +15,8 @@ const EmailSetting = ({ userDatails, handleClose}) => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState(userDatails);
   const [domainHealthCheck, setDomainHealthCheck] = useState(false);
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [showOfficeModal, setShowOfficeModal] = useState(false);
   const [signature, setSignature] = useState(
     data?.firstName +
       " " +
@@ -170,7 +173,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
           >
             Login
           </Button>
-          {show && <EmailLoginModal show={show} setShow={setShow} />}
+          {show && <EmailLoginModal show={show} setShow={setShow} setShowGoogleModal={setShowGoogleModal}/>}
           <Button
             variant="outlined"
             style={{
@@ -273,6 +276,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
           Save & Close
         </Button>
       </div>
+      {showGoogleModal && <GoogleLoginModal showGoogleModal={showGoogleModal} setShowGoogleModal={setShowGoogleModal}/>}
     </>
   );
 };
