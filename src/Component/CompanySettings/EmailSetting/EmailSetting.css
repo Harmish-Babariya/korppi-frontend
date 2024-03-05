@@ -1,0 +1,13 @@
+input[type="radio"] {
+    /* This is the default color of the radio button */
+    border-color: #008000; /* Green color */
+    background-color: #008000; /* Green color */
+    color: #008000; /* Green color - for the dot in the center of the radio button */
+  }
+  
+  /* Style for checked radio button */
+  input[type="radio"]:checked {
+    border-color: #008000; /* Green color */
+    background-color: #008000; /* Green color */
+    color: #008000; /* Green color - for the dot in the center of the radio button */
+  }

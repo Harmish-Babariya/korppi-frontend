@@ -486,7 +486,7 @@ const CompanySetting = ({ handleClose }) => {
                   : "Data Loading..."}
               </AccordionDetails>
             </Accordion>
-            <Accordion defaultExpanded>
+            <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"

@@ -109,7 +109,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
     },
     {
       name: "Contacts",
-      icon: <img src={UserPlas} alt="UserPlasIcon" />,
+      icon: <img src={PROFILRUSER} alt="UserPlasIcon" />,
       path: "/dashboard/contacts",
       element: <Contacts />,
     },
@@ -285,7 +285,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
                 }}
               >
                 <img
-                  src={PROFILRUSER}
+                  src={UserPlas}
                   alt="Contact Icon"
                   style={{ width: "24px", height: "24px" }}
                 />

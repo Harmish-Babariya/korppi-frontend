@@ -118,21 +118,6 @@ function Settings({ show, setShow }) {
             </Row>
           </Tab.Container>
         </Modal.Body>
-        {/* <Modal.Footer>
-            <Button variant="contained" onClick={handleClose}>
-              Close
-            </Button>
-            <Button
-              variant="outlined"
-              className="ms-1"
-              style={{
-                color: `${theme.palette.primary.main}`,
-              }}
-              onClick={handleClose}
-            >
-              Save Changes
-            </Button>
-        </Modal.Footer> */}
       </Modal>
     </div>
   );

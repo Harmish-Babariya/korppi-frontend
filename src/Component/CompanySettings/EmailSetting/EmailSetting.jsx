@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import GoogleLoginModal from "./GoogleLoginModal";
 import { loginhandle } from "../../../Redux/AuthSlice";
 import { useDispatch } from "react-redux";
+
 const EmailSetting = ({ userDatails, handleClose }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -160,6 +161,24 @@ const EmailSetting = ({ userDatails, handleClose }) => {
           <Typography className="ms-2 fw-bold" variant="h6" component="div">
             Email
           </Typography>
+          <div>
+            {data?.emailConfig?.map((value, index) => (
+              <div key={index}>
+                <input
+                  type="radio"
+                  className="m-2"
+                  name="recordType"
+                  id={`emailRecord-${index}`}
+                  checked={value.isActive}
+                  style={{ accentColor: `${value.isActive ? "#008000" : ""}` }}
+                />
+                <label className="ms-1" htmlFor={`emailRecord-${index}`}>
+                  {value.email}
+                </label>
+              </div>
+            ))}
+          </div>
+
           <Button
             variant="contained"
             style={{
@@ -221,7 +240,7 @@ const EmailSetting = ({ userDatails, handleClose }) => {
             Refresh
           </span>
         </Typography>
-        <div className="bg-body-secondary rounded">
+        <div>
           {/* Conditional rendering based on domain health check */}
           {domainHealthCheck ? (
             <span className="text-success ms-2">
