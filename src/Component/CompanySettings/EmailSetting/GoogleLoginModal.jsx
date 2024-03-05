@@ -68,7 +68,6 @@ const GoogleLoginModal = ({ showGoogleModal, setShowGoogleModal }) => {
               id="googleEmail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              //   required
             />
           </div>
           <div className="mb-3">
@@ -81,7 +80,6 @@ const GoogleLoginModal = ({ showGoogleModal, setShowGoogleModal }) => {
               id="googleAppPassword"
               value={appPassword}
               onChange={(e) => setAppPassword(e.target.value)}
-              //   required
             />
           </div>
           <Button
@@ -92,7 +90,6 @@ const GoogleLoginModal = ({ showGoogleModal, setShowGoogleModal }) => {
               backgroundColor: `${theme.palette.primary.main}`,
               letterSpacing: "2px",
             }}
-            // onSubmit={() => handleGoogleLogin(e)}
           >
             <FcGoogle fontSize={"2.5rem"} /> &nbsp; Login With Google
           </Button>

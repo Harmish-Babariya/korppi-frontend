@@ -243,70 +243,129 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
         ))}
       </List>
       <List>
-        <ListItemButton
+        <ListItem
+          disablePadding
           sx={{
-            marginTop: "170px",
+            display: "block",
+            backgroundColor: `${
+              isRouteActive("/dashboard/ContactUsPage")
+                ? theme.palette.primary.main
+                : ""
+            }`,
+            marginTop: "140px",
           }}
         >
           <NavLink
             to="/dashboard/ContactUsPage"
-            className="text-decoration-none d-flex"
+            style={{
+              textDecoration: "none",
+              color: `${
+                isRouteActive("/dashboard/ContactUsPage") ? "#ffff" : "#000000"
+              }`,
+            }}
           >
-            <ListItemIcon
+            <ListItemButton
               sx={{
-                minWidth: 0,
-                mr: open ? 3 : "",
-                marginLeft: open ? "12px" : "",
-                justifyContent: "center",
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                alignContent: "center",
+                px: 2.5,
               }}
+              className="mx-auto my-auto"
             >
-              <img
-                src={PROFILRUSER}
-                alt="Contact Icon"
-                style={{ width: "24px", height: "24px" }}
+              <ListItemIcon
+                sx={{
+                  filter: `${
+                    isRouteActive("/dashboard/ContactUsPage") ? "invert(1)" : ""
+                  }`,
+                  minWidth: 0,
+                  mr: open ? 3 : "",
+                  marginLeft: open ? "12px" : "10px",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  src={PROFILRUSER}
+                  alt="Contact Icon"
+                  style={{ width: "24px", height: "24px" }}
+                />
+              </ListItemIcon>
+              <ListItemText
+                sx={{
+                  opacity: open ? 1 : 0,
+                  padding: "8px",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+                primary="Contact Us"
               />
-            </ListItemIcon>
-            <ListItemText
-              primary="Contact Us"
-              sx={{
-                fontWeight: "bold",
-                color: theme.palette.primary.main,
-                opacity: open ? 1 : 0,
-                fontSize: "20px",
-              }}
-            />
+            </ListItemButton>
           </NavLink>
-        </ListItemButton>
-        <ListItemButton>
+        </ListItem>
+
+        {/* Add ListItem for FAQ Page */}
+        <ListItem
+          disablePadding
+          sx={{
+            display: "block",
+            backgroundColor: `${
+              isRouteActive("/dashboard/FAQ-Page")
+                ? theme.palette.primary.main
+                : ""
+            }`,
+          }}
+        >
           <NavLink
             to="/dashboard/FAQ-Page"
-            className="text-decoration-none d-flex"
+            style={{
+              textDecoration: "none",
+              color: `${
+                isRouteActive("/dashboard/FAQ-Page") ? "#ffff" : "#000000"
+              }`,
+            }}
           >
-            <ListItemIcon
+            <ListItemButton
               sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                marginLeft: open ? "12px" : "",
-                justifyContent: "center",
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                alignContent: "center",
+                px: 2.5,
               }}
+              className="mx-auto my-auto"
             >
-              <img
-                src={FaqIcon}
-                alt="FAQ Icon"
-                style={{ width: "24px", height: "24px",filter:"opacity(0.7)" }}
+              <ListItemIcon
+                sx={{
+                  filter: `${
+                    isRouteActive("/dashboard/FAQ-Page") ? "invert(1)" : ""
+                  }`,
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  marginLeft: open ? "12px" : "10px",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  src={FaqIcon}
+                  alt="FAQ Icon"
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                    filter: "opacity(0.7)",
+                  }}
+                />
+              </ListItemIcon>
+              <ListItemText
+                sx={{
+                  opacity: open ? 1 : 0,
+                  padding: "8px",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+                primary="FAQ"
               />
-            </ListItemIcon>
-            <ListItemText
-              primary="FAQ"
-              sx={{
-                fontWeight: "bold",
-                color: theme.palette.primary.main,
-                opacity: open ? 1 : 0,
-                fontSize: "20px",
-              }}
-            />
+            </ListItemButton>
           </NavLink>
-        </ListItemButton>
+        </ListItem>
       </List>
       <List>
         <ListItemButton
@@ -317,6 +376,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
             display: "",
             marginTop: admin ? "350px" : "",
           }}
+          onClick={handleLogOut}
         >
           <ListItemIcon
             sx={{
@@ -324,9 +384,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
               mr: open ? 3 : "auto",
               marginLeft: "8px",
               justifyContent: "center",
-              // color: `${theme.palette.primary.main}`,
             }}
-            onClick={() => handleLogOut()}
           >
             <ExitToAppRoundedIcon className="fs-3" />
           </ListItemIcon>
@@ -338,7 +396,6 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
               fontWeight: "bold",
             }}
             primary={"Log Out"}
-            onClick={() => handleLogOut()}
           />
         </ListItemButton>
       </List>

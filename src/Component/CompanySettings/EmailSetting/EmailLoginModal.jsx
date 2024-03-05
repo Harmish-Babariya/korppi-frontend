@@ -12,14 +12,20 @@ import { FcGoogle } from "react-icons/fc";
 import { TfiMicrosoftAlt } from "react-icons/tfi";
 import GoogleLoginModal from "./GoogleLoginModal";
 
-const EmailLoginModal = ({ show, setShow,setShowGoogleModal }) => {
+const EmailLoginModal = ({ show, setShow, setShowGoogleModal }) => {
   let userDatails = useSelector((state) => state.login.userDatails);
   const [email, setEmail] = useState(userDatails?.emailConfig[0]?.email);
-  const [password, setPassword] = useState(userDatails?.emailConfig[0]?.password);
-  const [SMPTServer, setSMPTServer] = useState(userDatails?.emailConfig[0]?.smtpServer);
-  const [SMPTPort, setSMPTPort] = useState(userDatails?.emailConfig[0]?.smtpPort);
+  const [password, setPassword] = useState(
+    userDatails?.emailConfig[0]?.password
+  );
+  const [SMPTServer, setSMPTServer] = useState(
+    userDatails?.emailConfig[0]?.smtpServer
+  );
+  const [SMPTPort, setSMPTPort] = useState(
+    userDatails?.emailConfig[0]?.smtpPort
+  );
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,11 +42,11 @@ const EmailLoginModal = ({ show, setShow,setShowGoogleModal }) => {
       const resData = await api.post("/user/update", editedUser);
       if (resData.isSuccess) {
         toast.success("User Update Successful");
-        setShow(false)
+        setShow(false);
       } else {
         toast.error(resData.message);
       }
-      
+
       try {
         let response = await api.post("user/getById");
         if (response.isSuccess) {
@@ -57,12 +63,12 @@ const EmailLoginModal = ({ show, setShow,setShowGoogleModal }) => {
     }
   };
   const handleClose = () => setShow(false);
-const handleGoogleModalOpen = () => {
-  setShowGoogleModal(true)
-  handleClose()
-}
+  const handleGoogleModalOpen = () => {
+    setShowGoogleModal(true);
+    handleClose();
+  };
   return (
-    <>      
+    <>
       <Modal show={show} onHide={handleClose} style={{ marginTop: "70px" }}>
         <Modal.Header className="" closeButton></Modal.Header>
         <Modal.Body className="mx-auto ">
@@ -140,24 +146,25 @@ const handleGoogleModalOpen = () => {
                 Login
               </Button>
               <div className="d-flex flex-row">
-              <Button
-                variant="outlined"
-                className="btn mt-3 text-bg-light w-50"
-                style={{
-                  backgroundColor: `white`,
-                  letterSpacing: "2px",
-                }}
-                onClick={handleGoogleModalOpen}
-              >
-                <FcGoogle fontSize={"2.5rem"} /> &nbsp; Login With Google
-              </Button>
-              &nbsp;
-              <Button
-                variant="outlined"
-                className="btn mt-3 text-bg-light w-50"
-              >
-                <TfiMicrosoftAlt color="blue" fontSize={"1.5rem"} /> &nbsp; Login With Office 
-              </Button>
+                <Button
+                  variant="outlined"
+                  className="btn mt-3 text-bg-light w-50"
+                  style={{
+                    backgroundColor: `white`,
+                    letterSpacing: "2px",
+                  }}
+                  onClick={handleGoogleModalOpen}
+                >
+                  <FcGoogle fontSize={"2.5rem"} /> &nbsp; Login With Google
+                </Button>
+                &nbsp;
+                <Button
+                  variant="outlined"
+                  className="btn mt-3 text-bg-light w-50"
+                >
+                  <TfiMicrosoftAlt color="blue" fontSize={"1.5rem"} /> &nbsp;
+                  Login With Office
+                </Button>
               </div>
             </div>
           </Box>

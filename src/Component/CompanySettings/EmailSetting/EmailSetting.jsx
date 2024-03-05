@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import GoogleLoginModal from "./GoogleLoginModal";
 import { loginhandle } from "../../../Redux/AuthSlice";
 import { useDispatch } from "react-redux";
-const EmailSetting = ({ userDatails, handleClose}) => {
+const EmailSetting = ({ userDatails, handleClose }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [data, setData] = useState(userDatails);
@@ -29,7 +29,8 @@ const EmailSetting = ({ userDatails, handleClose}) => {
       "E: " +
       data?.email +
       "\n" +
-      "W: " + data?.companyId?.websiteUrl
+      "W: " +
+      data?.companyId?.websiteUrl
   );
   const handleShow = () => setShow(true);
 
@@ -55,7 +56,7 @@ const EmailSetting = ({ userDatails, handleClose}) => {
     try {
       let response = await api.post("/user/getById");
       if (response.isSuccess) {
-        setData(response.data)
+        setData(response.data);
         dispatch(loginhandle(response.data));
       } else {
         toast.error(response.response.data.message);
@@ -71,13 +72,13 @@ const EmailSetting = ({ userDatails, handleClose}) => {
         firstName: data.firstName,
         lastName: data.lastName,
         role: data.role,
-        id: userDatails._id
+        id: userDatails._id,
       };
       const resData = await api.post("/user/update", editedUser);
       if (resData.isSuccess) {
         toast.success("User Update Successful");
-        fetchUser()
-        handleClose()
+        fetchUser();
+        handleClose();
       } else {
         toast.error(resData.message);
       }
@@ -94,10 +95,8 @@ const EmailSetting = ({ userDatails, handleClose}) => {
   // };
   const fetchDomainHealth = async () => {
     // try {
-     
     //   const response = await api.post("/domain/health");
     //   if (response.isSuccess) {
-        
     //     setDomainHealthCheck(response.data.healthCheck);
     //   } else {
     //     toast.error("Failed to fetch domain health status");
@@ -173,7 +172,13 @@ const EmailSetting = ({ userDatails, handleClose}) => {
           >
             Login
           </Button>
-          {show && <EmailLoginModal show={show} setShow={setShow} setShowGoogleModal={setShowGoogleModal}/>}
+          {show && (
+            <EmailLoginModal
+              show={show}
+              setShow={setShow}
+              setShowGoogleModal={setShowGoogleModal}
+            />
+          )}
           <Button
             variant="outlined"
             style={{
@@ -219,7 +224,9 @@ const EmailSetting = ({ userDatails, handleClose}) => {
         <div className="bg-body-secondary rounded">
           {/* Conditional rendering based on domain health check */}
           {domainHealthCheck ? (
-            <span className="text-success ms-2">&#10004; Health Check Passed</span>
+            <span className="text-success ms-2">
+              &#10004; Health Check Passed
+            </span>
           ) : (
             <span className="text-danger ms-2">Health Check Failed</span>
           )}
@@ -276,7 +283,12 @@ const EmailSetting = ({ userDatails, handleClose}) => {
           Save & Close
         </Button>
       </div>
-      {showGoogleModal && <GoogleLoginModal showGoogleModal={showGoogleModal} setShowGoogleModal={setShowGoogleModal}/>}
+      {showGoogleModal && (
+        <GoogleLoginModal
+          showGoogleModal={showGoogleModal}
+          setShowGoogleModal={setShowGoogleModal}
+        />
+      )}
     </>
   );
 };
