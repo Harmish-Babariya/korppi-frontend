@@ -29,6 +29,7 @@ import UserPlas from "../../../src/assets/img/profile-add.png";
 import FaqIcon from "../../../src/assets/img/FAQ.png";
 import PROFILRUSER from "../../../src/assets/img/profileuser.png";
 import Company from "../../Admin/company";
+import LazyImage from "../LazyImage";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -91,25 +92,25 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
   const clientRoute = [
     {
       name: "Dashboard",
-      icon: <img src={DashboardIcon} alt="DashboardIcon" />,
+      icon: <LazyImage src={DashboardIcon} alt="DashboardIcon" />,
       path: "/dashboard",
       element: <Dashboardpage />,
     },
     {
       name: "Generate",
-      icon: <img src={Categray} alt="CategrayIcon" />,
+      icon: <LazyImage src={Categray} alt="CategrayIcon" />,
       path: "/dashboard/generate",
       element: <Genrate />,
     },
     {
       name: "Send",
-      icon: <img src={SendIcon} alt="SendIcon" />,
+      icon: <LazyImage src={SendIcon} alt="SendIcon" />,
       path: "/dashboard/send",
       element: <Send />,
     },
     {
       name: "Contacts",
-      icon: <img src={PROFILRUSER} alt="UserPlasIcon" />,
+      icon: <LazyImage src={PROFILRUSER} alt="UserPlasIcon" />,
       path: "/dashboard/contacts",
       element: <Contacts />,
     },
@@ -117,19 +118,19 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
   const adminRoutes = [
     {
       name: "Dashboard",
-      icon: <img src={DashboardIcon} alt="DashboardIcon" />,
+      icon: <LazyImage src={DashboardIcon} alt="DashboardIcon" />,
       path: "/dashboard",
       element: <Dashboardpage />,
     },
     {
       name: "Industry",
-      icon: <img src={Categray} alt="CategrayIcon" />,
+      icon: <LazyImage src={Categray} alt="CategrayIcon" />,
       path: "/admin/industry",
       element: <Industry />,
     },
     {
       name: "Client",
-      icon: <img src={UserPlas} alt="UserPlasIcon" />,
+      icon: <LazyImage src={UserPlas} alt="UserPlasIcon" />,
       path: "/admin/client",
       element: <Company />,
     },
@@ -242,131 +243,136 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
           </ListItem>
         ))}
       </List>
-      <List>
-        <ListItem
-          disablePadding
-          sx={{
-            display: "block",
-            backgroundColor: `${
-              isRouteActive("/dashboard/ContactUsPage")
-                ? theme.palette.primary.main
-                : ""
-            }`,
-            marginTop: "140px",
-          }}
-        >
-          <NavLink
-            to="/dashboard/ContactUsPage"
-            style={{
-              textDecoration: "none",
-              color: `${
-                isRouteActive("/dashboard/ContactUsPage") ? "#ffff" : "#000000"
+      {!admin && (
+        <List>
+          <ListItem
+            disablePadding
+            sx={{
+              display: "block",
+              backgroundColor: `${
+                isRouteActive("/dashboard/ContactUsPage")
+                  ? theme.palette.primary.main
+                  : ""
               }`,
+              marginTop: "140px",
             }}
           >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                alignContent: "center",
-                px: 2.5,
+            <NavLink
+              to="/dashboard/ContactUsPage"
+              style={{
+                textDecoration: "none",
+                color: `${
+                  isRouteActive("/dashboard/ContactUsPage")
+                    ? "#ffff"
+                    : "#000000"
+                }`,
               }}
-              className="mx-auto my-auto"
             >
-              <ListItemIcon
+              <ListItemButton
                 sx={{
-                  filter: `${
-                    isRouteActive("/dashboard/ContactUsPage") ? "invert(1)" : ""
-                  }`,
-                  minWidth: 0,
-                  mr: open ? 3 : "",
-                  marginLeft: open ? "12px" : "10px",
-                  justifyContent: "center",
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  alignContent: "center",
+                  px: 2.5,
                 }}
+                className="mx-auto my-auto"
               >
-                <img
-                  src={UserPlas}
-                  alt="Contact Icon"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </ListItemIcon>
-              <ListItemText
-                sx={{
-                  opacity: open ? 1 : 0,
-                  padding: "8px",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                }}
-                primary="Contact Us"
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
-
-        {/* Add ListItem for FAQ Page */}
-        <ListItem
-          disablePadding
-          sx={{
-            display: "block",
-            backgroundColor: `${
-              isRouteActive("/dashboard/FAQ-Page")
-                ? theme.palette.primary.main
-                : ""
-            }`,
-          }}
-        >
-          <NavLink
-            to="/dashboard/FAQ-Page"
-            style={{
-              textDecoration: "none",
-              color: `${
-                isRouteActive("/dashboard/FAQ-Page") ? "#ffff" : "#000000"
-              }`,
-            }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                alignContent: "center",
-                px: 2.5,
-              }}
-              className="mx-auto my-auto"
-            >
-              <ListItemIcon
-                sx={{
-                  filter: `${
-                    isRouteActive("/dashboard/FAQ-Page") ? "invert(1)" : ""
-                  }`,
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  marginLeft: open ? "12px" : "10px",
-                  justifyContent: "center",
-                }}
-              >
-                <img
-                  src={FaqIcon}
-                  alt="FAQ Icon"
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    filter: "opacity(0.7)",
+                <ListItemIcon
+                  sx={{
+                    filter: `${
+                      isRouteActive("/dashboard/ContactUsPage")
+                        ? "invert(1)"
+                        : ""
+                    }`,
+                    minWidth: 0,
+                    mr: open ? 3 : "",
+                    marginLeft: open ? "12px" : "10px",
+                    justifyContent: "center",
                   }}
+                >
+                  <LazyImage
+                    src={UserPlas}
+                    alt="Contact Icon"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{
+                    opacity: open ? 1 : 0,
+                    padding: "8px",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                  primary="Contact Us"
                 />
-              </ListItemIcon>
-              <ListItemText
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+
+          <ListItem
+            disablePadding
+            sx={{
+              display: "block",
+              backgroundColor: `${
+                isRouteActive("/dashboard/FAQ-Page")
+                  ? theme.palette.primary.main
+                  : ""
+              }`,
+            }}
+          >
+            <NavLink
+              to="/dashboard/FAQ-Page"
+              style={{
+                textDecoration: "none",
+                color: `${
+                  isRouteActive("/dashboard/FAQ-Page") ? "#ffff" : "#000000"
+                }`,
+              }}
+            >
+              <ListItemButton
                 sx={{
-                  opacity: open ? 1 : 0,
-                  padding: "8px",
-                  fontSize: "20px",
-                  fontWeight: "bold",
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  alignContent: "center",
+                  px: 2.5,
                 }}
-                primary="FAQ"
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
-      </List>
+                className="mx-auto my-auto"
+              >
+                <ListItemIcon
+                  sx={{
+                    filter: `${
+                      isRouteActive("/dashboard/FAQ-Page") ? "invert(1)" : ""
+                    }`,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    marginLeft: open ? "12px" : "10px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LazyImage
+                    src={FaqIcon}
+                    alt="FAQ Icon"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      filter: "opacity(0.7)",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{
+                    opacity: open ? 1 : 0,
+                    padding: "8px",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                  primary="FAQ"
+                />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        </List>
+      )}
       <List>
         <ListItemButton
           sx={{

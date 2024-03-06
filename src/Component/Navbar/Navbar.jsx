@@ -26,7 +26,7 @@ const Dashboard = lazy(()=>import("../../Pages/Dashboard"));
 import Settings from "../CompanySettings/Settings";
 import { theme } from "../../Theme/Theme";
 import { useSelector } from "react-redux";
-
+import LazyImage from "../LazyImage";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -101,7 +101,7 @@ const Navbar = (props) => {
     },
     {
       name: "Dashboard",
-      icon: <img src={DashboardIcon} alt="DashboardIcon" />,
+      icon: <LazyImage src={DashboardIcon} alt="DashboardIcon" />,
     },
     {
       name: "Logout",

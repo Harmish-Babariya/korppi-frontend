@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import Multiselect from "multiselect-react-dropdown";
 import api from "../../../service/api";
 import "./CreateTargetMarket.css";
+import LazyImage from "../../LazyImage";
 const validationSchema = Yup.object().shape({
   target_name: Yup.string().required("Target Name is required"),
   location: Yup.array()
@@ -262,7 +263,7 @@ const CreateTargetMarket = ({
       >
         <Modal.Header closeButton>
           <Modal.Title className="fw-medium d-flex align-items-center">
-            <img src={TargetIcon} alt="TargetIcon" className="me-1" />
+            <LazyImage src={TargetIcon} alt="TargetIcon" className="me-1" />
             {edit ? "Update Target Market" : "Create Target Market"}
           </Modal.Title>
         </Modal.Header>

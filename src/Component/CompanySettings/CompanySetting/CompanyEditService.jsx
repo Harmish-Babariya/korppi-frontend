@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import { theme } from "../../../Theme/Theme";
 import Input from "../../Input";
 import api from "../../../service/api";
+import LazyImage from "../../LazyImage";
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   price: Yup.number().required("Price is required"),
@@ -242,7 +243,7 @@ const CompanyEditService = ({ show, setShow, editService, fetchService }) => {
                         } `}
                         eventKey={tab.key}
                       >
-                        <img
+                        <LazyImage
                           src={tab.icon}
                           alt={tab.label}
                           style={{

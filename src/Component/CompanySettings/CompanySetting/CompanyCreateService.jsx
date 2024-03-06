@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import api from "../../../service/api";
+import LazyImage from "../../LazyImage";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -213,7 +214,7 @@ const CompanyCreateService = ({ show2, setShow2, fetchService }) => {
                         } `}
                         eventKey={tab.key}
                       >
-                        <img
+                        <LazyImage
                           src={tab.icon}
                           alt={tab.label}
                           style={{

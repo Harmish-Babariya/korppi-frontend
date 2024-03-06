@@ -28,7 +28,7 @@ import login from "../../assets/img/login.png";
 import { loginhandle } from "../../Redux/AuthSlice";
 import { theme } from "../../Theme/Theme";
 import api from "../../service/api";
-
+import LazyImage from "../../Component/LazyImage";
 function Copyright(props) {
   return (
     <Typography
@@ -126,7 +126,7 @@ const Login = () => {
               <span style={{ color: "#bb4c4c" }}>K</span>orppi
             </span>
             <Grid item xs={12} sm={5} md={8}>
-              <img
+              <LazyImage
                 src={login}
                 alt="Login.png"
                 style={{ margin: "0px 250px", width: "500px", height: "500px" }}

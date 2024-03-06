@@ -17,6 +17,7 @@ import { theme } from "../../../Theme/Theme";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { updateUserData } from "../../../Redux/AuthSlice";
 import api from "../../../service/api";
+import LazyImage from "../../../Component/LazyImage";
 const Profile = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.login.userDatails);
@@ -125,7 +126,7 @@ const Profile = () => {
                   <Row>
                     <Col md="2" xs="2">
                       <div className="avatar">
-                        <img
+                        <LazyImage
                           alt="..."
                           className="w-50 h-50 rounded-5"
                           src="https://randomuser.me/api/portraits/men/75.jpg"
@@ -155,7 +156,7 @@ const Profile = () => {
                   <Row>
                     <Col md="2" xs="2">
                       <div className="avatar">
-                        <img
+                        <LazyImage
                           alt="..."
                           className="w-50 h-50 rounded-5"
                           src="https://randomuser.me/api/portraits/men/75.jpg"
@@ -185,7 +186,7 @@ const Profile = () => {
                   <Row>
                     <Col md="2" xs="2">
                       <div className="avatar">
-                        <img
+                        <LazyImage
                           alt="..."
                           className="w-50 h-50 rounded-5"
                           src="https://randomuser.me/api/portraits/men/75.jpg"

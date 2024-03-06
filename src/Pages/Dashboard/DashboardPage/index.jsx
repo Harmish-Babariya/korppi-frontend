@@ -12,7 +12,7 @@ import DIRECTBOX from "../../../assets/img/directbox-notif.svg";
 import SEND from "../../../assets/img/send.png";
 import PROFILRUSER from "../../../assets/img/profileuser.png";
 import { theme } from "../../../Theme/Theme";
-
+import LazyImage from "../../../Component/LazyImage";
 const Dashboardpage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -37,7 +37,7 @@ const Dashboardpage = () => {
             </CardText>
             <CardText>
               {" "}
-              <img src={SMSSEARCH} alt="" /> Emails sent
+              <LazyImage src={SMSSEARCH} alt="Emails sent" /> Emails sent
             </CardText>
           </Card>
         </Col>
@@ -55,7 +55,7 @@ const Dashboardpage = () => {
             </CardText>
             <CardText>
               {" "}
-              <img src={DIRECTBOX} alt="" /> Emails Opened
+              <LazyImage src={DIRECTBOX} alt="Emails Opened" /> Emails Opened
             </CardText>
           </Card>
         </Col>
@@ -74,7 +74,7 @@ const Dashboardpage = () => {
             </CardText>
             <CardText>
               {" "}
-              <img src={SEND} alt="" /> Emails to send
+              <LazyImage src={SEND} alt="Emails to send" /> Emails to send
             </CardText>
           </Card>
         </Col>
@@ -93,7 +93,8 @@ const Dashboardpage = () => {
             </CardText>
             <CardText>
               {" "}
-              <img src={PROFILRUSER} alt="" /> Leads Generated
+              <LazyImage src={PROFILRUSER} alt="Leads Generated" /> Leads
+              Generated
             </CardText>
           </Card>
         </Col>

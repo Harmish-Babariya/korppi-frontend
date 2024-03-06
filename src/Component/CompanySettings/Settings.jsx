@@ -10,6 +10,7 @@ import BusinessIcon from "../../../src/assets/img/company.png";
 import EmailSetting from "./EmailSetting/EmailSetting";
 import { useSelector } from "react-redux";
 import CompanySetting from "./CompanySetting/CompanySetting";
+import LazyImage from "../LazyImage";
 function Settings({ show, setShow }) {
   const [value, setValue] = useState("User Profile Email Setting");
   const [email, setEmail] = useState(true);
@@ -61,7 +62,7 @@ function Settings({ show, setShow }) {
                       } `}
                       eventKey="email"
                     >
-                      <img
+                      <LazyImage
                         src={MailIcon}
                         alt="MailIcon"
                         style={{
@@ -87,7 +88,7 @@ function Settings({ show, setShow }) {
                       } `}
                       eventKey="company"
                     >
-                      <img
+                      <LazyImage
                         src={BusinessIcon}
                         alt="BusinessIcon"
                         style={{
