@@ -109,6 +109,31 @@ const CompanyDatails = () => {
     setShow(true);
   };
   const handleShowUser = () => setShowUser(true);
+  const handleCheckboxChange = async (event, userId) => {
+    const isChecked = event.target.checked;
+    try {
+      const updatedUserData = userData.map((user) => {
+        if (user._id === userId) {
+          return { ...user, isShowPaywall: isChecked };
+        }
+        return user;
+      });
+
+      setUserData(updatedUserData);
+
+      const resData = await api.post("/user/update", {
+        id: userId,
+        isShowPaywall: isChecked,
+      });
+      if (resData.isSuccess) {
+        toast.success("Paywall value updated successfully");
+      } else {
+        toast.error("Failed to update Paywall value");
+      }
+    } catch (error) {
+      toast.error("Error updating Paywall value", error);
+    }
+  };
 
   return (
     <>
@@ -212,6 +237,7 @@ const CompanyDatails = () => {
                       <th>Phone</th>
                       <th>Company id</th>
                       <th>Linkedin url</th>
+                      <th>Paywall</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -225,6 +251,18 @@ const CompanyDatails = () => {
                         <td>{user.phone}</td>
                         <td>{user.companyId}</td>
                         <td>{user.linkedinUrl}</td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            className="d-flex mx-auto mt-1"
+                            name={user.firstName}
+                            checked={user.isShowPaywall}
+                            onChange={(event) =>
+                              handleCheckboxChange(event, user._id)
+                            }
+                          />
+                        </td>
+
                         <td className="d-flex">
                           <Button
                             variant="outlined"
@@ -234,6 +272,7 @@ const CompanyDatails = () => {
                           >
                             <BiSolidEdit className="fs-4" />
                           </Button>
+
                           {editModalOpen && (
                             <EditUserModal
                               editModalOpen={editModalOpen}

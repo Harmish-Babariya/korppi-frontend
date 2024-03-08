@@ -14,6 +14,8 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
+import { useSelector } from "react-redux";
+
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "../../../Component/Button";
 import "./index.css";
@@ -23,6 +25,7 @@ const Contacts = () => {
   const [show, setShow] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [meta, setMeta] = useState();
+  const userDatails = useSelector((state) => state.login.userDatails);
 
   const fetchEmailData = async (pageNumber) => {
     try {
@@ -121,17 +124,23 @@ const Contacts = () => {
                       </TableCell>
                       <TableCell>{item.isSent ? "TRUE" : "FALSE"}</TableCell>
                       <TableCell
-                       //className="blur-class"
-                       >
+                        className={`${
+                          userDatails?.isShowPaywall ? "blur-class" : ""
+                        }`}
+                      >
                         {item.isOpen ? "TRUE" : "FALSE"}
                       </TableCell>
-                      <TableCell 
-                      //className="blur-class"
+                      <TableCell
+                        className={`${
+                          userDatails?.isShowPaywall ? "blur-class" : ""
+                        }`}
                       >
                         {item.counts}
                       </TableCell>
-                      <TableCell 
-                      //className="blur-class"
+                      <TableCell
+                        className={`${
+                          userDatails?.isShowPaywall ? "blur-class" : ""
+                        }`}
                       >
                         {item.openAt}
                       </TableCell>
@@ -163,36 +172,41 @@ const Contacts = () => {
           <h5>Loading....</h5>
         )}
       </Box>
-      {/* <div
-        className="blur-container  p-5 bg-body-secondary"
-        style={{
-          width: "39%",
-          position: "absolute",
-          bottom: "180px",
-          left: "78%",
-          transform: "translateX(-50%)",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          border: "1px solid black",
-          width: "39%",
-          position: "absolute",
-          bottom: "180px",
-          left: "78%",
-          transform: "translateX(-50%)",
-        }}
-        className="inercontainer "
-      >
-        <h4 className="mx-5" style={{ lineHeight: "30px" }}>
-          Unlock access to recipient engagement insights to see which
-          individuals have interacted with your email.
-        </h4>
-        <Button variant="contained" size="" className="mx-5 mt-3">
-          Request a Call
-        </Button>
-      </div> */}
+      {userDatails?.isShowPaywall && (
+        <>
+          {" "}
+          <div
+            className="blur-container  p-5 bg-body-secondary"
+            style={{
+              width: "39%",
+              position: "absolute",
+              bottom: "180px",
+              left: "78%",
+              transform: "translateX(-50%)",
+            }}
+          ></div>
+          <div
+            style={{
+              position: "absolute",
+              border: "1px solid black",
+              width: "39%",
+              position: "absolute",
+              bottom: "180px",
+              left: "78%",
+              transform: "translateX(-50%)",
+            }}
+            className="inercontainer "
+          >
+            <h4 className="mx-5" style={{ lineHeight: "30px" }}>
+              Unlock access to recipient engagement insights to see which
+              individuals have interacted with your email.
+            </h4>
+            <Button variant="contained" size="" className="mx-5 mt-3">
+              Request a Call
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
