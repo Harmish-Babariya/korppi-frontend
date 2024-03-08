@@ -8,7 +8,7 @@ import utc from "dayjs/plugin/utc";
 import Modal from "react-bootstrap/Modal";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { theme } from "../../../Theme/Theme";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
@@ -16,13 +16,14 @@ import Button from "../../../Component/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import Input from "../../../Component/Input";
 import api from "../../../service/api";
+import { ServiceSelected } from "../../../Redux/SelectedServiceSlice";
 import { toast } from "react-toastify";
-import Multiselect from "multiselect-react-dropdown";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import "./send.css";
 
 const Send = () => {
+  const dispatch = useDispatch();
   dayjs.extend(utc);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
@@ -31,10 +32,11 @@ const Send = () => {
   const [isSchedule, setIsSchedule] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
   const [isChecked, setIsChecked] = useState(false);
+  let { service } = useSelector((state) => state.Service);
   const userDatails = useSelector((state) => state.login.userDatails);
-  const [selectedIndustry, setSelectedIndustry] = useState([]);
   const [selectedService, setSelectedService] = useState("");
-  const [industryOptions, setIndustryOptions] = useState([]);
+  const [targetMarket, setTargetMarket] = useState([]);
+  const [selectedTargetMarket, setSelectedTargetMarket] = useState("Default");
   const [serviceOptions, setServiceOptions] = useState([]);
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
@@ -56,7 +58,12 @@ const Send = () => {
   function handleServiceChange(e) {
     e.preventDefault();
     const newValue = e.target.value;
-    setSelectedService(newValue);
+    setSelectedService(service.find((item) => item._id === newValue));
+    dispatch(ServiceSelected({ service, newValue }));
+    const firstTargetMarketOfNewService = service.find(
+      (item) => item._id === newValue
+    )?.target_market[0];
+    setSelectedTargetMarket(firstTargetMarketOfNewService);
   }
   function handleIndustryChange(selectedList) {
     setSelectedIndustry(selectedList.map((item) => item.name));
@@ -116,14 +123,14 @@ const Send = () => {
       });
     }
   };
-  const fetchDataIndustry = async () => {
+  const fetchDataTargetMarket = async () => {
     try {
-      const response = await api.post("/industry/get");
+      const response = await api.post("target-market/get");
       if (response.isSuccess) {
-        setIndustryOptions(response.data);a
-      } else toast.error(response.message);
+        setTargetMarket(response.data);
+      } else toast.error(response.response.data.message);
     } catch (error) {
-      console.error("Error fetching industry data:", error);
+      console.error("API Error:", error);
     }
   };
   const fetchDataService = async () => {
@@ -139,10 +146,20 @@ const Send = () => {
     }
   };
   useEffect(() => {
-    fetchDataIndustry();
+    fetchDataTargetMarket();
     fetchDataService();
   }, []);
 
+  useEffect(() => {
+    if (service.length > 0) {
+      const initialService = selectedService || service[0];
+      setSelectedService(initialService);
+      const initialTargetMarket =
+        initialService.target_market.find((value, index) => index === 0) ||
+        targetMarket[0];
+      setSelectedTargetMarket(initialTargetMarket);
+    }
+  }, [service, selectedService]);
   const handleSend = async () => {
     const payload = {
       isScheduled: isSchedule,
@@ -205,7 +222,12 @@ const Send = () => {
   const handleTimeChange = (newTime) => {
     setSelectedTime(newTime);
   };
-
+  function handleMarketChange(e) {
+    e.preventDefault();
+    const newValue = e.target.value;
+    let data = targetMarket.find((item) => item._id === newValue);
+    setSelectedTargetMarket(data);
+  }
   return (
     <div style={{ letterSpacing: "1px", marginTop: "20px" }}>
       <Row className="w-100  d-flex justify-content-center ">
@@ -249,7 +271,7 @@ const Send = () => {
                     <DemoContainer components={["DateTimePicker"]}>
                       <DateTimePicker
                         className="mb-2"
-                        label="Basic date time picker"
+                        label="Select date and time "
                         onChange={handleDateChange}
                         renderInput={(params) => <input {...params} />}
                       />
@@ -350,18 +372,19 @@ const Send = () => {
                 </Modal.Header>
                 <Modal.Body className="m-2">
                   <div>
+                    <label htmlFor="services">Select Service*</label>
                     <Select
                       name="services"
                       id="services"
                       className="w-100"
-                      value={selectedService ? selectedService : "Default"}
-                      onChange={handleServiceChange}
+                      value={selectedService ? selectedService._id : "Default"}
+                      onChange={(e) => handleServiceChange(e)}
                     >
                       <MenuItem value="Default" disabled>
-                        Select service
+                        Select Service
                       </MenuItem>
-                      {serviceOptions ? (
-                        serviceOptions.map((single) => (
+                      {service ? (
+                        service.map((single) => (
                           <MenuItem key={single._id} value={single._id}>
                             {single.title}
                           </MenuItem>
@@ -370,27 +393,36 @@ const Send = () => {
                         <option value="">Data Loading...</option>
                       )}
                     </Select>
-                    <Multiselect
-                      options={industryOptions}
-                      selectedValues={selectedIndustry}
-                      onSelect={(selectedList) =>
-                        setSelectedIndustry(
-                          selectedList.map((item) => {
-                            return { name: item.name };
-                          })
-                        )
+                    <label htmlFor="selectTargetMarket" className="mt-2">
+                      Select Target Market*
+                    </label>
+
+                    <Select
+                      id="selectTargetMarket"
+                      className="w-100 "
+                      sx={{ fontSize: "14px" }}
+                      value={
+                        selectedTargetMarket
+                          ? selectedTargetMarket._id
+                          : "Default"
                       }
-                      onRemove={(selectedList) =>
-                        setSelectedIndustry(
-                          selectedList.map((item) => {
-                            return { name: item.name };
-                          })
-                        )
-                      }
-                      displayValue={"name"}
-                      placeholder="Select Target Market"
-                      className="mt-2"
-                    />
+                      onChange={(e) => handleMarketChange(e)}
+                    >
+                      <MenuItem value="Default" disabled>
+                        Select Target Market
+                      </MenuItem>
+
+                      {selectedService &&
+                      selectedService.target_market?.length > 0 ? (
+                        selectedService.target_market.map((market, index) => (
+                          <MenuItem key={index} value={market._id}>
+                            {market?.targetName}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <option>Data Loading...</option>
+                      )}
+                    </Select>
                   </div>
                 </Modal.Body>
                 <Modal.Footer className="m-2">

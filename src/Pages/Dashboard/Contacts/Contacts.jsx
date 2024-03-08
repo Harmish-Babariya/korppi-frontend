@@ -15,7 +15,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "../../../Component/Button";
 import "./index.css";
@@ -78,8 +77,8 @@ const Contacts = () => {
 
   return (
     <div
-      className="contacts-container mt-3"
-      style={{ position: "relative", minHeight: "750px" }}
+      className="card shadow "
+      style={{ position: "relative",marginTop: "28px", minHeight: "640px",boxSizing:"border-box" }}
     >
       <Box
         className="rounded-3 mt-2 card border-0"
@@ -87,7 +86,7 @@ const Contacts = () => {
       >
         {data.length > 0 ? (
           <>
-            <TableContainer component={Paper}>
+            <TableContainer>
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>
@@ -122,13 +121,13 @@ const Contacts = () => {
                           <VisibilityIcon />
                         </IconButton>
                       </TableCell>
-                      <TableCell>{item.isSent ? "TRUE" : "FALSE"}</TableCell>
+                      <TableCell>{item.isSent ? "YES" : "NO"}</TableCell>
                       <TableCell
                         className={`${
                           userDatails?.isShowPaywall ? "blur-class" : ""
                         }`}
                       >
-                        {item.isOpen ? "TRUE" : "FALSE"}
+                        {item.isOpen ? "YES" : "NO"}
                       </TableCell>
                       <TableCell
                         className={`${
@@ -164,12 +163,13 @@ const Contacts = () => {
                   page={pageNumber}
                   onChange={handlePageChange}
                   color="primary"
+                  className="mb-2"
                 />
               </Stack>
             </div>
           </>
         ) : (
-          <h5>Loading....</h5>
+          <h3 className="text-center fw-light fs-5 mt-3">Loading...</h3>
         )}
       </Box>
       {userDatails?.isShowPaywall && (
@@ -180,7 +180,7 @@ const Contacts = () => {
             style={{
               width: "39%",
               position: "absolute",
-              bottom: "180px",
+              bottom: "70px",
               left: "78%",
               transform: "translateX(-50%)",
             }}
@@ -191,7 +191,7 @@ const Contacts = () => {
               border: "1px solid black",
               width: "39%",
               position: "absolute",
-              bottom: "180px",
+              bottom: "70px",
               left: "78%",
               transform: "translateX(-50%)",
             }}

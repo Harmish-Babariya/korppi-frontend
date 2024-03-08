@@ -30,7 +30,7 @@ const Generate = () => {
   const [count, setCount] = useState(0);
   const [expanded, setExpanded] = React.useState("panel1");
   const [companyData, setCompanyData] = useState([]);
-
+  const [showCompanyData, setShowCompanyData] = useState(false);
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -77,6 +77,7 @@ const Generate = () => {
     try {
       const resData = await api.post("/prospects/get", payload);
       if (resData.isSuccess) {
+        setShowCompanyData(true);
         setCount(resData.meta.totalCount);
         setCompanyData(resData.data);
       } else {
@@ -200,7 +201,7 @@ const Generate = () => {
                   onChange={(e) => handleServiceChange(e)}
                 >
                   <MenuItem value="Default" disabled>
-                    Select service
+                    Select Service
                   </MenuItem>
                   {service ? (
                     service.map((single) => (
@@ -430,7 +431,7 @@ const Generate = () => {
                   </Button>
                 </div>
                 <div className="mt-2 mb-2" style={{ maxHeight: "300px" }}>
-                  {companyData.length > 0 ? (
+                  {showCompanyData && companyData.length > 0 ? (
                     <>
                       <table
                         className="table table-hover bg-body-secondary"
