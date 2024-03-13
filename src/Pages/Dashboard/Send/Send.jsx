@@ -27,7 +27,7 @@ const Send = () => {
   dayjs.extend(utc);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [emailToSend, setEmailToSend] = useState("");
+  // const [emailToSend, setEmailToSend] = useState("");
   const navigate = useNavigate();
   const [isSchedule, setIsSchedule] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
@@ -38,6 +38,8 @@ const Send = () => {
   const [targetMarket, setTargetMarket] = useState([]);
   const [selectedTargetMarket, setSelectedTargetMarket] = useState("Default");
   const [serviceOptions, setServiceOptions] = useState([]);
+  const [emailCount, setEmailCount] = useState(null);
+  const [availableEmail, setAvailableEmail] = useState(null);
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
     daysChecked: {
@@ -145,7 +147,20 @@ const Send = () => {
       console.error("API Error:", error);
     }
   };
+  const fetchEmailCount = async () => {
+    try {
+      const resData = await api.post("/email/getCount");
+      if (resData.isSuccess) {
+        setAvailableEmail(resData.data.emailCount);
+      } else {
+        toast.error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
   useEffect(() => {
+    fetchEmailCount();
     fetchDataTargetMarket();
     fetchDataService();
   }, []);
@@ -160,9 +175,17 @@ const Send = () => {
       setSelectedTargetMarket(initialTargetMarket);
     }
   }, [service, selectedService]);
+  const handleEmailChange = (event) => {
+    setEmailCount(event.target.value);
+  };
   const handleSend = async () => {
+    if (parseInt(emailCount) === 0 || availableEmail < parseInt(emailCount)) {
+      toast.error("Please enter a valid email count.");
+      return;
+    }
     const payload = {
       isScheduled: isSchedule,
+      emailCount: parseInt(emailCount),
     };
     if (isSchedule) {
       payload.scheduledTime = selectedDate;
@@ -247,15 +270,17 @@ const Send = () => {
                 </span>
               </Card>
               <h6 style={{ letterSpacing: "1.5px" }} className="mt-3 fw-bold">
-                Email Available to send
+                {availableEmail} Email Available to send
               </h6>
               <div className="d-flex flex-column">
                 <Input
-                  id={"email to send"}
+                  id={"email-to-send"}
                   lebel={"Email To Send"}
                   className={"mb-2"}
                   type={"text"}
                   classnamelebal={"mb-1.5 fs-6 fw-medium"}
+                  value={emailCount}
+                  onChange={handleEmailChange}
                 />
                 <div>
                   <label className="fs-6 fw-medium">Schedule</label>
