@@ -29,6 +29,7 @@ import UserPlas from "../../../src/assets/img/profile-add.png";
 import FaqIcon from "../../../src/assets/img/FAQ.png";
 import PROFILRUSER from "../../../src/assets/img/profileuser.png";
 import Company from "../../Admin/company";
+import Schedule from "../../Pages/Dashboard/Schedule";
 import LazyImage from "../LazyImage";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -113,6 +114,12 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
       icon: <LazyImage src={PROFILRUSER} alt="UserPlasIcon" />,
       path: "/dashboard/contacts",
       element: <Contacts />,
+    },
+    {
+      name: "Schedule",
+      icon: <LazyImage src={PROFILRUSER} alt="UserPlasIcon" />,
+      path: "/dashboard/schedule",
+      element: <Schedule />,
     },
   ];
   const adminRoutes = [
@@ -254,7 +261,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
                   ? theme.palette.primary.main
                   : ""
               }`,
-              marginTop: "140px",
+              marginTop: "70px",
             }}
           >
             <NavLink

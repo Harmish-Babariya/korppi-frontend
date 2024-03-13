@@ -9,6 +9,7 @@ const Contacts = lazy(() => import("../../Pages/Dashboard/Contacts/Contacts"));
 const Generate = lazy(() => import("./Generate"));
 const Profile = lazy(() => import("./Profile"));
 const FAQPage = lazy(() => import("./FAQ-Page"));
+const Schedule = lazy(() => import("./Schedule"));
 const ContactUsPage = lazy(() => import("./ContactUsPage"));
 import { theme } from "../../Theme/Theme";
 const Dashboard = () => {
@@ -39,6 +40,7 @@ const Dashboard = () => {
     { path: "/generate", element: <Generate /> },
     { path: "/send", element: <Send /> },
     { path: "/contacts", element: <Contacts /> },
+    { path: "/schedule", element: <Schedule /> },
     { path: "/profile", element: <Profile /> },
     { path: "/FAQ-Page", element: <FAQPage /> },
     { path: "/ContactUsPage", element: <ContactUsPage /> },
