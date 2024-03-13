@@ -24,6 +24,7 @@ const Contacts = () => {
   const [show, setShow] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [meta, setMeta] = useState();
+  const [emailData,setEmailData]=useState([])
   const userDatails = useSelector((state) => state.login.userDatails);
 
   const fetchEmailData = async (pageNumber) => {
@@ -73,6 +74,19 @@ const Contacts = () => {
 
   const handleEmailViewModal = async (id) => {
     setShow(true);
+    try {
+      const resData = await api.post("email/get", {
+        emailId: id
+      });
+      if (resData.isSuccess) {
+        setEmailData(resData.data)
+      } else {
+        throw new Error(resData.response.data.message);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      throw error;
+    }
   };
 
   return (
@@ -141,14 +155,14 @@ const Contacts = () => {
                           userDatails?.isShowPaywall ? "blur-class" : ""
                         }`}
                       >
-                        {item.openAt}
+                        {item.isOpen ? new Date(item.openAt).toDateString() : ''}
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-            {show && <EmailView show={show} setShow={setShow} />}
+            {show && <EmailView show={show} setShow={setShow} emailData={emailData}/>}
             <div
               style={{
                 position: "fixed",

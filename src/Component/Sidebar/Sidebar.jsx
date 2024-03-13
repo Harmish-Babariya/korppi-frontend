@@ -27,6 +27,7 @@ import Categray from "../../../src/assets/img/category.png";
 import SendIcon from "../../../src/assets/img/send.png";
 import UserPlas from "../../../src/assets/img/profile-add.png";
 import FaqIcon from "../../../src/assets/img/FAQ.png";
+import ScheduleIcon from "../../../src/assets/img/archive.png";
 import PROFILRUSER from "../../../src/assets/img/profileuser.png";
 import Company from "../../Admin/company";
 import Schedule from "../../Pages/Dashboard/Schedule";
@@ -117,7 +118,7 @@ const Sidebar = ({ open, setOpen, show, setShow }) => {
     },
     {
       name: "Schedule",
-      icon: <LazyImage src={PROFILRUSER} alt="UserPlasIcon" />,
+      icon: <LazyImage src={ScheduleIcon} alt="ScheduleIcon" />,
       path: "/dashboard/schedule",
       element: <Schedule />,
     },
