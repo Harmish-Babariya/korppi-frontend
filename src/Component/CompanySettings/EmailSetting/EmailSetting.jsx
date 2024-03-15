@@ -67,6 +67,30 @@ const EmailSetting = ({ userDatails, handleClose }) => {
     }
   };
 
+  const handleEmailConfigChange = async (index) => {
+    try {
+        const { _id,  emailConfig } = data;
+        const updatedEmailConfig = emailConfig.map((config, ind) => {
+            return {
+                ...config,
+                isActive: ind === index ? true : false,
+            };
+        });
+        const newData = { id:_id,  emailConfig: updatedEmailConfig };
+        console.log("Sending request payload:", newData); 
+        const res = await api.post("/user/update", newData); 
+        if (res.isSuccess) {
+            toast.success("Email Config Updated Successfully");
+            setData(newData); 
+        } else {
+            toast.error("Failed to Update Email Config");
+        }
+    } catch (error) {
+        console.error("Error updating email config:", error);
+    }
+};
+
+  
   async function handleSubmit() {
     try {
       const editedUser = {
@@ -170,6 +194,7 @@ const EmailSetting = ({ userDatails, handleClose }) => {
                   name="recordType"
                   id={`emailRecord-${index}`}
                   checked={value.isActive}
+                  onChange={() => handleEmailConfigChange(index)}
                   style={{ accentColor: `${value.isActive ? "#008000" : ""}` }}
                 />
                 <label className="ms-1" htmlFor={`emailRecord-${index}`}>
