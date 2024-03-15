@@ -31,6 +31,7 @@ const GoogleLoginModal = ({ showGoogleModal, setShowGoogleModal }) => {
       if (response.isSuccess) {
         toast.success(response.data);
         setShowGoogleModal(false);
+        window.location.href = 'https://korppi.cloud/api/google'
       } else {
         toast.error(response.message);
       }
