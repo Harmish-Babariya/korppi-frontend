@@ -41,6 +41,7 @@ const Send = () => {
   const [selectedTargetMarket, setSelectedTargetMarket] = useState("Default");
   const [serviceOptions, setServiceOptions] = useState([]);
   const [emailCount, setEmailCount] = useState(null);
+  const [availableEmailService,setAvailableEmailService]=useState(null)
   const [availableEmail, setAvailableEmail] = useState(null);
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
@@ -72,7 +73,6 @@ const Send = () => {
   function handleIndustryChange(selectedList) {
     setSelectedIndustry(selectedList.map((item) => item.name));
   }
-  console.log(service);
   const handleCreateSchedule = async () => {
     const payload = {
       daysOfWeek: { ...schedule.daysChecked },
@@ -156,6 +156,7 @@ const Send = () => {
       const resData = await api.post("/email/getCount");
       if (resData.isSuccess) {
         setAvailableEmail(resData.data.emailCount);
+        setAvailableEmailService(resData.data.service)
       } else {
         toast.error(resData.response.data.message);
       }
@@ -190,6 +191,7 @@ const Send = () => {
     const payload = {
       isScheduled: isSchedule,
       emailCount: parseInt(emailCount),
+      service:availableEmailService
     };
     if (isSchedule) {
       payload.scheduledTime = selectedDate;
