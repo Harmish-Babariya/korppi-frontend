@@ -69,28 +69,28 @@ const EmailSetting = ({ userDatails, handleClose }) => {
 
   const handleEmailConfigChange = async (index) => {
     try {
-        const { _id,  emailConfig } = data;
-        const updatedEmailConfig = emailConfig.map((config, ind) => {
-            return {
-                ...config,
-                isActive: ind === index ? true : false,
-            };
-        });
-        const newData = { id:_id,  emailConfig: updatedEmailConfig };
-        console.log("Sending request payload:", newData); 
-        const res = await api.post("/user/update", newData); 
-        if (res.isSuccess) {
-            toast.success("Email Config Updated Successfully");
-            setData(newData); 
-        } else {
-            toast.error("Failed to Update Email Config");
-        }
-    } catch (error) {
-        console.error("Error updating email config:", error);
-    }
-};
+      const { _id, emailConfig } = data;
+      const updatedEmailConfig = emailConfig.map((config, ind) => {
+        return {
+          ...config,
+          isActive: ind === index ? true : false,
+        };
+      });
+      const newData = { id: _id, emailConfig: updatedEmailConfig };
 
-  
+      const res = await api.post("/user/update", newData);
+      if (res.isSuccess) {
+        toast.success("Email Config Updated Successfully");
+        fetchUser();
+        setData(newData);
+      } else {
+        toast.error("Failed to Update Email Config");
+      }
+    } catch (error) {
+      console.error("Error updating email config:", error);
+    }
+  };
+
   async function handleSubmit() {
     try {
       const editedUser = {
