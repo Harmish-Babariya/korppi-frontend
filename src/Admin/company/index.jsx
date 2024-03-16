@@ -15,7 +15,6 @@ import CompanyEditModal from "./companyEditModal";
 import CompanyDeleteModal from "./companyDeleteModal";
 const Company = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-
   const [deletedCompany, setDeletedCompany] = useState();
   const [companyid, setCompanyId] = useState();
   const [deleteModalShow, setDeleteModalShow] = useState(false);
