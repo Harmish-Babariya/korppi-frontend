@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { theme } from "../../../Theme/Theme";
+import { servicehandle } from "../../../Redux/CompanyServiceSlice";
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import Button from "../../../Component/Button";
 import { Checkbox, FormControlLabel } from "@mui/material";
@@ -29,6 +30,7 @@ const Send = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   // const [emailToSend, setEmailToSend] = useState("");
   const navigate = useNavigate();
+
   const [isSchedule, setIsSchedule] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
   const [isChecked, setIsChecked] = useState(false);
@@ -70,6 +72,7 @@ const Send = () => {
   function handleIndustryChange(selectedList) {
     setSelectedIndustry(selectedList.map((item) => item.name));
   }
+  console.log(service);
   const handleCreateSchedule = async () => {
     const payload = {
       daysOfWeek: { ...schedule.daysChecked },
@@ -127,7 +130,7 @@ const Send = () => {
   };
   const fetchDataTargetMarket = async () => {
     try {
-      const response = await api.post("target-market/get");
+      const response = await api.post("/target-market/get");
       if (response.isSuccess) {
         setTargetMarket(response.data);
       } else toast.error(response.response.data.message);
@@ -137,8 +140,9 @@ const Send = () => {
   };
   const fetchDataService = async () => {
     try {
-      const resData = await api.post("service/get");
+      const resData = await api.post("/service/get");
       if (resData.isSuccess) {
+        dispatch(servicehandle(resData.data));
         setServiceOptions(resData.data);
       } else {
         toast.error(resData.response.data.message);
@@ -409,7 +413,7 @@ const Send = () => {
                         Select Service
                       </MenuItem>
                       {service ? (
-                        service.map((single) => (
+                        service?.map((single) => (
                           <MenuItem key={single._id} value={single._id}>
                             {single.title}
                           </MenuItem>
