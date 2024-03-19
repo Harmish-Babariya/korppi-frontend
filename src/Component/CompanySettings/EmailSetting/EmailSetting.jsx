@@ -8,6 +8,7 @@ import { theme } from "../../../Theme/Theme";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
 import GoogleLoginModal from "./GoogleLoginModal";
+import OfficeLoginModal from "./OfficeLoginModal";
 import { loginhandle } from "../../../Redux/AuthSlice";
 import { useDispatch } from "react-redux";
 
@@ -115,6 +116,9 @@ const EmailSetting = ({ userDatails, handleClose }) => {
     // Fetch domain health status when component mounts
     fetchDomainHealth();
   }, []);
+  useEffect(()=>{
+    fetchUser()
+  },[showGoogleModal,setShowGoogleModal,showOfficeModal,setShowOfficeModal])
   // const redirectToSettingsPage = () => {
   //   history.push("/settings"); // Redirect to the Settings Page
   // };
@@ -221,6 +225,7 @@ const EmailSetting = ({ userDatails, handleClose }) => {
               show={show}
               setShow={setShow}
               setShowGoogleModal={setShowGoogleModal}
+              setShowOfficeModal={setShowOfficeModal}
             />
           )}
           <Button
@@ -331,6 +336,12 @@ const EmailSetting = ({ userDatails, handleClose }) => {
         <GoogleLoginModal
           showGoogleModal={showGoogleModal}
           setShowGoogleModal={setShowGoogleModal}
+        />
+      )}
+      {showOfficeModal && (
+        <OfficeLoginModal
+          showOfficeModal={showOfficeModal}
+          setShowOfficeModal={setShowOfficeModal}
         />
       )}
     </>

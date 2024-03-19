@@ -43,6 +43,9 @@ const Send = () => {
   const [emailCount, setEmailCount] = useState(null);
   const [availableEmailService,setAvailableEmailService]=useState(null)
   const [availableEmail, setAvailableEmail] = useState(null);
+  const [availableTargetMarket, setAvailableTargetMarket] = useState(null);
+  const [availableService,setAvailableService]=useState(null)
+  const [availableTarget,setAvailableTarget]=useState(null)
   const [schedule, setSchedule] = useState({
     allDaysChecked: false,
     daysChecked: {
@@ -75,6 +78,8 @@ const Send = () => {
   }
   const handleCreateSchedule = async () => {
     const payload = {
+      service:availableService,
+      targetMarket:availableTarget,
       daysOfWeek: { ...schedule.daysChecked },
       time: dayjs.utc(selectedTime).format("HH:mm"),
       endDate: new Date(selectedEndDate).toISOString(),
@@ -157,6 +162,9 @@ const Send = () => {
       if (resData.isSuccess) {
         setAvailableEmail(resData.data.emailCount);
         setAvailableEmailService(resData.data.service)
+        setAvailableTargetMarket(resData.data.targetMarket)
+        setAvailableService(resData.data.service)
+        setAvailableTarget(resData.data.targetMarket)
       } else {
         toast.error(resData.response.data.message);
       }
@@ -191,7 +199,8 @@ const Send = () => {
     const payload = {
       isScheduled: isSchedule,
       emailCount: parseInt(emailCount),
-      service:availableEmailService
+      service:availableEmailService,
+      targetMarket:availableTargetMarket
     };
     if (isSchedule) {
       payload.scheduledTime = selectedDate;
@@ -408,7 +417,7 @@ const Send = () => {
                       name="services"
                       id="services"
                       className="w-100"
-                      value={selectedService ? selectedService._id : "Default"}
+                      value={availableService ? availableService : "Default"}
                       onChange={(e) => handleServiceChange(e)}
                     >
                       <MenuItem value="Default" disabled>
@@ -433,8 +442,8 @@ const Send = () => {
                       className="w-100 "
                       sx={{ fontSize: "14px" }}
                       value={
-                        selectedTargetMarket
-                          ? selectedTargetMarket._id
+                        availableTarget
+                          ? availableTarget
                           : "Default"
                       }
                       onChange={(e) => handleMarketChange(e)}

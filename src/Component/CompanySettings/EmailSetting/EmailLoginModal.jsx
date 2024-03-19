@@ -10,9 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, loginhandle } from "../../../Redux/AuthSlice";
 import { FcGoogle } from "react-icons/fc";
 import { TfiMicrosoftAlt } from "react-icons/tfi";
-import GoogleLoginModal from "./GoogleLoginModal";
-
-const EmailLoginModal = ({ show, setShow, setShowGoogleModal }) => {
+const EmailLoginModal = ({ show, setShow, setShowGoogleModal,setShowOfficeModal}) => {
   let userDatails = useSelector((state) => state.login.userDatails);
   const [email, setEmail] = useState(userDatails?.emailConfig[0]?.email);
   const [password, setPassword] = useState(
@@ -67,6 +65,10 @@ const EmailLoginModal = ({ show, setShow, setShowGoogleModal }) => {
     setShowGoogleModal(true);
     handleClose();
   };
+  const handleOfficeModalOpen = () => {
+    setShowOfficeModal(true)
+    handleClose()
+  }
   return (
     <>
       <Modal show={show} onHide={handleClose} style={{ marginTop: "70px" }}>
@@ -161,6 +163,7 @@ const EmailLoginModal = ({ show, setShow, setShowGoogleModal }) => {
                 <Button
                   variant="outlined"
                   className="btn mt-3 text-bg-light w-50"
+                  onClick={handleOfficeModalOpen}
                 >
                   <TfiMicrosoftAlt color="blue" fontSize={"1.5rem"} /> &nbsp;
                   Login With Office
