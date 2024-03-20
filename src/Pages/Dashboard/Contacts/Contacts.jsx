@@ -17,6 +17,7 @@ import {
 import { useSelector } from "react-redux";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "../../../Component/Button";
+import Loader from "../../../Component/Loader";
 import "./index.css";
 
 const Contacts = () => {
@@ -24,7 +25,7 @@ const Contacts = () => {
   const [show, setShow] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [meta, setMeta] = useState();
-  const [emailData,setEmailData]=useState([])
+  const [emailData, setEmailData] = useState([]);
   const userDatails = useSelector((state) => state.login.userDatails);
 
   const fetchEmailData = async (pageNumber) => {
@@ -76,10 +77,10 @@ const Contacts = () => {
     setShow(true);
     try {
       const resData = await api.post("email/get", {
-        emailId: id
+        emailId: id,
       });
       if (resData.isSuccess) {
-        setEmailData(resData.data)
+        setEmailData(resData.data);
       } else {
         throw new Error(resData.response.data.message);
       }
@@ -92,10 +93,15 @@ const Contacts = () => {
   return (
     <div
       className="card shadow "
-      style={{ position: "relative",marginTop: "28px", minHeight: "640px",boxSizing:"border-box" }}
+      style={{
+        position: "relative",
+        marginTop: "30px",
+        minHeight: "auto",
+        boxSizing: "border-box",
+      }}
     >
       <Box
-        className="rounded-3 mt-2 card border-0"
+        className="rounded-3 card border-0"
         style={{ minHeight: "100%", overflow: "auto" }}
       >
         {data.length > 0 ? (
@@ -104,73 +110,86 @@ const Contacts = () => {
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>
-                    <TableCell className="fs-6 fw-bold">Name</TableCell>
-                    <TableCell className="fs-6 fw-bold">Company</TableCell>
-                    <TableCell className="fs-6 fw-bold">Email</TableCell>
-                    <TableCell className="fs-6 fw-bold">View Email</TableCell>
-                    <TableCell className="fs-6 fw-bold">Email Sent</TableCell>
-                    <TableCell className="fs-6 fw-bold">Email Opened</TableCell>
-                    <TableCell className="fs-6 fw-bold">Times Opened</TableCell>
-                    <TableCell className="fs-6 fw-bold">Date Opened</TableCell>
+                    <TableCell className="fw-bold text-center">Name</TableCell>
+                    <TableCell className="fw-bold text-center">
+                      Company
+                    </TableCell>
+                    <TableCell className="fw-bold text-center">Email</TableCell>
+                    <TableCell className="fw-bold text-center">
+                      View Email
+                    </TableCell>
+                    <TableCell className="fw-bold text-center">
+                      Email Sent
+                    </TableCell>
+                    <TableCell className="fw-bold text-center">
+                      Email Opened
+                    </TableCell>
+                    <TableCell className="fw-bold text-center">
+                      Times Opened
+                    </TableCell>
+                    <TableCell className="fw-bold text-center">
+                      Date Opened
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {data.map((item) => (
                     <TableRow key={item._id}>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {item.prospectId.firstName +
                           " " +
                           item.prospectId.lastName}
                       </TableCell>
-                      <TableCell>{item.companyId.name}</TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
+                        {item.companyId.name}
+                      </TableCell>
+                      <TableCell className="text-center">
                         <a href={`mailto:${item.prospectId.email}`}>
                           {item.prospectId.email}
                         </a>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         <IconButton
                           onClick={() => handleEmailViewModal(item._id)}
                         >
                           <VisibilityIcon />
                         </IconButton>
                       </TableCell>
-                      <TableCell>{item.isSent ? "YES" : "NO"}</TableCell>
+                      <TableCell className="text-center">
+                        {item.isSent ? "YES" : "NO"}
+                      </TableCell>
                       <TableCell
-                        className={`${
+                        className={`text-center${
                           userDatails?.isShowPaywall ? "blur-class" : ""
                         }`}
                       >
                         {item.isOpen ? "YES" : "NO"}
                       </TableCell>
                       <TableCell
-                        className={`${
+                        className={`text-center${
                           userDatails?.isShowPaywall ? "blur-class" : ""
                         }`}
                       >
                         {item.counts}
                       </TableCell>
                       <TableCell
-                        className={`${
+                        className={`text-center${
                           userDatails?.isShowPaywall ? "blur-class" : ""
                         }`}
                       >
-                        {item.isOpen ? new Date(item.openAt).toDateString() : ''}
+                        {item.isOpen
+                          ? new Date(item.openAt).toDateString()
+                          : ""}
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-            {show && <EmailView show={show} setShow={setShow} emailData={emailData}/>}
-            <div
-              style={{
-                position: "fixed",
-                bottom: "20px",
-                left: "50%",
-                transform: "translateX(100%)",
-              }}
-            >
+            {show && (
+              <EmailView show={show} setShow={setShow} emailData={emailData} />
+            )}
+            <div className="mt-4 mb-4 ms-auto position-sticky">
               <Stack spacing={2}>
                 <Pagination
                   count={meta?.totalPages}
@@ -183,10 +202,10 @@ const Contacts = () => {
             </div>
           </>
         ) : (
-          <h3 className="text-center fw-light fs-5 mt-3">Loading...</h3>
+          <Loader />
         )}
       </Box>
-      {userDatails?.isShowPaywall && (
+      {data.length > 0 && userDatails?.isShowPaywall && (
         <>
           {" "}
           <div
@@ -194,8 +213,8 @@ const Contacts = () => {
             style={{
               width: "39%",
               position: "absolute",
-              bottom: "70px",
-              left: "78%",
+              bottom: "85px",
+              left: "77%",
               transform: "translateX(-50%)",
             }}
           ></div>
@@ -205,8 +224,8 @@ const Contacts = () => {
               border: "1px solid black",
               width: "39%",
               position: "absolute",
-              bottom: "70px",
-              left: "78%",
+              bottom: "85px",
+              left: "77%",
               transform: "translateX(-50%)",
             }}
             className="inercontainer "
