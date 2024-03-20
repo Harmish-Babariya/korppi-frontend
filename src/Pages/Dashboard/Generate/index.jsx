@@ -15,16 +15,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ServiceSelected } from "../../../Redux/SelectedServiceSlice";
 import Button from "../../../Component/Button";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../../service/api";
 import { toast } from "react-toastify";
-
+import LoadingOverlay from "../../../Component/Loader/LoadingOverlay ";
 const Generate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let { service } = useSelector((state) => state.Service);
   const userDatails = useSelector((state) => state.login.userDatails);
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const [selectedService, setSelectedService] = useState();
   const [generate, setGenerate] = useState(0);
   const [targetMarket, setTargetMarket] = useState([]);
@@ -45,17 +45,17 @@ const Generate = () => {
       return { companyId: ele.company._id, prospectId: ele._id };
     });
 
-    setLoading(true)
+    setLoading(true);
     try {
       const resData = await api.post("/email/generate", {
         emails: emails,
         userId: userDatails._id,
         sentBy: `${userDatails.firstName} ${userDatails.lastName}`,
         serviceId: selectedService._id,
-        targetMarketId:selectedTargetMarket._id
+        targetMarketId: selectedTargetMarket._id,
       });
       if (resData.isSuccess) {
-        setLoading(false)
+        setLoading(false);
         navigate("/dashboard/send");
         toast.success("email Genrate Successful!");
       } else {
@@ -481,17 +481,18 @@ const Generate = () => {
                 </div>
 
                 <Button
-  style={{
-    backgroundColor: `${theme.palette.primary.main}`,
-    position: 'relative', // Ensure the spinner aligns properly
-  }}
-  variant="contained"
-  className="w-100 mt-2"
-  onClick={() => handleGenerate()}
-  disabled={loading} // Disable the button when loading
->
-  {loading ? <CircularProgress size={24} color="inherit" /> : "Generate"}
-</Button>
+                  style={{
+                    backgroundColor: `${theme.palette.primary.main}`,
+                    position: "relative", // Ensure the spinner aligns properly
+                  }}
+                  variant="contained"
+                  className="w-100 mt-2"
+                  onClick={() => handleGenerate()}
+                  disabled={loading} // Disable the button when loading
+                >
+                  Generate
+                </Button>
+                {loading && <LoadingOverlay />}
               </div>
             </CardBody>
           </Card>
