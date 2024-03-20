@@ -11,6 +11,7 @@ const Admin = lazy(() => import("./Admin"));
 const Login = lazy(() => import("./Pages/Login/Login"));
 import Box from "@mui/material/Box";
 const Sidebar = lazy(() => import("./Component/Sidebar/Sidebar"));
+import Loader from "./Component/Loader";
 import PrivateRoutes from "./Pages/Login/PrivateRoutes";
 function App() {
   const [path, setPath] = useState([]);
@@ -65,7 +66,7 @@ function App() {
                 </nav>
               </div>
             )} */}
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <Routes>
                 <Route path="/" element={<Navigate to={"/login"} />} />
                 <Route path="/login" element={<Login />} />
