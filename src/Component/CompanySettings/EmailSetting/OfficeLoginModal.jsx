@@ -29,6 +29,8 @@ const OfficeLoginModal = ({ showOfficeModal, setShowOfficeModal }) => {
       if (response.isSuccess) {
         toast.success(response.data);
         setShowOfficeModal(false);
+        window.location.href = response.data.authUrl
+
       } else {
         toast.error(response.message);
       }
