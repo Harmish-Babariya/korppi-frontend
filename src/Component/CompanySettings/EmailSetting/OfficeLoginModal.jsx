@@ -11,11 +11,13 @@ const OfficeLoginModal = ({ showOfficeModal, setShowOfficeModal }) => {
   let userDatails = useSelector((state) => state.login.userDatails);
 
   const [email, setEmail] = useState("");
-  const [appPassword, setAppPassword] = useState("");
+  // const [appPassword, setAppPassword] = useState("");
   const handleClose = () => setShowOfficeModal(false);
   const handleOfficeLogin = async (e) => {
     e.preventDefault();
-    if (!email && !appPassword) {
+    if (!email 
+      //&& !appPassword
+      ) {
       return toast.error("All Fields Requires!");
     }
 
@@ -23,7 +25,7 @@ const OfficeLoginModal = ({ showOfficeModal, setShowOfficeModal }) => {
       const payload = {
         email: email,
         userId: userDatails?._id,
-        appPassword: appPassword,
+       // appPassword: appPassword,
       };
       const response = await api.post("/user/add/microsoft", payload);
       if (response.isSuccess) {
@@ -65,12 +67,13 @@ const OfficeLoginModal = ({ showOfficeModal, setShowOfficeModal }) => {
             <input
               type="email"
               className="form-control"
+              placeholder="Enter OutLook Email That You Want to Authenticate"
               id="googleEmail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <label htmlFor="googleAppPassword" className="form-label">
               App Password
             </label>
@@ -81,7 +84,7 @@ const OfficeLoginModal = ({ showOfficeModal, setShowOfficeModal }) => {
               value={appPassword}
               onChange={(e) => setAppPassword(e.target.value)}
             />
-          </div>
+          </div> */}
           <Button
             type="submit"
             variant="outlined"
