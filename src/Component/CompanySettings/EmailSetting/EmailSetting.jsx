@@ -11,6 +11,9 @@ import GoogleLoginModal from "./GoogleLoginModal";
 import OfficeLoginModal from "./OfficeLoginModal";
 import { loginhandle } from "../../../Redux/AuthSlice";
 import { useDispatch } from "react-redux";
+import { BiSolidEdit } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
+import EmailConfigEditModal from "./EmailConfigEditModal";
 
 const EmailSetting = ({ userDatails, handleClose }) => {
   const dispatch = useDispatch();
@@ -18,6 +21,8 @@ const EmailSetting = ({ userDatails, handleClose }) => {
   const [data, setData] = useState(userDatails);
   const [domainHealthCheck, setDomainHealthCheck] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [showEmailConfigEdit, setShowEmailConfigEdit] = useState(false);
+  const [editedConfig, setEditedConfig] = useState();
   const [showOfficeModal, setShowOfficeModal] = useState(false);
   const [signature, setSignature] = useState(
     data?.firstName +
@@ -116,12 +121,43 @@ const EmailSetting = ({ userDatails, handleClose }) => {
     // Fetch domain health status when component mounts
     fetchDomainHealth();
   }, []);
-  useEffect(()=>{
-    fetchUser()
-  },[showGoogleModal,setShowGoogleModal,showOfficeModal,setShowOfficeModal])
-  // const redirectToSettingsPage = () => {
-  //   history.push("/settings"); // Redirect to the Settings Page
-  // };
+  useEffect(() => {
+    fetchUser();
+  }, [
+    showGoogleModal,
+    setShowGoogleModal,
+    showOfficeModal,
+    setShowOfficeModal,
+  ]);
+
+  const handleEdit = (index) => {
+    const editedConfig = data?.emailConfig[index];
+    setEditedConfig(editedConfig)
+    setShowEmailConfigEdit(true);
+  };
+
+  const handleDelete = async (index) => {
+    try {
+      const { _id, emailConfig } = data;
+      // Filter out the email configuration at the specified index
+      const updatedEmailConfig = emailConfig.filter(
+        (config, ind) => ind !== index
+      );
+      const newData = { id: _id, emailConfig: updatedEmailConfig };
+
+      const res = await api.post("/user/update", newData);
+      if (res.isSuccess) {
+        toast.success("Email Config Deleted Successfully");
+        fetchUser();
+        setData(newData);
+      } else {
+        toast.error("Failed to Delete Email Config");
+      }
+    } catch (error) {
+      console.error("Error deleting email config:", error);
+    }
+  };
+
   const fetchDomainHealth = async () => {
     // try {
     //   const response = await api.post("/domain/health");
@@ -191,7 +227,8 @@ const EmailSetting = ({ userDatails, handleClose }) => {
           </Typography>
           <div>
             {data?.emailConfig?.map((value, index) => (
-              <div key={index}>
+              <div key={index} className="d-flex justify-content-between">
+              <div className="d-flex flex-row">
                 <input
                   type="radio"
                   className="m-2"
@@ -201,9 +238,28 @@ const EmailSetting = ({ userDatails, handleClose }) => {
                   onChange={() => handleEmailConfigChange(index)}
                   style={{ accentColor: `${value.isActive ? "#008000" : ""}` }}
                 />
-                <label className="ms-1" htmlFor={`emailRecord-${index}`}>
+                <label className="ms-1 " htmlFor={`emailRecord-${index}`}>
                   {value.email}
                 </label>
+                </div>
+                <div className="d-flex flex-row">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className=" border-0"
+                  onClick={() => handleEdit(index)}
+                >
+                  <BiSolidEdit className="fs-4" />{" "}
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className="border-0"
+                  onClick={() => handleDelete(index)}
+                >
+                  <MdDelete className="fs-4" />
+                </Button>
+                </div>
               </div>
             ))}
           </div>
@@ -224,6 +280,7 @@ const EmailSetting = ({ userDatails, handleClose }) => {
             <EmailLoginModal
               show={show}
               setShow={setShow}
+              fetchUser={fetchUser}
               setShowGoogleModal={setShowGoogleModal}
               setShowOfficeModal={setShowOfficeModal}
             />
@@ -344,6 +401,7 @@ const EmailSetting = ({ userDatails, handleClose }) => {
           setShowOfficeModal={setShowOfficeModal}
         />
       )}
+      {showEmailConfigEdit && (<EmailConfigEditModal showEmailConfigEdit={showEmailConfigEdit} setShowEmailConfigEdit={setShowEmailConfigEdit} editedConfig={editedConfig} fetchUser={fetchUser}/>)}
     </>
   );
 };

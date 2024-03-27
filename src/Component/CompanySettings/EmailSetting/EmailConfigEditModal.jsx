@@ -10,76 +10,78 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, loginhandle } from "../../../Redux/AuthSlice";
 import { FcGoogle } from "react-icons/fc";
 import { TfiMicrosoftAlt } from "react-icons/tfi";
-const EmailLoginModal = ({
-  show,
-  setShow,
-  setShowGoogleModal,
-  setShowOfficeModal,
-  fetchUser
+const EmailConfigEditModal = ({
+  showEmailConfigEdit,
+  setShowEmailConfigEdit,
+  editedConfig,
+  fetchUser,
 }) => {
   let userDatails = useSelector((state) => state.login.userDatails);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [SMPTServer, setSMPTServer] = useState();
-  const [SMPTPort, setSMPTPort] = useState();
-  const [imapServer, setImapServer] = useState();
-  const [imapPort, setImapPort] = useState();
+  const [oldEmail, setOldEmail] = useState(editedConfig?.email);
+  const [email, setEmail] = useState(editedConfig?.email);
+  const [password, setPassword] = useState(editedConfig?.password);
+  const [SMPTServer, setSMPTServer] = useState(editedConfig?.smtpServer);
+  const [SMPTPort, setSMPTPort] = useState(editedConfig?.smtpPort);
+  const [imapServer, setImapServer] = useState(editedConfig?.imapServer);
+  const [imapPort, setImapPort] = useState(editedConfig?.imapPort);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let tempEmailConfig = [...userDatails.emailConfig];
+    tempEmailConfig = tempEmailConfig?.map((value, index) => {
+      if (value.email === oldEmail) {
+        return {
+          email: email,
+          password: password,
+          smtpServer: SMPTServer,
+          smtpPort: SMPTPort,   
+          imapServer: imapServer,
+          imapPort: imapPort,
+          isActive: editedConfig?.isActive,
+        };
+      }
+      return value;
+    });
+
     try {
-      let temp = [...userDatails.emailConfig, {
-        email: email,
-        password: password,
-        smtpServer: SMPTServer,
-        smtpPort: SMPTPort,
-        imapServer: imapServer,
-        imapPort: imapPort,
-        isActive:false
-      }]
       const editedUser = {
-        emailConfig: temp,
+        emailConfig: tempEmailConfig,
         id: userDatails._id,
       };
-      console.log(editedUser);
       const resData = await api.post("/user/update", editedUser);
       if (resData.isSuccess) {
-        toast.success("User Update Successful");
-        fetchUser()
-        setShow(false);
+        toast.success("User EmailConfig Update Successful");
+        fetchUser();
+        setShowEmailConfigEdit(false);
       } else {
         toast.error(resData.message);
       }
 
-      try {
-        let response = await api.post("user/getById");
-        if (response.isSuccess) {
-          dispatch(loginhandle(response.data));
-          userDatails = useSelector((state) => state.login.userDatails);
-        } else {
-          toast.error(response.response.data.message);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      //   try {
+      //     let response = await api.post("user/getById");
+      //     if (response.isSuccess) {
+      //       dispatch(loginhandle(response.data));
+      //       userDatails = useSelector((state) => state.login.userDatails);
+      //     } else {
+      //       toast.error(response.response.data.message);
+      //     }
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
     } catch (error) {
       toast.error("User Data Not Updated", error);
-      console.log(error)
     }
   };
-  const handleClose = () => setShow(false);
-  const handleGoogleModalOpen = () => {
-    setShowGoogleModal(true);
-    handleClose();
-  };
-  const handleOfficeModalOpen = () => {
-    setShowOfficeModal(true);
-    handleClose();
-  };
+  const handleClose = () => setShowEmailConfigEdit(false);
+
   return (
     <>
-      <Modal show={show} onHide={handleClose} style={{ marginTop: "70px" }}>
+      <Modal
+        show={showEmailConfigEdit}
+        onHide={handleClose}
+        style={{ marginTop: "70px" }}
+      >
         <Modal.Header className="" closeButton></Modal.Header>
         <Modal.Body className="mx-auto ">
           <Modal.Title
@@ -89,7 +91,7 @@ const EmailLoginModal = ({
             }}
             className="text-center fw-bold fs-2"
           >
-            Login
+            Update Email
           </Modal.Title>
 
           <Box
@@ -173,30 +175,8 @@ const EmailLoginModal = ({
                 }}
                 onClick={(e) => handleSubmit(e)}
               >
-                Login
+                Update
               </Button>
-              <div className="d-flex flex-row">
-                <Button
-                  variant="outlined"
-                  className="btn mt-3 text-bg-light w-50"
-                  style={{
-                    backgroundColor: `white`,
-                    letterSpacing: "2px",
-                  }}
-                  onClick={handleGoogleModalOpen}
-                >
-                  <FcGoogle fontSize={"2.5rem"} /> &nbsp; Login With Google
-                </Button>
-                &nbsp;
-                <Button
-                  variant="outlined"
-                  className="btn mt-3 text-bg-light w-50"
-                  onClick={handleOfficeModalOpen}
-                >
-                  <TfiMicrosoftAlt color="blue" fontSize={"1.5rem"} /> &nbsp;
-                  Login With Office
-                </Button>
-              </div>
             </div>
           </Box>
         </Modal.Body>
@@ -205,4 +185,4 @@ const EmailLoginModal = ({
   );
 };
 
-export default EmailLoginModal;
+export default EmailConfigEditModal;
