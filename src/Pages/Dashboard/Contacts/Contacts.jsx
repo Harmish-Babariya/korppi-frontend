@@ -19,6 +19,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "../../../Component/Button";
 import Loader from "../../../Component/Loader";
 import "./index.css";
+import { BiSolidEdit } from "react-icons/bi";
 
 const Contacts = () => {
   const [data, setData] = useState([]);
@@ -26,6 +27,7 @@ const Contacts = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [meta, setMeta] = useState();
   const [emailData, setEmailData] = useState([]);
+  const [isSent, setIsSent] = useState();
   const userDatails = useSelector((state) => state.login.userDatails);
 
   const fetchEmailData = async (pageNumber) => {
@@ -73,13 +75,14 @@ const Contacts = () => {
     };
   }, [pageNumber, memoizedFetchEmailData]);
 
-  const handleEmailViewModal = async (id) => {
-    setShow(true);
+  const handleEmailViewModal = async (id, isSent) => {
     try {
       const resData = await api.post("email/get", {
         emailId: id,
       });
       if (resData.isSuccess) {
+        setShow(true);
+        setIsSent(isSent);
         setEmailData(resData.data);
       } else {
         throw new Error(resData.response.data.message);
@@ -150,7 +153,9 @@ const Contacts = () => {
                       </TableCell>
                       <TableCell className="text-center">
                         <IconButton
-                          onClick={() => handleEmailViewModal(item._id)}
+                          onClick={() =>
+                            handleEmailViewModal(item._id, item.isSent)
+                          }
                         >
                           <VisibilityIcon />
                         </IconButton>
@@ -187,7 +192,12 @@ const Contacts = () => {
               </Table>
             </TableContainer>
             {show && (
-              <EmailView show={show} setShow={setShow} emailData={emailData} />
+              <EmailView
+                show={show}
+                setShow={setShow}
+                emailData={emailData}
+                isSent={isSent}
+              />
             )}
             <div className="mt-4 mb-4 ms-auto position-sticky">
               <Stack spacing={2}>
